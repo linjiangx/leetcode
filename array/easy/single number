@@ -1,0 +1,27 @@
+#字典，单个会被赋值1，2个会被赋值2，但是感觉字典也占用了额外空间
+def singleNumber1(self, nums):
+    dic = {}
+    for num in nums:
+        dic[num] = dic.get(num, 0)+1
+    for key, val in dic.items():
+        if val == 1:
+            return key
+
+#异或，没有使用模块函数reduce
+def singleNumber2(self, nums):
+    res = 0
+    for num in nums:
+        res ^= num
+    return res
+
+#数组变集合然后求和*2，最后减去原数组和
+def singleNumber3(self, nums):
+    return 2*sum(set(nums))-sum(nums)
+
+#异或操作，与方法5不同的是使用自定义函数lambda
+def singleNumber4(self, nums):
+    return reduce(lambda x, y: x ^ y, nums)
+  
+#异或操作，在 Python3 中，reduce() 函数已经被从全局名字空间里移除了，它现在被放置在 fucntools 模块里
+def singleNumber5(self, nums):
+    return reduce(operator.xor, nums)
