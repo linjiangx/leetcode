@@ -1,0 +1,4 @@
+这里要注意，求长度可以判断，但是求和不行，小心0重复的情况
+class Solution:
+    def containsDuplicate(self, nums):
+        return len(set(nums)) != len(nums)
