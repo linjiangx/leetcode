@@ -1,0 +1,14 @@
+#先将原List单个元素分别排序，再与原List做一个zip，最后生成字典
+class Solution:
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        sorted_words = (''.join(sorted(w)) for w in strs)
+        ana_dict = {}
+        for w, sw in zip(strs, sorted_words):
+            if sw not in ana_dict: ana_dict[sw] = [w]
+            else: ana_dict[sw].append(w)
+        return [ana_dict[k] for k in ana_dict]
+        
