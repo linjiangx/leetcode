@@ -1,0 +1,20 @@
+#时间O(M*N),空间O(M+N)
+class Solution(object):
+    def setZeroes(self, matrix):
+					
+	rows = set()
+        columns = set()
+        
+        #First pass to check which rows and columns will need to be changed
+        for y in range(len(matrix)):
+            for x in range(len(matrix[0])):
+                if matrix[y][x] == 0:
+                    rows.add(y)
+                    columns.add(x)
+        
+        #Second pass to change rows and columns to zero values
+        for y in range(len(matrix)):
+            for x in range(len(matrix[0])):
+                if y in rows or x in columns:
+                    matrix[y][x] = 0
+                    
