@@ -1,0 +1,22 @@
+#动态规划，连续寻找没有重复字母的子串
+class Solution:
+    def lengthOfLongestSubstring(self, s): 
+        if len(s)==0:
+            return 0
+    
+        dp_dict= {}
+        ma = dp = ''
+        i = 0
+        while i < len(s):
+            if s[i] not in dp:
+                dp_dict[s[i]] = i
+                dp += s[i]
+                i+=1
+                if len(dp)>len(ma):
+                    ma = dp
+            else:
+                i = dp_dict[s[i]]+1
+                dp_dict = {}
+                dp = ''
+        return len(ma)
+
