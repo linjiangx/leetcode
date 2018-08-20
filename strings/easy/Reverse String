@@ -1,0 +1,25 @@
+#注意str不能直接reverse,先通过list()转化为List，再通过join转化为str
+class Solution:
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        a=[]
+        for k in s:
+            a.append(k)
+        a.reverse()
+        return ''.join(a)
+        
+class Solution:
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        a=list(s)
+        a.reverse()
+        return ''.join(a)
+        
+#或者更直接点，直接将原List逆序返回
+return s[::-1]
