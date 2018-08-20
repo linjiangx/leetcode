@@ -1,0 +1,36 @@
+#先生成字典，再判断字典是否一样，顺序是：长度、键、键值
+class Solution:
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        dic1={}
+        for i in s:
+            if i not in dic1:
+                dic1[i]=1
+            else:
+                dic1[i]+=1
+        dic2={}
+        for i in t:
+            if i not in dic2:
+                dic2[i]=1
+            else:
+                dic2[i]+=1
+        res=True
+        if len(dic1)!=len(dic2):
+            res=False
+        for i in dic1:
+            if i not in dic2:
+                res=False
+            else:
+                if dic1[i]!=dic2[i]:
+                    res=False
+        return res
+
+#一行代码，排序
+return True if s is None or t is None else sorted(s) == sorted(t)
+
+
+
