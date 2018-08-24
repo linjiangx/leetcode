@@ -1,0 +1,26 @@
+#就是对于前一个数，找出相同元素的个数，把个数和该元素存到新的string里
+class Solution:
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        s="1"
+        for i in range(1,n):
+            nums=[s[0]]#first char to compare the chars after it with it
+            values=[1]
+            l=len(s)
+            for j in range(1,l):
+                if s[j]==nums[-1]:
+                    
+                    #if the last char is the same doesn't change
+                    values[-1]+=1
+                else:
+                    #new char
+                    nums.append(s[j])
+                    values.append(1)
+            #new s
+            s=""
+            for v,k in zip(values,nums):
+                s+=str(v)+k
+        return s
