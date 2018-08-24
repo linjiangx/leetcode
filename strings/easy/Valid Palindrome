@@ -1,0 +1,10 @@
+#判断回文字符串，只考虑字母，不考虑空格等其他字符
+class Solution:
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        new = ''.join([i for i in s if i.isalnum()]).lower()
+        return new == new[::-1]
+        
