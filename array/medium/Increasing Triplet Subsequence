@@ -1,0 +1,9 @@
+#判断List是否有任意三个元素按照递增排列
+class Solution:
+    def increasingTriplet(self, nums):
+        low, res = float('inf'), [float('inf'), float('inf')]
+        for i in range(len(nums)):
+            if nums[i] > res[-1]: return True
+            if nums[i] > low: res = [low, nums[i]]
+            low = min(low, nums[i])
+        return False
