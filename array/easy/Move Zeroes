@@ -1,4 +1,5 @@
 #需要考虑特殊情况：连续的0
+#时间复杂度N，空间复杂度0
 class Solution:
     def moveZeroes(self, nums):
         """
@@ -15,26 +16,29 @@ class Solution:
                 i+=1
             k+=1
 
-#traverse and swap last 0 and last non 0
+#将数组里非空的值往前面搬运
+#时间N，空间0
+class Solution:
+    def moveZeroes(self, nums):
+        i = 0
+        for num in nums:
+            if num:
+                nums[i] = num
+                i += 1
+        while i < len(nums):
+            nums[i] = 0
+            i += 1
+            
+#traverse and swap last 0 and last non 0,记录最近的0位置并与当前的非0位置交换
+#时间N，空间0
 class Solution(object):
     def moveZeroes(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
         last0 = 0
         for i in range(0,len(nums)):
             if (nums[i]!=0):
                 nums[i],nums[last0] = nums[last0],nums[i]
                 last0+=1
                 
-#use sort() with customized compare function，使用特殊的排序方法
-class Solution(object):
-    def moveZeroes(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
-        nums.sort(cmp=lambda a,b: 0 if b else -1)
+
 
 
