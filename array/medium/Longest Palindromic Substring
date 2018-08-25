@@ -1,0 +1,45 @@
+#穷举，从最大长度往下遍历
+class Solution:
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        if s=='':
+            return ''
+        sl=len(s)
+        for i in range(sl,0,-1):
+            for j in range(0,sl-i+1):
+                flag=True
+                l,r=j,i+j-1
+                while l<r:
+                    if s[l]==s[r]:
+                        if r-l > 2:
+                            l+=1
+                            r-=1
+                        else:
+                            break
+                    else:
+                        flag=False
+                        break
+                if flag==True:
+                    return s[j:i+j]
+                
+#有点东西，没看懂
+class Solution:
+    def longestPalindrome(self, s):
+        if len(s)==0:
+        	return ''
+        maxLen=1
+        start=0
+        for i in range(len(s)):
+        	if i-maxLen >=1 and s[i-maxLen-1:i+1]==s[i-maxLen-1:i+1][::-1]:
+        		start=i-maxLen-1
+        		maxLen+=2
+        		continue
+
+        	if i-maxLen >=0 and s[i-maxLen:i+1]==s[i-maxLen:i+1][::-1]:
+        		start=i-maxLen
+        		maxLen+=1
+        return s[start:start+maxLen]
+            
