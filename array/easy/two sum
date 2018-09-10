@@ -13,13 +13,16 @@ class Solution:
                     return [i,j]
 
 #这个方法比较神奇，使用字典记录target-num[i]的值和当前坐标，当遍历后续list时在字典中找到对应值，就返回当前坐标和字典对应的坐标
-class Solution(object):
+class Solution:
     def twoSum(self, nums, target):
-        if len(nums) <= 1:
-            return False
-        buff_dict = {}
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        dic={}
         for i in range(len(nums)):
-            if nums[i] in buff_dict:
-                return [buff_dict[nums[i]], i]
+            if nums[i] not in dic:
+                dic[target-nums[i]]=i
             else:
-                buff_dict[target - nums[i]] = i
+                return [dic[nums[i]],i]
