@@ -21,5 +21,5 @@ class Solution:
         a.reverse()
         return ''.join(a)
         
-#或者更直接点，直接将原List逆序返回
+#或者更直接点，直接将原str逆序返回
 return s[::-1]
