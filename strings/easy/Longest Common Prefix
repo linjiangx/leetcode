@@ -20,4 +20,23 @@ class Solution:
                 break
         return strs[0][0:num]
 
-                
+#
+class Solution:
+    def longestCommonPrefix(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+        if not strs:
+            return ''
+        res=strs[0]
+        for st in strs:
+            k=0
+            for i in range(min(len(res),len(st))):
+                if res[i]==st[i]:
+                    k+=1
+                else:
+                    break
+            res=res[0:k]
+        return res
+            
