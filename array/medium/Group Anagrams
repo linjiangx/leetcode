@@ -12,3 +12,25 @@ class Solution:
             else: ana_dict[sw].append(w)
         return [ana_dict[k] for k in ana_dict]
         
+#这个容易理解点
+class Solution:
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        aa=strs[:]  #这里浅复制与深复制
+        le=len(aa)
+        for i in range(le):
+            aa[i]=''.join(sorted(aa[i]))
+        dic={}
+        for i in range(len(strs)):
+            if aa[i] not in dic:
+                dic[aa[i]]=[strs[i]]  #这里开始就要构建list，不然后面无法append
+            else:
+                dic[aa[i]].append(strs[i])
+        res=[]
+        for key in dic:
+            res.append(dic[key])
+        return res
+        
