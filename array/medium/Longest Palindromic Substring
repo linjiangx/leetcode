@@ -1,4 +1,4 @@
-#穷举，从最大长度往下遍历
+#穷举，从最大长度往下遍历,超时
 class Solution:
     def longestPalindrome(self, s):
         """
