@@ -24,3 +24,28 @@ class Solution:
             for v,k in zip(values,nums):
                 s+=str(v)+k
         return s
+
+#穷举了        
+class Solution:
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        a=['']*30
+        a[0]='1'
+        a[1]='11'
+        for i in range(2,30):
+            k='1'
+            le=len(a[i-1])
+            for j in range(le-1):
+                if a[i-1][j+1]==a[i-1][j]:
+                    k=str(int(k)+1)
+                else:
+                    a[i]+=k
+                    a[i]+=a[i-1][j]
+                    k='1'
+            a[i]+=k
+            a[i]+=a[i-1][-1]
+        return a[n-1]
+        
