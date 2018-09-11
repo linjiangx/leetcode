@@ -55,7 +55,7 @@ def reverse(number):
     number=number if sign else -number
     while(number>0):
         remainder=number%10
-        number=number/10
+        number=int(number/10)
         reverse=reverse*10+remainder
 
     reverse=reverse if sign else -reverse
