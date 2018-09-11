@@ -13,3 +13,21 @@ class Solution:
             if haystack[i:i+l2]==needle:
                 return i
         return -1
+        
+#
+class Solution:
+    def strStr(self, haystack, needle):
+        """
+        :type haystack: str
+        :type needle: str
+        :rtype: int
+        """
+        le1=len(haystack)
+        le2=len(needle)
+        if le2==0:
+            return 0
+        
+        for i in range(le1-le2+1):
+            if haystack[i:i+le2]==needle:
+                return i
+        return -1
