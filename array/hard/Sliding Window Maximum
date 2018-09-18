@@ -1,0 +1,37 @@
+#
+class Solution:
+    def maxSlidingWindow(self, nums, k):
+		
+        #Check initial condition
+        if len(nums) == 0 or len(nums) - k < 0:
+            return []
+        
+        #Create answer array beforehand
+        #(len(nums) - k + 1) --> need to find these amount of maximums
+        ans = [0] * (len(nums) - k + 1)
+        
+        #Hold the maximum index
+        last_maximum_index = -1
+        
+        #For each iteration, we will definitely find an answer to ans array
+        for i in range(len(nums) - k + 1):
+            #Occurs when following happens:
+            # 1. Initial condition when last_maximum_index = -1
+            # 2. When a once found value is too large, that dominates several windows,
+            #    and when leaving these windows this value dominates, we will meet this condition
+            #So, inside the "if" condition, we need to find the local maximum of a window
+            if last_maximum_index < i:
+                last_maximum_index = i
+                for j in range(i, i+k):
+                    if nums[j] > nums[last_maximum_index]:
+                        last_maximum_index = j
+            #If not the situations above, we still need to check the new slided value with the last_maximum
+            else:
+                if nums[last_maximum_index] < nums[i + k - 1]:
+                    last_maximum_index = i + k - 1
+            #This is a YOLO, so O(n)
+            ans[i] = nums[last_maximum_index]
+        return ans
+
+#
+#
