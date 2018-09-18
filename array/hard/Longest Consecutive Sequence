@@ -1,0 +1,48 @@
+#
+class Solution:
+    def longestConsecutive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        longest_consecutive = 0
+
+        # put all numbers into a set
+        distinct_numbers = set(nums)
+        
+        while distinct_numbers:
+            # each number itself has a consecutive count of 1
+            consecutive = 1
+
+            # we will pop any number
+            number = distinct_numbers.pop()
+
+            # let's find all consecutive numbers higher than "number"
+            next_number = number + 1
+            while next_number in distinct_numbers:
+                distinct_numbers.remove(next_number)
+                next_number += 1
+                consecutive += 1
+
+            # let's find all consecutive numbers lower than "number"
+            next_number = number - 1
+            while next_number in distinct_numbers:
+                distinct_numbers.remove(next_number)
+                next_number -= 1
+                consecutive += 1
+
+            # update longest_consecutive accordingly
+            longest_consecutive = max(longest_consecutive, consecutive)
+        return longest_consecutive
+        
+#
+def longestConsecutive(self, nums):
+    nums = set(nums)
+    best = 0
+    for x in nums:
+        if x - 1 not in nums:
+            y = x + 1
+            while y in nums:
+                y += 1
+            best = max(best, y - x)
+    return best
