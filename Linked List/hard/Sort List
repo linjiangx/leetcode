@@ -21,5 +21,73 @@ class Solution(object):
         
 
 #
+"""
+Merge Sort Algorithm:
+1. Split lists into two halves left linked list and right linked list
+    [ 4-->1-->2-->3]
+2. Recursively call mergesort on left and right Linked list.
+    left half [4-->1]   right half [2--3]
+    left half           right half  
+              [4] [1]              [2] [3]
+3. Merge the sorted linked lists to a result list by comparing two linked listed node values
+          [1] < [4]               [2] <3
+          Merging                 Merging
+          [1]-->[4] Result [1--4] [2]--[3] Result [2-->3]
+          comparing [1-->4] [2-->3]
+          dummyhead -->[1-->2-->3-->4]
+          return dummyhead.next
+"""
+class Solution:
+    def sortList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        
+        return self.mergeSort(head)
+        
+
+    def mergeSort(self,head):
+        
+            #Base condition  if head is None or head.next is None   
+            if not head or not head.next: 
+                return head
+            
+            #Step 1: Split lists into two halves.Suppose slow pointer is at 1 fast pointer will be at 4  (mid*2+1)
+            slow,fast=head,head.next
+            while fast and fast.next:
+                    fast=fast.next.next
+                    slow=slow.next
+            #right linked list from right=slow.next to end(None)
+            right=slow.next
+            #left linked list from head to none
+            slow.next=None
+            
+            #Step 2: Mergesort recursively  on both left and right linked lists
+            hleft,hright=self.mergeSort(head),self.mergeSort(right)
+            
+            #Step 3 : Merge two sorted linked lists and return the head
+            return self.mergetwosortedLinkedLists(hleft,hright)
+            
+    
+                
+    def mergetwosortedLinkedLists(self,hleft,hright):
+            #Take a dummy node
+            head=currk=ListNode(-1)
+            #Populate the new list based on which list value is lesser.
+            while hleft and hright:
+                if hleft.val < hright.val:
+                    currk.next=hleft
+                    hleft=hleft.next
+                else:
+                    currk.next=hright
+                    hright=hright.next
+                currk=currk.next
+            # if the left or right has any left-over nodes append it to the newlist 
+            if hleft or hright:
+                currk.next=hleft or hright
+            #return dummy node(-1 is dummy) next    -1 -> 1 -> 2 ->3
+            return head.next
+            
 #
 #
