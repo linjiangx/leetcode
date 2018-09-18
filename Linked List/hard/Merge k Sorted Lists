@@ -1,0 +1,50 @@
+#使用堆，反复压进推出，heap会自动排序
+from heapq import heappush, heappop
+class Solution:
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        
+        head = current = ListNode(0)       
+        q = []
+        for l in lists:
+            if l:
+                heappush(q, (l.val, id(l), l))
+                
+        while q:
+            value, _, current.next = heappop(q)
+            current = current.next
+            after = current.next
+            
+            if after:
+                heappush(q, (after.val, id(after), after))
+
+        return head.next
+            
+#同上
+from heapq import heappush, heappop, heapify
+
+class Solution:
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        h = [(node.val, index, node) for index, node in enumerate(lists) if node]
+        heapify(h)
+        sorted_head = ListNode(-1)
+        cur = sorted_head
+        while h:
+        	(cur_min, index, node) = heappop(h)
+        	next_node = node.next
+        	if next_node:
+        		heappush(h, (next_node.val,index, next_node))
+        	node.next = None
+        	cur.next = node
+        	cur = cur.next
+        return sorted_head.next
+        
+#
+#
