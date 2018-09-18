@@ -1,0 +1,41 @@
+#
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeTwoLists(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        if l1==None:
+            return l2
+        elif l2==None:
+            return l1
+        k=ListNode(0)
+        head=k
+        while l1 and l2:
+            a=ListNode(1)
+            if l1.val>=l2.val:
+                a.val=l2.val
+                if l2:
+                    l2=l2.next
+            else:
+                a.val=l1.val
+                if l1:
+                    l1=l1.next
+            k.next=a
+            k=a
+        if l1:
+            k.next=l1
+        elif l2:
+            k.next=l2
+        return head.next
+
+#
+#
+#
