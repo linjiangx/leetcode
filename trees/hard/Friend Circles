@@ -1,0 +1,62 @@
+#
+class Solution(object):
+    def findCircleNum(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        if not M:
+            return 0
+
+        n = len(M)
+
+        visited = [False for _ in xrange(n)]
+
+        count = 0
+        for r in xrange(n):
+            if visited[r]: continue   
+            self.dfs(M, r, n, visited)
+            count +=1
+        return count
+
+    def dfs(self, M, r, n, visited):
+        if visited[r]:
+            return 
+
+        visited[r] = True
+
+        for i in xrange(n):
+            if M[r][i] and not visited[i]:
+                self.dfs(M, i, n, visited)
+#
+from Queue import *
+class Solution(object):
+    def findCircleNum(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        if not M: return 0 
+        q = Queue()
+        visited = set()
+        circle = 0
+        for i in range(len(M)):
+            if i not in visited:
+                q.put(i)
+                circle += 1
+                while not q.empty():
+                    n = q.get()
+                    if n not in visited:
+                        visited.add(n)
+                        for j,v in enumerate(M[n]):
+                            if j not in visited and v == 1:
+                                q.put(j)
+            if len(visited) == len(M):
+                return circle
+#
+
+#
+#
+#
+#
+#
