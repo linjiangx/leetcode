@@ -1,0 +1,72 @@
+#topological sort
+from collections import deque, defaultdict
+
+class Solution:
+    def canFinish(self, numCourses, prerequisites):
+        courses = list(range(numCourses))
+        course_to_num_prerequisites = defaultdict(int)
+        prerequisite_to_courses = defaultdict(set)
+
+        for course, prerequisite in prerequisites:
+            prerequisite_to_courses[prerequisite].add(course)
+            course_to_num_prerequisites[course] += 1
+
+        num_courses_completed = 0
+
+        # put courses without prerequisites in the queue
+        q = deque(c for c in courses if c not in course_to_num_prerequisites)
+
+        while q:
+            completed_course = q.popleft()
+            num_courses_completed += 1
+
+            # if completed_course is a prerequisite for other courses
+            if completed_course in prerequisite_to_courses:
+
+                # given that we completed a course completed_course:
+                # for all courses k that have completed_course as a prerequisite,
+                # decrement k's prerequisite course count by 1
+                for k in prerequisite_to_courses[completed_course]:
+                    course_to_num_prerequisites[k] -= 1
+                    if course_to_num_prerequisites[k] == 0:
+                        q.append(k)
+
+        return num_courses_completed == numCourses
+
+#DFS, straightforward implementation of wikipedia's topological sort entry
+from collections import defaultdict
+class Solution:
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        
+        Time: O(N)
+        Space: O(N) on stack frame. O(N) on heap.
+        """
+        graph = defaultdict(list)
+        visited = {}
+        for child,parent in prerequisites:
+            graph[parent].append(child)
+        for course in range(numCourses):
+            if not self.visit(graph,visited,course):
+                return False
+        return True
+        
+    def visit(self, graph, visited, node):
+        if visited.get(node) == 'P': #Seen in a previous iteration, 'Permanently Marked'
+            return True
+        if visited.get(node) == 'T': #Seen in the same iteration of DFS, 'Temporaily Marked'
+            return False
+        visited[node] = 'T'
+        for child in graph.get(node,[]):
+            if not self.visit(graph,visited,child):
+                return False
+        visited[node] = 'P'
+        return True
+#
+#
+#
+
+##
