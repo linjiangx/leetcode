@@ -1,0 +1,139 @@
+#
+class Solution(object):
+            
+    
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        visited = set()
+        valid_nums = []
+        for i in range(len(board)):
+            for j in range(len(board[i])):
+                if board[i][j]=='O' and (i,j) not in visited:
+                    current = (i,j)
+                    numbers = self.bfs(current,board,len(board)-1,len(board[0])-1)
+                    visited = visited.union(numbers)
+                    if self.is_valid(list(numbers),len(board)-1,len(board[0])-1):
+                        valid_nums.extend(list(numbers))
+
+        for (i,j) in valid_nums:
+            board[i][j] = 'X'
+            
+    def bfs(self,root,board,x_length,y_length):
+        next_visit = [root]
+        visited = set()
+        while len(next_visit)>0:
+            current = next_visit.pop(0)
+            i = current[0]
+            j = current[1]
+            if i>=0 and i<=x_length and j>=0 and j<=y_length:
+                if board[i][j]=='O' and (i,j) not in visited:
+                    visited.add((i,j))
+                    next_visit.append((i-1,j))
+                    next_visit.append((i,j-1))
+                    next_visit.append((i+1,j))
+                    next_visit.append((i,j+1))
+        return visited
+            
+    def is_valid(self,nums,x_max,y_max):
+        for i in range(len(nums)):
+            if nums[i][0]== 0 or nums[i][0]==x_max:
+                return False
+            if nums[i][1]==0 or nums[i][1] == y_max:
+                return False
+        return True
+
+#DFS
+class Solution_DFS:
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        alive,v = set(),set()
+        for r in range(len(board)):
+            for c in range(len(board[r])):
+                if r==0 or r==len(board)-1 or c==0 or c==len(board[0])-1:
+                    self.traverse(board,r,c,alive)   
+        for r in range(len(board)):
+            for c in range(len(board[r])):
+                if board[r][c]=='O' and (r,c) not in alive:
+                    board[r][c] = 'X'
+                
+    def traverse(self,board,r,c,alive):    
+        if (r,c) in alive or r<0 or r>len(board)-1 or c<0 or c>len(board[0])-1 or board[r][c] != 'O' :    
+            return
+        else:        
+            alive.add((r,c))            
+            self.traverse(board,r+1,c,alive)
+            self.traverse(board,r,c+1,alive)
+            self.traverse(board,r-1,c,alive)
+            self.traverse(board,r,c-1,alive)
+            
+#Union Find
+class Solution_UF:
+    def solve(self, board):
+        parents={}
+        for r in range(len(board)):
+            for c in range(len(board[r])):
+                if r==0 or r==len(board)-1 or c==0 or c==len(board[0])-1:
+                    self.traverse(board,parents,r,c,-1,-1)
+
+        for r in range(len(board)):
+            for c in range(len(board[r])):
+                if board[r][c]=='O' and parents.get((r,c)) != (-1,-1):
+                    board[r][c] = 'X'
+                    
+    def traverse(self,board,parents,r,c,pr,pc):    
+        if (r,c) in parents or r<0 or r>len(board)-1 or c<0 or c>len(board[0])-1 or board[r][c] != 'O' :    
+            return
+        else:        
+            parentCurr=self.find((r,c),parents)
+            parentPrev=self.find((pr,pc),parents)
+            if parentCurr != parentPrev:
+                parents[parentCurr] = parentPrev
+            self.traverse(board,parents,r+1,c,r,c)
+            self.traverse(board,parents,r-1,c,r,c)
+            self.traverse(board,parents,r,c+1,r,c)
+            self.traverse(board,parents,r,c-1,r,c)
+
+    def find(self,node,parents):
+        if node not in parents:
+            parents[node] = node
+            return node
+        if parents[node]!=node:
+            parents[node]=self.find(parents[node],parents)
+        return parents[node]
+        
+#BFS
+class Solution_BFS:
+    #Iterative BFS
+    #Temporarily turn 'reachable O cells form border' into '#', then any '#' is restored to 'O', and any 'O' is changed to 'X'.
+    def solve(self,board):
+        for r in range(len(board)):
+            for c in range(len(board[r])):
+                if r==0 or r==len(board)-1 or c==0 or c==len(board[0])-1:
+                    self.traverse(board,r,c)
+
+        for r in range(len(board)):
+            for c in range(len(board[r])):
+                if board[r][c]=='O':
+                    board[r][c] = 'X'
+                elif board[r][c]=='#':
+                    board[r][c] = 'O'
+
+    def traverse(self,board,r,c):
+        q=collections.deque()
+        if board[r][c]=='O':
+            q.append((r,c))
+        while q:
+            c = q.popleft()
+            r,c=c[0],c[1]
+            if r>=0 and r<len(board) and c>=0 and c<len(board[0]) and board[r][c]=='O':
+                board[r][c]='#'
+                q.append((r+1,c))
+                q.append((r-1,c))
+                q.append((r,c+1))
+                q.append((r,c-1))
