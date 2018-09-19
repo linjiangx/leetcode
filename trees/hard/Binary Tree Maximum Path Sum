@@ -1,0 +1,45 @@
+#
+class Solution(object):
+    def maxPathSum(self, root):
+        self.res = - float('inf')
+        self.dfs(root)
+        return self.res
+
+    
+    def dfs(self, root):
+        if not root: return 0
+        left = self.dfs(root.left)
+        right = self.dfs(root.right)
+        self.res = max(self.res, left + right + root.val)
+        cur = max(left, right) + root.val
+        return cur if cur > 0 else 0
+#
+class Solution(object):
+    def maxPathSum(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        a, b = self.helper(root)
+        return max(a,b)
+    
+    def helper(self, root): 
+        if not root: 
+            return float("-inf"), float("-inf")
+        if not root.left and not root.right: 
+            return float("-inf"), root.val
+        
+        # a ---> Max sum that does not start from root 
+        # b ---> Max sum that starts from root 
+        
+        a1, b1 = self.helper(root.left)
+        a2, b2 = self.helper(root.right)
+        c = root.val
+        
+        return max(a1, a2, b1, b2, c+b1+b2), max(c, c+b1, c+b2)
+#
+#
+#
+#
+#
+#
