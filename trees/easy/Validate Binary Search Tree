@@ -1,0 +1,19 @@
+#
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        res = self.inorderList(root)
+        for i, n in enumerate(sorted(res)):
+            if res[i] != n or (i < len(res) - 1 and res[i] == res[i + 1]): 
+                return False
+        return True
+    
+    def inorderList(self, root):
+        if not root:
+            return []
+        return self.inorderList(root.left) + [root.val] + self.inorderList(root.right)
+#
+#
