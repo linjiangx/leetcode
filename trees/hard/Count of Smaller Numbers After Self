@@ -1,0 +1,20 @@
+#
+from bisect import bisect_left
+class Solution:
+    def countSmaller(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        res = []
+        sortedArr = []
+        for i in reversed(range(len(nums))):
+            idx = bisect_left(sortedArr, nums[i])
+            sortedArr.insert(idx, nums[i])
+            res.append(idx)
+        res.reverse()
+        return res
+#
+#
+#
+#
