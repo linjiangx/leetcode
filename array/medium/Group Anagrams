@@ -1,3 +1,4 @@
+#单词里的字母的种类和数目没有改变，只是改变了字母的排列顺序
 #先将原List单个元素分别排序，再与原List做一个zip，最后生成字典
 class Solution:
     def groupAnagrams(self, strs):
