@@ -1,0 +1,25 @@
+#bisect模块寻找将目标值插入原list的位置，但是不会执行插入，只是寻找位置
+class Solution(object):
+    import bisect
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        res = []
+        first = bisect.bisect_left(nums, target)
+        last = bisect.bisect_right(nums, target) - 1
+        
+        if first >= len(nums) or last >=len(nums) or nums[first] != target or nums[last] != target:
+            return [-1,-1]
+        
+        return [first, last]
+#
+
+
+#
+#
+
+#
+#
