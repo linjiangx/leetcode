@@ -1,4 +1,4 @@
-#
+#注意interval的形式，这和lambda格式挂钩
 # Definition for an interval.
 # class Interval:
 #     def __init__(self, s=0, e=0):
