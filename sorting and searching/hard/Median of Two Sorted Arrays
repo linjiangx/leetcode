@@ -1,0 +1,53 @@
+
+#
+class Solution:
+    def findMedianSortedArrays(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: float
+        """
+
+        m, n = len(nums1), len(nums2)
+        if m > n:
+            m, n, nums1, nums2 = n, m, nums2, nums1
+        idx_min, idx_max = 0, m
+        while idx_min <= idx_max:
+            end1 = int((idx_min + idx_max) / 2)
+            end2 = int((m + n + 1) / 2) - end1
+            if end1 > 0 and end2 < n and nums1[end1 - 1] > nums2[end2]:
+                idx_max = end1 - 1
+            elif end2 > 0 and end1 < m and nums1[end1] < nums2[end2 - 1]:
+                idx_min = end1 + 1
+            else:
+                if end1 == 0:
+                    if (m + n + 1) % 2 == 0:
+                        return nums2[end2 - 1]
+                    elif end1 == m:
+                        return (nums2[end2 - 1] + nums2[end2]) / 2
+                    elif m == n:
+                        return (nums2[end2 - 1] + nums1[end1]) / 2
+                    else:
+                        return (nums2[end2 - 1] + min(nums1[end1], nums2[end2])) / 2
+                elif end2 == 0:
+                    if (m + n + 1) % 2 == 0:
+                        return nums1[end1 - 1]
+                    elif m == n:
+                        return (nums1[end1 - 1] + nums2[end2]) / 2
+                    else:
+                        return (nums1[end1 - 1] + nums1[end1]) / 2
+                else:
+                    if (m + n + 1) % 2 == 0:
+                        return max(nums1[end1 - 1], nums2[end2 - 1])
+                    elif end1 == m:
+                        return (max(nums1[end1 - 1], nums2[end2 - 1]) + nums2[end2]) / 2
+                    elif end2 == n:
+                        return (max(nums1[end1 - 1], nums2[end2 - 1]) + nums1[end1]) / 2
+                    else:
+                        return (max(nums1[end1 - 1], nums2[end2 - 1]) + min(nums1[end1], nums2[end2])) / 2
+#
+
+##
+
+#
+#
