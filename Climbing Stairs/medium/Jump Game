@@ -1,0 +1,19 @@
+#
+class Solution(object):
+    def canJump(self,nums):
+        if not nums or len(nums)==0:return False
+        i=1
+        jump_range=nums[0]
+        while i<len(nums):
+            if jump_range==0:
+                return False
+            jump_range-=1
+            jump_range=max(jump_range,nums[i])
+            i+=1
+        return True
+#
+#
+#
+
+#
+#
