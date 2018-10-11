@@ -1,0 +1,39 @@
+#
+class Solution(object):
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        result = {}
+
+        def roc(num):
+            nonlocal result
+            i = 1
+            min_step = 1000
+            if num == 1:
+                return 1
+
+            if num == 0:
+                return 0
+
+            while i ** 2 <= num:
+                ii = i ** 2
+                next = int(num % ii)
+                if next in result:
+                    step = int((num - next) / ii) + result[next]
+                else:
+                    step = int((num - next) / ii) + roc(next)
+                if step < min_step:
+                    min_step = step
+                i += 1
+            if not num in result:
+                result[num] = min_step
+            return min_step
+
+        return roc(n)
+#
+#
+
+#
+##
