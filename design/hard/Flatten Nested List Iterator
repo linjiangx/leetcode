@@ -1,0 +1,33 @@
+#
+def dfs(node):
+    if node.isInteger():
+        return [node.getInteger()]
+    
+    return [item for child in node.getList() for item in dfs(child)]
+
+
+class NestedIterator(object):
+
+    def __init__(self, nestedList):
+        """
+        Initialize your data structure here.
+        :type nestedList: List[NestedInteger]
+        """
+        self.arr = [item for child in nestedList for item in dfs(child)]
+        self.c = -1
+   
+    def next(self):
+        """
+        :rtype: int
+        """
+        self.c += 1
+        return self.arr[self.c]
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return self.c + 1 < len(self.arr) 
+#
+#
+#
