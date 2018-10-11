@@ -1,0 +1,20 @@
+#
+class Solution:
+    def maxProduct(self, A):
+	#handling case where A has only one element
+        ans = A[0]
+        prev_max = A[0]
+        prev_min = A[0]
+        cur_max  = A[0]
+        cur_min  = A[0]
+        
+        for i in range(1,len(A)):
+            cur_max = max(max(prev_max*A[i],prev_min*A[i]),A[i])
+            cur_min = min(min(prev_max*A[i],prev_min*A[i]),A[i])
+            ans     = max(cur_max,ans)
+            prev_max = cur_max
+            prev_min = cur_min
+        return ans
+#
+#
+#
