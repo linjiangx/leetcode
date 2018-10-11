@@ -1,0 +1,85 @@
+#
+class Node:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.prev = None
+        self.next = None
+
+class LRUCache(object):
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.head = Node(0,0)
+        self.tail = Node(0,0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.hashmap = dict()
+        self.capacity = capacity
+
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key in self.hashmap:
+            node = self.hashmap[key]
+            self.remove(node)
+            self.add(node)
+            return node.value
+        else:
+            return -1
+    
+    def remove(self, node):
+        """
+        :type node: Node
+        :rtype: void
+        """         
+        previous = node.prev
+        nextNode = node.next
+        previous.next = nextNode
+        nextNode.prev = previous
+        
+    def add(self, node):
+        """
+        :type node: Node
+        :rtype void
+        """
+        previousNode = self.tail.prev
+        previousNode.next = node
+        node.prev = previousNode
+        node.next = self.tail
+        self.tail.prev = node
+
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: void
+        """
+        
+        if key not in self.hashmap:
+            self.hashmap[key] = Node(key, value)
+            self.add(self.hashmap[key])
+        else:
+            #node to be removed
+            node = self.hashmap[key]
+            self.remove(node)
+            del self.hashmap[node.key]
+            
+            #node to be added
+            NodE = Node(key, value)
+            self.add(NodE)
+            self.hashmap[key] = NodE
+            
+        #capacity exceeded
+        if len(self.hashmap) > self.capacity:
+            node = self.head.next
+            self.remove(node)
+            del self.hashmap[node.key]
+#
+
+#
+#
