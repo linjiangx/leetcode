@@ -1,0 +1,22 @@
+#
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        str_dict = {'(':-1,')':1,'[':-2,']':2,'{':-3,'}':3}
+        str_list = []
+        for i in s:
+            val = str_dict[i]
+            if val<0:
+                str_list.append(val)
+            else:
+                if str_list== []: return False
+                check = str_list.pop()
+                if check != -val:
+                    return False
+        if str_list!= []: return False
+        return True
+
+#
