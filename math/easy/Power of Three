@@ -1,0 +1,20 @@
+
+#
+class Solution(object):
+    def isPowerOfThree(self, n):
+        while n > 1:
+            n /= 3.0
+        return n == 1
+#
+class Solution:
+    def isPowerOfThree(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        # 1162261467 is the largest number of power of 3 in 32bits
+        return (n > 0) and (1162261467 % n == 0)
+#
+#
+
+#
