@@ -1,0 +1,13 @@
+#
+class Solution:
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        return int(dividend/divisor) if -pow(2,31)<=dividend/divisor<=pow(2,31)-1 else pow(2,31)-1
+#
+#
+#
+#
