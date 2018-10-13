@@ -1,0 +1,25 @@
+#
+class Solution:
+    def getSkyline(self, buildings):
+        """
+        :type buildings: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        res = [(0,0)]
+        corner = sorted({b[0] for b in buildings}|{b[1] for b in buildings})
+        heap = [(0,float('inf'))]
+        heapq.heapify(heap)
+        n = len(buildings)
+        j = 0
+        for x in corner:
+            while j<n and buildings[j][0]==x:
+                heapq.heappush(heap,(-buildings[j][2],buildings[j][1]))
+                j += 1
+            while heap[0][1]<=x:
+                heapq.heappop(heap)
+            if res[-1][1]!=-heap[0][0]:
+                res.append((x,-heap[0][0]))
+        return res[1:]
+#
+#
+#
