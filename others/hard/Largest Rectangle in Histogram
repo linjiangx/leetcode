@@ -1,0 +1,28 @@
+#
+class Solution(object):
+    def largestRectangleArea(self, heights):
+        lower_bound = 0
+        n = len(heights)
+        pq = [(-heights[i]*(n-i), i) for i in range(n)]
+        heapq.heapify(pq)
+
+        while pq:
+            upper_bound, start = heapq.heappop(pq)
+            
+            if -upper_bound <= lower_bound:
+                continue
+            
+            min_height = heights[start]
+            for j in range(start, n): 
+                min_height = min(min_height, heights[j])
+                upper_bound = (n - start) * min_height
+                if upper_bound <= lower_bound:
+                    break
+                area = (j - start + 1) * min_height
+                lower_bound = max(lower_bound, area)                   
+        
+        return lower_bound
+#
+#
+
+#
