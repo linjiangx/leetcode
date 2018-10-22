@@ -1,6 +1,6 @@
 
 
-#这个方法比较神奇，使用字典记录target-num[i]的值和当前坐标，当遍历后续list时在字典中找到对应值，就返回当前坐标和字典对应的坐标
+#使用字典记录target-num[i]的值和当前坐标，当遍历后续list时在字典中找到对应值，就返回当前坐标和字典对应的坐标
 class Solution:
     def twoSum(self, nums, target):
         """
