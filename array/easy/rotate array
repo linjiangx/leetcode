@@ -1,4 +1,4 @@
-#从前往后赋值时，小心len=5,k=2之类的情况，第五个数会使用第三个数，而第三个数已经使用了第一个数，这样第五个数变成了第一个数，出错
+#
 class Solution(object):
     def rotate(self, nums, k):
         """
