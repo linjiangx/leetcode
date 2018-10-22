@@ -1,21 +1,3 @@
-#重复搜索1.2，记得在2中将已经确认满足条件的值清除或者赋值为不可能再满足条件的值，如1.1。
-class Solution:
-    def intersect(self, nums1, nums2):
-        """
-        :type nums1: List[int]
-        :type nums2: List[int]
-        :rtype: List[int]
-        """
-        bonum=[]
-        
-        
-        for i in range(len(nums1)):
-            for j in range(len(nums2)):
-                if nums1[i]==nums2[j]:
-                    bonum.append(nums1[i])
-                    nums2[j]=1.1
-                    break
-        return bonum
 
 使用字典，分别将1.2字典化，再将字典求交集
 class Solution:
