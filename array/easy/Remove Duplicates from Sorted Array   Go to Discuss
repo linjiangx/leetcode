@@ -1,5 +1,5 @@
 #将重复的pop掉，核心思想是时刻与前面的对比
-class Solution:
+class Solution(object):
     def removeDuplicates(self, nums):
         """
         :type nums: List[int]
@@ -8,12 +8,9 @@ class Solution:
         if not nums:
             return 0
         j = 1
-        first = nums[0]
-        last = nums[-1]
-        while first != last:
-            if nums[j] > first:
-                first = nums[j]
+        for i in range(1,len(nums)):
+            if nums[i]!=nums[i-1]:
+                nums[j] = nums[i]
                 j += 1
-            else:
-                nums.pop(j)
+            #print i,j
         return j
