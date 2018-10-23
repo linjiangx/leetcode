@@ -1,54 +1,7 @@
-#int不能直接list化,不需要判断前面的是否为0然后去掉，
-class Solution:
-    def reverse(self, x):
-        """
-        :type x: int
-        :rtype: int
-        """
-        if x==0:
-            res=0
-        elif x>0:
-            a=[]
-            while x>9:
-                a.append(x%10)
-                x=int(x/10)
-            a.append(x)
-            #这里判断是否为0有点多余
-            zero_num=0
-            for k in a:
-                if k==0:
-                    zero_num+=1
-                else:
-                    break
-            a=a[zero_num:]
-            res=0
-            for k in a:
-                res=10*res+k
-            if res>pow(2,31)-1:
-                res=0
-        else:
-            b=[]
-            x=-x
-            while x>9:
-                b.append(x%10)
-                x=int(x/10)
-            b.append(x)
-            zero_num=0
-            for k in b:
-                if k==0:
-                    zero_num+=1
-                else:
-                    break
-            b=b[zero_num:]                
-            res=0
-            for k in b:
-                res=res*10+k
-            res=-res
-            if res<-pow(2,31):
-                res=0
-        return res
+
+
         
-#这个简单点，想法是一样的
+#
 def reverse(number):
     reverse=0
     sign=True if number>0 else False
