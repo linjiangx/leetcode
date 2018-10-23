@@ -18,5 +18,5 @@ class Solution(object):
                 l2 = l2.next
             head.next = ListNode(val % 10)
             head = head.next
-            carry = val / 10
+            carry = val // 10
         return dummy.next
