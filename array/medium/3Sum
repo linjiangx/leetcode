@@ -1,26 +1,4 @@
-#方法可行，就是超时了,我这里借鉴了2 sum里面字典的办法 
-class Solution:               
-    def threeSum(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        res=[]
-        len1=len(nums)
-        for i in range(len1):
-            dict={}
-            target = -nums[i]
-            a=nums.pop(i)
-            for j in range(len(nums)):
-                if nums[j] in dict:
-                    b=sorted([nums[j],nums[dict[nums[j]]],a])
-                    if b not in res:
-                        res.append(b)
-                else:
-                    dict[target-nums[j]]=j
-            nums.insert(i,a)
-        return res
-        
+      
 #比较直观的办法，先排序，然后固定一个，让另外两个移动,O(N^2)        
 def threeSum(self, nums):
     res = []
@@ -44,34 +22,3 @@ def threeSum(self, nums):
                 l += 1; r -= 1
     return res  
 
-
-#超时
-class Solution:
-    def threeSum(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        nums=sorted(nums)
-        le=len(nums)
-        res=[]
-        for i in range(le-2):
-            target=-nums[i]
-            for j in range(i+1,le-1):
-                for k in range(j+1,le):
-                    if nums[j]+nums[k]==target:
-                        res.append([nums[i],nums[j],nums[k]])
-                    elif nums[j]+nums[k]>target:
-                        break
-        i,le=0,len(res)
-        if le<=1:
-            return res
-        res=sorted(res)
-        while i<le-1:
-            if res[i]==res[i+1]:
-                res.pop(i+1)
-                le-=1
-            else:
-                i+=1
-        
-        return res
