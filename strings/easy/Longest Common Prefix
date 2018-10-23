@@ -1,24 +1,4 @@
 #求最长前缀，注意三个边界：1.strs为空，2.后面的字符串比第一个短，3.当出现不一样的字符时break
-class Solution:
-    def longestCommonPrefix(self, strs):
-        """
-        :type strs: List[str]
-        :rtype: str
-        """
-        if len(strs)==0:
-            return ''
-        num=0
-        len1=len(strs[0])
-        for i in range(len1):
-            flag = True
-            for s in strs:
-                if len(s) < i+1 or s[i] != strs[0][i]:
-                    flag = False
-            if flag:
-                num += 1
-            else:
-                break
-        return strs[0][0:num]
 
 #
 class Solution:
