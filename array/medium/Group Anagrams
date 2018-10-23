@@ -43,3 +43,17 @@ class Solution(object):
         for s in strs:
             ans[tuple(sorted(s))].append(s)
         return ans.values()
+
+#
+class Solution(object):
+    def groupAnagrams(self, strs):
+        # sorted string一样则为同样，所以可以将sorted word作为key
+        dictionary = {}
+        for s in strs:
+            key = tuple(sorted(s))  # 出错点：sorted之后会变成list，不hashable，所以不能做key，得转成tuples
+            dictionary[key] = dictionary.get(key, [])  # 出错点：不能在后面直接加append，得下面再写一行，因为空[]一边创建一边append会出错
+            dictionary[key].append(s)
+        result = []
+        for key, value in dictionary.items():
+            result.append(dictionary[key])
+        return result
