@@ -21,3 +21,15 @@ class Solution:
             if 48<=ord(s[i])<=57 or 65<=ord(s[i])<=90 or 97<=ord(s[i])<=122:
                 k.append(s[i].lower())
         return k==k[::-1]
+
+#
+class Solution(object):
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        if not s or len(s) == 0:
+            return True
+        lst = [c for c in s.lower() if c.isalnum()]
+        return lst == lst[::-1]
