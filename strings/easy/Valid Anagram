@@ -32,5 +32,19 @@ class Solution:
 #一行代码，排序
 return True if s is None or t is None else sorted(s) == sorted(t)
 
-
+class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        n = len(s)
+        if len(t)!=n:
+            return False 
+        letters = 'abcdefghijklmnopqrstuvwxyz'
+        for l in letters:
+            if s.count(l)!=t.count(l):
+                return False
+        return True
 
