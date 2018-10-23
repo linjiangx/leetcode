@@ -25,27 +25,19 @@ class Solution:
                 s+=str(v)+k
         return s
 
-#穷举了        
-class Solution:
+#     
+class Solution(object):
     def countAndSay(self, n):
-        """
-        :type n: int
-        :rtype: str
-        """
-        a=['']*30
-        a[0]='1'
-        a[1]='11'
-        for i in range(2,30):
-            k='1'
-            le=len(a[i-1])
-            for j in range(le-1):
-                if a[i-1][j+1]==a[i-1][j]:
-                    k=str(int(k)+1)
+        s = '1'
+        for _ in range(n-1):
+            let, temp, count = s[0], '', 0
+            for l in s:
+                if let == l:
+                    count += 1
                 else:
-                    a[i]+=k
-                    a[i]+=a[i-1][j]
-                    k='1'
-            a[i]+=k
-            a[i]+=a[i-1][-1]
-        return a[n-1]
-        
+                    temp += str(count)+let
+                    let = l
+                    count = 1
+            temp += str(count)+let
+            s = temp
+        return s
