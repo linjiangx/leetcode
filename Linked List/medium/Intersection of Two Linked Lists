@@ -54,5 +54,15 @@ class Solution(object):
         
 
 #
+class Solution(object):
+    def getIntersectionNode(self, headA, headB):
+        if headA is None or headB is None:
+            return None
+        ha=headA
+        hb=headB
+        while ha is not hb:
+            ha=headB if ha is None else ha.next
+            hb=headA if hb is None else hb.next
+        return ha
 #
 #
