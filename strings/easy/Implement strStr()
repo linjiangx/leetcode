@@ -31,3 +31,7 @@ class Solution:
             if haystack[i:i+le2]==needle:
                 return i
         return -1
+
+
+#
+return haystack.find(needle)
