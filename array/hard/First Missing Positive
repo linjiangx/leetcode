@@ -7,21 +7,6 @@ class Solution(object):
         """
         length = len(nums)
         k = 0
-        
-        # remove 0, negatives, and too large numbers
-        for i, num in enumerate(nums):
-            if num > 0 and num <= length:
-                # move the positive integers up front
-                nums[k] = num 
-                k += 1 
-        
-        # We manipulate the list up to the k-th index
-        # We don't care about the elements from indices (k+1)-th to length.
-        # Now the nums[:k+1] only contains integers in the range 1 to k+1.
-        # We treat the elements as the next indices. 
-        # When an element is reached, it is changed to be negative.
-        # If the element is never reached, it's gonna stay positive.
-        # That is the first missing positive integer.
         for i in range(k):
             num = abs(nums[i])
             
