@@ -1,31 +1,4 @@
-#
-class Solution(object):
-    def fourSumCount(self, A, B, C, D):
-        """
-        :type A: List[int]
-        :type B: List[int]
-        :type C: List[int]
-        :type D: List[int]
-        :rtype: int
-        """
-        rec = {}
-        N = len(A)
-        for i in range(N):
-            for j in range(N):
-                sum2 = A[i]+B[j]
-                if not sum2 in rec:
-                    rec[sum2] = 1
-                else:
-                    rec[sum2] += 1
-        res = 0
-        for i in range(N):
-            for j in range(N):
-                sum2 = C[i]+D[j]
-                if -sum2 in rec:
-                    res += rec[-sum2]
-        return res           
-        
-        
+
 #
 class Solution:
     def fourSumCount(self, A, B, C, D):
