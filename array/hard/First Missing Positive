@@ -1,20 +1,35 @@
-#
 class Solution(object):
     def firstMissingPositive(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        length = len(nums)
-        k = 0
-        for i in range(k):
-            num = abs(nums[i])
+        n = len(nums)
+
+        # if length of nums is 0 return 1
+        if n == 0:
+            return 1
+
+        # segregate the nums array such that first j elements are positive (>0) and j+1...n-1 elements are negative
+        j = n - 1
+        for i in range(n - 1, -1, -1):
+            if nums[i] <= 0:
+                temp = nums[j]
+                nums[j] = nums[i]
+                nums[i] = temp
+                j -= 1
+
+                # if number between 1 to j+1 is present in the positive side make the corresponding index's value negative                
+        for i in range(0, j + 1):
+            abs_value = abs(nums[i])
+            if abs_value > 0 and abs_value <= j + 1 and nums[abs_value - 1] > 0:
+                nums[abs_value - 1] *= -1
+
+                # find the first positive number in the first j + 1 elements (0...j) and that's the answer
+        # if we don't find a positive number then the solution is j + 2                    
+        for index, i in enumerate(nums[:j + 1]):
+            if i > 0:
+                return index + 1
+
+        return j + 2
             
-            if nums[num-1] > 0:
-                nums[num-1] *= -1
-        
-        for i in range(k):
-            if nums[i] >= 0:
-                return i+1
-        
-        return k+1
