@@ -27,17 +27,12 @@ class Solution:
 #直接在tree中处理，这样没有额外空间
 class Solution:
     def isSymmetric(self, root):
-        """
-        :type root: TreeNode
-        :rtype: bool
-        """
         if not root:
             return True
-        return self._mirrorTree(root.left,root.right)
-    def _mirrorTree(self,left,right):
-        if not (left or right):
+        return self.mirrorTree(root.left,root.right)
+    def mirrorTree(self,left,right):
+        if not left and not right:
             return True
-        elif (not left and right) or (not right and left):
+        if not left or not right:
             return False
-        else:
-            return (left.val==right.val) and self._mirrorTree(left.left,right.right) and self._mirrorTree(left.right,right.left)
+        return (left.val==right.val) and self.mirrorTree(left.left,right.right) and self.mirrorTree(left.right,right.left)
