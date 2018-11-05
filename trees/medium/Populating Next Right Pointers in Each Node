@@ -11,4 +11,21 @@ class Solution:
                 root = root.next
             root = next
 #
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if not root:
+            return root
+        
+        while root.left:
+            previous = None
+            current = root.left
+            while root:
+                if previous:
+                    previous.next = root.left
+                root.left.next = root.right
+                previous = root.right
+                root = root.next
+            root = current
 #
