@@ -15,7 +15,7 @@ class Solution:
         stack = []
         cur_node = root
         while cur_node or len(stack)>0:
-            while (cur_node):
+            while cur_node:
                 stack.append(cur_node)
                 cur_node = cur_node.left
             cur_node = stack.pop()
