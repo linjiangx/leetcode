@@ -1,4 +1,4 @@
-#
+#在队列中处理
 from collections import deque
 
 class Solution:
@@ -24,4 +24,20 @@ class Solution:
             queue.append(node2.left)
         return True
 #
-#
+#直接在tree中处理，这样没有额外空间
+class Solution:
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        return self._mirrorTree(root.left,root.right)
+    def _mirrorTree(self,left,right):
+        if not (left or right):
+            return True
+        elif (not left and right) or (not right and left):
+            return False
+        else:
+            return (left.val==right.val) and self._mirrorTree(left.left,right.right) and self._mirrorTree(left.right,right.left)
