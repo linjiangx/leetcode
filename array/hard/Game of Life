@@ -23,3 +23,7 @@ class Solution:
         for pair in changeList:
             x, y = pair[0], pair[1]
             board[x][y] = 1 if board[x][y] == 0 else 0
+	   
+#
+#
+
