@@ -1,0 +1,71 @@
+#
+maxDigitsBasedOnPos = {
+  0: 2, 1: 9, 2: 5, 3: 9
+};
+
+class Solution(object):
+    def nextClosestTime(self, time):
+        """
+        :type time: str
+        :rtype: str
+        """
+        time = [int(c) for c in time if c.isdigit()]
+        digits = sorted(time)
+        minDigit = min(time)
+        newTime = []
+        for i in range(len(time) - 1, -1, -1):
+            curr = time[i]
+            if curr == maxDigitsBasedOnPos[i]:
+                newTime.insert(0, minDigit)
+                continue
+
+            for d in digits:
+                if d > curr and d <= maxDigitsBasedOnPos[i]:
+                    if i == 1 and d > 3 and time[0] == 2:
+                        continue                        
+                    
+                    newTime.insert(0, d)
+                    s = "".join([str(d) for d in time[0:i] + newTime])
+                    return s[0:2] + ":" + s[2:]
+            
+            newTime.insert(0, minDigit)
+        
+        s = "".join([str(d) for d in time[0:i] + newTime])
+        return s[0:2] + ":" + s[2:]
+        
+#
+class Solution(object):
+    def nextClosestTime(self, time):
+        cur = 60 * int(time[:2]) + int(time[3:])
+        allowed = {int(x) for x in time if x != ':'}
+        while True:
+            cur = (cur + 1) % (24 * 60)
+            if all(digit in allowed
+                    for block in divmod(cur, 60)
+                    for digit in divmod(block, 10)):
+                return "{:02d}:{:02d}".format(*divmod(cur, 60))
+#
+class Solution:
+    def nextClosestTime(self, time):
+        """
+        :type time: str
+        :rtype: str
+        """
+        
+        digits = list(time.replace(':', ''))
+        h, m = [int(x) for x in time.split(':')]
+        
+        while True:
+            m += 1
+            if m == 60:
+                m = 0
+                h += 1
+                
+            if h == 24:
+                h = 0
+                
+            s_h, s_m = str(h).zfill(2), str(m).zfill(2)
+            
+            if all(x in digits for x in list(s_h + s_m)):
+                return s_h + ":" + s_m
+#
