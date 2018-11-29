@@ -1,0 +1,28 @@
+#
+class Solution:
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        if not height:
+            return 0
+        maxheight = max(height)
+        pos = height.index(maxheight)
+        res = 0
+        leftmax = 0
+        rightmax = 0
+        for i in range(pos):
+            if height[i] >= leftmax:
+                leftmax = height[i]
+            else:
+                res += (leftmax - height[i])
+        for i in range(len(height)-1, pos, -1):
+            if height[i] >= rightmax:
+                rightmax = height[i]
+            else:
+                res += (rightmax - height[i])
+        return res
+#
+#
+#
