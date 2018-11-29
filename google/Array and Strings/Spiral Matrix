@@ -1,0 +1,16 @@
+#
+class Solution(object):
+    def spiralOrder(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[int]
+        """
+        res=[]
+        while matrix:
+            res.extend(matrix.pop(0))
+            for i in range(len(matrix)): 
+                matrix[i][:] = (matrix[i])[::-1]
+            matrix = list(map(list, zip(*matrix)))
+        return res
+#
+#
