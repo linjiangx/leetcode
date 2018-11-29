@@ -1,0 +1,50 @@
+#
+class Solution(object):
+    def longestUnivaluePath(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        Longest, _, _ = self.moreinfo(root)
+        return Longest
+    def moreinfo(self, root):
+        if not root:
+            return 0, 0, 0
+        Longest, Lc, Rc = 0, 0, 0
+        LongestL, LLc, LRc = self.moreinfo(root.left)
+        LongestR, RLc, RRc = self.moreinfo(root.right)
+        if root.left and root.left.val == root.val:
+            Lc = max(LLc, LRc) + 1
+        if root.right and root.right.val == root.val:
+            Rc = max(RLc, RRc) + 1
+        return max(Lc + Rc, LongestL, LongestR), Lc, Rc
+#
+class Solution:
+    def longestUnivaluePath(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        def dfs(root):
+            if not root: return 0
+            if not root.left and not root.right: return 1
+            left = dfs(root.left)
+            right= dfs(root.right)
+            if root.left and root.left.val==root.val:
+                if root.right and root.right.val==root.val:
+                    self.maxium=max(self.maxium, left+right+1)
+                    return max(left+1, right+1)
+                else:
+                    self.maxium=max(self.maxium, left+1)
+                    return left+1
+            elif root.right and root.right.val==root.val:
+                self.maxium=max(self.maxium, right+1)
+                return right+1
+            else: return 1
+            
+        self.maxium=1
+        dfs(root)
+        return self.maxium-1
+#
+
+#
