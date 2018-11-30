@@ -1,4 +1,4 @@
-#
+# 这题有两个控制因素，一个是file本来的长度，另一个是指定读取的长度参数n
 # The read4 API is already defined for you.
 # @param buf, a list of characters
 # @return an integer
