@@ -11,7 +11,7 @@ class Solution:
         q = []
         for l in lists:
             if l:
-                heappush(q, (l.val, id(l), l))
+                heappush(q, (l.val, l))
                 
         while q:
             value, _, current.next = heappop(q)
@@ -19,7 +19,7 @@ class Solution:
             after = current.next
             
             if after:
-                heappush(q, (after.val, id(after), after))
+                heappush(q, (after.val, after))
 
         return head.next
             
