@@ -1,0 +1,79 @@
+#
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        
+        graph = [[] for _ in xrange(numCourses)]
+        visit = [0 for _ in xrange(numCourses)]
+        for x, y in prerequisites:
+            graph[x].append(y)
+        def dfs(i):
+            if visit[i] == -1:
+                return False
+            if visit[i] == 1:
+                return True
+            visit[i] = -1
+            for j in graph[i]:
+                if not dfs(j):
+                    return False
+            visit[i] = 1
+            return True
+        for i in xrange(numCourses):
+            if not dfs(i):
+                return False
+        return True
+#
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        graph = collections.defaultdict(list)
+        for c in prerequisites:
+            graph[c[0]].append(c[1])
+        visited = [-1] * numCourses
+        def dfs(c):
+            if visited[c] == 0: return False
+            if visited[c] == 1: return True
+            visited[c] = 0
+            for post in graph[c]:
+                if not dfs(post):
+                    return False
+            visited[c] = 1
+            return True
+        for i in range(numCourses):
+            if not dfs(i):
+                return False
+        return True
+#
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        """
+        queue = []
+        ins = [0 for i in range(numCourses)]
+        for prerequisite in prerequisites:
+            ins[prerequisite[0]]+=1
+        for i in range(numCourses):
+            if ins[i]==0:
+                queue.append(i)
+        count = len(queue)
+        while queue:
+            n = queue.pop(0)
+            for prerequisite in prerequisites:
+                if n== prerequisite[1]:
+                    ins[prerequisite[0]]-=1
+                    if ins[prerequisite[0]]==0:
+                        queue.append(prerequisite[0])
+                        count+=1
+        return numCourses==count
+#
