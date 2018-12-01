@@ -1,0 +1,89 @@
+#
+class Solution(object):
+    # When all the nodes have exactly one parent, we can use a simple union-find 
+    # as in 684. Redundant Connection, e.g. example 2 from the description.
+    # However when some node has 2 parents, we know one of two edges has to be 
+    # removed so as to form a tree. To find out which one, we write a subroutine 
+    # is_cycle to check if the edge is the result, otherwise returns the other edge.
+    def findRedundantDirectedConnection(self, edges):
+        """
+        :type edges: List[List[int]]
+        :rtype: List[int]
+        """        
+        def find(num):
+            roots.setdefault(num, num)
+            while roots[num] != num:
+                num = roots[num]
+            return num
+        
+        # the direction is num1 -> num2
+        # so num2 should be the root i.e. we can reach num2 from num1
+        def union(num1, num2):
+            root1, root2 = find(num1), find(num2)
+            if root1 == root2: 
+                return False
+            else:
+                roots[root2] = root1
+                return True
+        
+        def detect_cycle(edge):
+            u, v = edge
+            while u != v and u in parents:
+                u = parents[u]
+            return u == v
+        
+        two_edges = []  # the two edges to the vertex that has two parents
+        parents = dict()
+        for u, v in edges:
+            if v not in parents:
+                parents[v] = u
+            else:
+                # Note the order here is critical as we are 
+                # to remove the last possible edge.
+                two_edges.append((parents[v], v))
+                two_edges.append((u, v))
+                
+        if two_edges:  
+            # If we find a vertex with two parents...
+            # There are also two cases:
+            # 1. There isn't a loop, e.g. [[1,2], [1,3], [2,3]]
+            #       1
+            #      / \
+            #     v   v
+            #     2-->3
+            #     We can just return the last edge pointed to the vertex with two parents.
+            # 2. There is a loop, e.g. [[2,1], [3,1], [4,2], [1,4]]
+            #         4
+            #       / ^ 
+            #      v  |      
+            #      2->1<-3
+            #     We delete the one that forms the loop.
+            return two_edges[0] if detect_cycle(two_edges[0]) else two_edges[1]
+        else:  # we do a simple union find
+            roots = dict()
+            for edge in edges:
+                if not union(edge[0], edge[1]):
+                    return edge
+#
+class Solution:
+    def findRedundantDirectedConnection(self, edges):
+        def root(i):
+            return parent[i] == i and i or root(parent[i])
+        
+        parent, a, b, c = [0] * (len(edges) + 1), None, None, None
+        for i, edge in enumerate(edges):
+            if parent[edge[1]]: 
+                a, b, c, edges[i][0]= parent[edge[1]], edge[0], edge[1], 0
+            else:
+                parent[edge[1]] = edge[0]
+        
+        parent = [i for i in range(len(edges) + 1)]
+        for u, v in edges:
+            if u:
+                if root(u) == v: 
+                    return a and [a, c] or [u, v]
+                parent[v] = u   
+        return [b, c]
+#
+
+#
