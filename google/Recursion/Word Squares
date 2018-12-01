@@ -1,0 +1,34 @@
+#
+from collections import defaultdict
+
+def build_trie(words):
+    trie = defaultdict(set)
+    for word in words:
+        for i in range(1, len(word)):
+            trie[word[:i]].add(word)
+            i += 1
+    return trie    
+
+class Solution:
+    def wordSquares(self, words):
+        """
+        :type words: List[str]
+        :rtype: List[List[str]]
+        """
+        trie = build_trie(words)
+        fringe, output = [[len(x), [x]] for x in words], []
+        while fringe:
+            ln, cols = fringe.pop()
+            if ln == len(cols) == 1:
+                output.append(cols)
+                continue
+                
+            prefix = ''.join([col[len(cols)] for col in cols])
+            for candidate in trie[prefix]:  
+                if len(cols) + 1 == ln:
+                    output.append(cols + [candidate])
+                elif len(candidate) == ln:
+                    fringe.append([ln,  cols + [candidate]])
+                    
+        return output
+#
