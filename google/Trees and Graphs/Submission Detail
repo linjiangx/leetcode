@@ -1,0 +1,97 @@
+#
+class Solution(object):
+    def cleanRoom(self, robot):
+        """
+        :type robot: Robot
+        :rtype: None
+        """
+        stack = []
+        visited = set()
+        # Note 3: extral state k 
+        stack.append((0,0,0,1,0))
+
+        while stack:
+            # Note 4: Use peek technique
+            x, y, direction_x, direction_y, k = stack[-1]
+            robot.clean()
+            visited.add((x,y))
+
+            neighbor_x = x + direction_x
+            neighbor_y = y + direction_y
+            if k<4 and (neighbor_x, neighbor_y) not in visited and robot.move():
+                stack.append((neighbor_x, neighbor_y, direction_x, direction_y,0))
+            elif k<4:
+                stack.pop()
+                robot.turnLeft()
+                stack.append((x,y, -direction_y, direction_x, k+1))
+            else:
+                stack.pop()
+                robot.turnLeft()
+                robot.turnLeft()
+                robot.move()
+                robot.turnLeft()
+                robot.turnLeft()
+#
+class Solution(object):
+    def cleanRoom(self, robot):
+        """
+        :type robot: Robot
+        :rtype: None
+        """
+        def turn(robot,cDir,newD):
+            old = cDir[0]
+            if old==newD:
+                return
+            elif newD-old==90:
+                robot.turnRight()
+            elif abs(newD-old)==180:
+                robot.turnLeft()
+                robot.turnLeft()
+            elif old-newD==90:
+                robot.turnLeft()
+            elif newD-old==270:
+                robot.turnLeft()
+            elif old-newD==270:
+                robot.turnRight()
+            cDir[0]=newD
+                
+        def dfs(loc,visited,cDir):
+            robot.clean()
+            visited.add(loc)
+            i=loc[0]
+            j=loc[1]
+            
+            if (i-1,j) not in visited:
+                turn(robot,cDir,0)
+                if robot.move():
+                    dfs((i-1,j),visited,cDir)
+                    turn(robot,cDir,180)
+                    robot.move()
+
+            if (i+1,j) not in visited:
+                turn(robot,cDir,180)
+                if robot.move():
+                    dfs((i+1,j),visited,cDir)
+                    turn(robot,cDir,0)
+                    robot.move()
+
+            if (i,j-1) not in visited:
+                turn(robot,cDir,270)
+                if robot.move():
+                    dfs((i,j-1),visited,cDir)
+                    turn(robot,cDir,90)
+                    robot.move()
+
+            if (i,j+1) not in visited:
+                turn(robot,cDir,90)
+                if robot.move():
+                    dfs((i,j+1),visited,cDir)
+                    turn(robot,cDir,270)
+                    robot.move()
+        
+        visited = set()
+        cDir = [0]
+        loc = (0,0)
+        dfs(loc,visited,cDir)
+#
+#
