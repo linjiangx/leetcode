@@ -1,0 +1,35 @@
+#
+class Solution(object):
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        judge=[]
+        for i in s:
+            if i in ['(','[','{']:
+                judge.append(i)
+            else:
+                if len(judge)==0:
+                    return False
+                if i==')':
+                    if judge.pop()=='(':
+                        continue
+                    else:
+                        return False
+                if i==']':
+                    if judge.pop()=='[':
+                        continue
+                    else:
+                        return False
+                if i=='}':
+                    if judge.pop()=='{':
+                        continue
+                    else:
+                        return False
+        return len(judge)==0
+                
+#
+#
+#
+#
