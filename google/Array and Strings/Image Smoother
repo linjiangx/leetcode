@@ -1,0 +1,30 @@
+#
+class Solution(object):
+    def imageSmoother(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        row=len(M)
+        col=len(M[0])
+        newM=[[0 for i in range(col)] for j in range(row)]
+        spots=[[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1],[0,0]]
+        for i in range(row):
+            for j in range(col):
+                adjnum=0
+                sum=0
+                for spot in spots:
+                    newi=i+spot[0]
+                    newj=j+spot[1]
+                    if newi<0 or newi>=row or newj<0 or newj>=col:
+                        continue
+                    else:
+                        sum+=M[newi][newj]
+                        adjnum+=1
+                newM[i][j]=int(sum/adjnum)
+        return newM
+                        
+        
+        
+#
+#
