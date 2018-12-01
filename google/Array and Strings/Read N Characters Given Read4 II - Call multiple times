@@ -1,0 +1,54 @@
+#
+class Solution(object):
+
+    def __init__(self):
+		self.lastread = []        
+		#we need a place to store readed but unused chars, like "bc" in "abc" when we only need one character "a" here.
+        
+    def read(self, buf, n):
+        """
+        :type buf: Destination buffer (List[str])
+        :type n: Maximum number of characters to read (int)
+        :rtype: The number of characters read (int)
+        """
+        if n == 0:
+            return 0
+        
+        totalread = 0
+        
+        #deal with last read:
+        ll = len(self.lastread)
+        if n < ll: 
+            buf[:n] = self.lastread[:n]
+            self.lastread = self.lastread[n:]
+            return n    #return buffered read
+        else:
+            buf[:ll] = self.lastread[:]
+            n -= ll
+            self.lastread = []
+            totalread = ll
+            
+        #read in a loop:
+        thisreadn = 4
+        while n >= 4 and thisreadn == 4:
+            tempbuf = [""]*4
+            thisreadn = read4(tempbuf)
+            buf[totalread : totalread + thisreadn] = tempbuf[:thisreadn]
+            totalread += thisreadn
+            n -= thisreadn
+        
+        #check condition:
+        if thisreadn < 4:   #run into EOF
+            return totalread
+        #n < 4 
+        tempbuf = [""]*4        
+        thisreadn = read4(tempbuf)
+        if thisreadn <= n:
+            buf[totalread : totalread+thisreadn] = tempbuf[:thisreadn]
+            return totalread + thisreadn
+        else:       #  -- save the unused chars
+            buf[totalread : totalread+n] = tempbuf[:n]
+            self.lastread = tempbuf[n:thisreadn]
+            return  totalread + n
+#
+#
