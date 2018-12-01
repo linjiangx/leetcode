@@ -1,0 +1,18 @@
+#
+from heapq import heappush, heappop
+class Solution:
+    def mergeKLists(self, lists):
+        head=current=ListNode(0)
+        q=[]
+        for l in lists:
+            if l:
+                heappush(q,(l.val,l))
+        while q:
+            value,current.next=heappop(q)
+            current=current.next
+            after=current.next
+            if after:
+                heappush(q,(after.val,after))
+        return head.next
+#
+#
