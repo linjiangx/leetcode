@@ -1,0 +1,39 @@
+#left find index==right find index,then is the index
+class Solution(object):
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        m = len(s)
+        for c in "abcdefghijklmnopqrstuvwxyz":
+            if s.find(c)!= -1 and s.find(c)==s.rfind(c):
+                m = min(m, s.find(c));
+        if m!=len(s):
+            return m;
+        return -1;
+        
+#
+class Solution(object):
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        dic={}
+        sLen=len(s)
+        if sLen==0:
+            return -1
+        for i in range(sLen):
+            if s[i] not in dic:
+                dic[s[i]]=i
+            else:
+                dic[s[i]]+=float('inf')
+        res=min(dic.values())
+        if res==float('inf'):
+            return -1
+        return res
+        
+#
+
+##
