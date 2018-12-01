@@ -1,0 +1,55 @@
+#
+class Solution(object):
+    def findMaxConsecutiveOnes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        max1=0
+        numsLen=len(nums)
+        if numsLen==0:
+            return 0
+        if numsLen==1:
+            if nums[0]==1:
+                return 1
+            else:
+                return 0
+        if nums[0]==1:
+            max1=1
+            con1=1
+        else:
+            max1=0
+            con1=0
+        for i in range(1,numsLen):
+            if nums[i]==1:
+                if nums[i]==nums[i-1]:
+                    con1+=1
+                else:
+                    con1=1
+                max1=max(con1,max1)
+            else:
+                con1=0
+        return max1
+        
+#
+class Solution:
+    def findMaxConsecutiveOnes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if nums[-1] != 0:
+            nums.append(0)
+        counter = 0
+        amountOnes = []
+        for i in nums:
+            if i == 1:
+                counter += 1
+            elif i == 0 and counter > 0:
+                amountOnes.append(counter)
+                counter = 0
+        if not amountOnes:
+            return 0
+        else:
+            return max(amountOnes)
+#
