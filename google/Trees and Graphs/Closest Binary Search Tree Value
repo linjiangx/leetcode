@@ -1,0 +1,88 @@
+#
+class Solution(object):
+    def closestValue(self, root, target):
+        """
+        :type root: TreeNode
+        :type target: float
+        :rtype: int
+        """
+        r = root.val
+        
+        while root:
+            if abs(root.val - target) < abs(r - target):
+                r = root.val
+            if root.val > target:
+                root = root.left
+            else:
+                root = root.right
+        
+        return r
+##
+class Solution(object):
+    def closestValue(self, root, target):
+        """
+        :type root: TreeNode
+        :type target: float
+        :rtype: int
+        """
+        # Time: O(log(n))
+        
+        def closestValueHelper(root):
+            if not root:
+                return 
+            if abs(root.val-target) < self.minValue:
+                self.minValue = abs(root.val-target) 
+                self.answer = root.val
+            if root.val> target:
+                closestValueHelper(root.left)
+            else:
+                closestValueHelper(root.right)
+        
+        self.minValue= float('inf')
+        self.answer = root.val
+        closestValueHelper(root)
+        return self.answer
+        '''
+        # Iterative
+        minDifferance = float('inf')
+        answer = root.val # Or 0
+        
+        while root:
+            if abs(root.val - target) < minDifferance:
+                minDifferance = abs(root.val - target)
+                answer = root.val
+            if root.val > target:
+                root = root.left
+            else:
+                root= root.right
+        return answer
+        '''
+    
+#
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def closestValue(self, root, target):
+        """
+        :type root: TreeNode
+        :type target: float
+        :rtype: int
+        """
+        list1=self.helper(root)
+        list2=[abs(x-target) for x in list1]
+        index=list2.index(min(list2))
+        return list1[index]
+        
+    def helper(self,root):
+        if not root:
+            return []
+        return self.helper(root.left)+[root.val]+self.helper(root.right)
+        
+#
+#
+#
