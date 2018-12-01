@@ -1,0 +1,75 @@
+#
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        curr=root
+        currstack=[]
+        while curr:
+            if curr.left:
+                currleft=curr.left
+                while currleft.right:
+                    currleft=currleft.right
+                currleft.right=curr
+                curr=curr.left
+                currleft.right.left=None
+            elif curr.right:
+                if curr.val>=curr.right.val or (currstack and curr.val<=currstack[-1]):
+                   return False
+                currstack.append(curr.val)
+                curr=curr.right
+            else:
+                return True
+        return True
+#
+class Solution(object):
+    
+    def helper(self, root, low, high):
+        if not root: return True
+        if not low < root.val < high:
+            return False
+        
+        left = self.helper(root.left, low, root.val)
+        right = self.helper(root.right, root.val, high)
+        
+        return left and right
+        
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        return self.helper(root, float('-inf'), float('inf'))
+#
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        lis=self.helper(root)
+        l=len(lis)
+        if l<2:
+            return True
+        for i in range(1,l):
+            if lis[i]<=lis[i-1]:
+                return False
+        return True
+        
+    def helper(self,root):
+        if not root:
+            return []
+        return self.helper(root.left)+[root.val]+self.helper(root.right)
+        
+#
+#
+#
