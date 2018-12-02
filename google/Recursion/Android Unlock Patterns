@@ -1,0 +1,100 @@
+#
+class Solution(object):
+    def numberOfPatterns(self, m, n, patterns=[['']]):
+        while len(patterns) <= n:
+            bad = '[^2]*(13|31)|[^4]*(17|71)|[^8]*(79|97)|[^6]*(39|93)|[^5]*(19|28|37|46|64|73|82|91)'
+            bad = re.compile(bad).match
+            patterns += [p + d for p in patterns[-1] for d in '123456789'
+                         if d not in p and not bad(p + d)],
+        return sum(map(len, patterns[m:n + 1]))
+####
+class Solution(object):
+    def numberOfPatterns(self, m, n):
+        dp = [9,56,320,1624,7152,26016,72912,140704,140704];
+        sums = 0;
+        for i in range(m-1,n):
+            sums += dp[i]
+        return sums
+#
+class Solution(object):
+    def numberOfPatterns(self, m, n):
+        """
+        :type m: int
+        :type n: int
+        :rtype: int
+        """
+        visited = [0] * 10 # we have 9 keys (and we want to have index = number)
+        panel = [[0] * 10 for _ in range(10)]
+        panel[1][3] = panel[3][1] = 2
+        panel[4][6] = panel[6][4] = 5
+        panel[7][9] = panel[9][7] = 8
+        panel[1][7] = panel[7][1] = 4
+        panel[2][8] = panel[8][2] = 5
+        panel[3][9] = panel[9][3] = 6
+        panel[1][9] = panel[9][1] = 5
+        panel[3][7] = panel[7][3] = 5
+        
+        cache = {} # need to memoize some of the solutions
+        res = 0 
+        for r in range(m, n + 1):
+            res += self.dfs(r - 1, 1, panel, visited, cache) * 4
+            res += self.dfs(r - 1, 2, panel, visited, cache) * 4
+            res += self.dfs(r - 1, 5, panel, visited, cache) * 1
+        
+        return res
+    
+    def dfs(self, n_remain, curr, panel, visited, cache):
+        if n_remain == 0:
+            return 1
+        
+        k = (n_remain, curr, tuple(visited))
+        
+        if k in cache:
+            return cache[k]
+        
+        res = 0 
+        visited[curr] = 1
+        
+        for nxt in range(1, 10):
+            if visited[nxt] == 0 and (panel[curr][nxt] == 0  or (visited[panel[curr][nxt]] == 1)):
+                tmp = self.dfs(n_remain - 1, nxt, panel, visited, cache)
+                res += tmp 
+        
+        visited[curr] = 0
+        cache[k] = res 
+        return res 
+#
+class Solution(object):
+    def numberOfPatterns(self, m, n):
+        """
+        :type m: int
+        :type n: int
+        :rtype: int
+        """
+        stack = collections.defaultdict(int)
+        i, out = 0, 0
+        while i < n:
+            if not stack:
+                for j in range(9):
+                    key = '0'*j + '1' + '0'*(8-j) + str(j)
+                    stack[key] += 1
+            else:
+                new = collections.defaultdict(int)
+                for key in stack:
+                    end = int(key[-1])
+                    for j in range(9):
+                        if key[j] == '0':
+                            r, c = j//3 + end//3, j % 3 + end % 3
+                            if r % 2 == 0 and c % 2 == 0:
+                                k = 3*(r//2)+(c//2)
+                                if key[k] == '1':
+                                    newkey = key[:j] + '1' + key[j+1:9] + str(j)
+                                    new[newkey] += stack[key]
+                            else:
+                                newkey = key[:j] + '1' + key[j+1:9] + str(j)
+                                new[newkey] += stack[key]
+                stack = new
+            i += 1
+            if i >= m:
+                out += sum(stack.values())
+        return out
