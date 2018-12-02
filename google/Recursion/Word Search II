@@ -1,0 +1,149 @@
+#
+class Solution:
+    # @param {character[][]} board
+    # @param {string[]} words
+    # @return {string[]}
+    def findWords(self, board, words):
+    #make trie
+        trie={}
+        for w in words:
+            t=trie
+            for c in w:
+                if c not in t:
+                    t[c]={}
+                t=t[c]
+            t['#']='#'
+        self.res=set()
+        self.used=[[False]*len(board[0]) for _ in range(len(board))]
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                self.find(board,i,j,trie,'')
+        return list(self.res)
+    
+    def find(self,board,i,j,trie,pre):
+        if '#' in trie:
+            self.res.add(pre)
+        if i<0 or i>=len(board) or j<0 or j>=len(board[0]):
+            return
+        if not self.used[i][j] and board[i][j] in trie:
+            self.used[i][j]=True
+            self.find(board,i+1,j,trie[board[i][j]],pre+board[i][j])
+            self.find(board,i,j+1,trie[board[i][j]],pre+board[i][j])
+            self.find(board,i-1,j,trie[board[i][j]],pre+board[i][j])
+            self.find(board,i,j-1,trie[board[i][j]],pre+board[i][j])
+            self.used[i][j]=False
+#
+class Solution(object):
+    import collections
+    def findWords(self, board, words):
+        """
+        :type board: List[List[str]]
+        :type words: List[str]
+        :rtype: List[str]
+        """
+        Trie = lambda:collections.defaultdict(Trie)
+        t = Trie()
+        for w in words:
+            p=t
+            for c in w:
+                p=p[c]
+            p['word'] = w
+        
+        R = len(board)
+        C = len(board[0]) if R >0 else 0
+        res = set()
+        def dfs(i,j,p):
+            c = board[i][j]
+            if c not in p:
+                return
+            else:
+                if 'word' in p[c]: res.add(p[c]['word'])                
+                board[i][j] = '#'
+                if i+1<R: dfs(i+1,j,p[c])
+                if i-1>=0: dfs(i-1,j,p[c])
+                if j+1<C: dfs(i,j+1,p[c])
+                if j-1>=0: dfs(i,j-1,p[c])
+                board[i][j] = c
+                
+        for i in range(R):
+            for j in range(C):
+                dfs(i,j,t)
+        return list(res)
+#
+class Solution(object):
+    def findWords(self, board, words):
+        """
+        :type board: List[List[str]]
+        :type words: List[str]
+        :rtype: List[str]
+        """
+#         class Trie(object):
+#             def __init__(self):
+#                 self.next = [Trie()] * 26
+                
+        
+        def buildtrie():
+            root = {}
+            # root = Trie()
+            for word in words:
+                if not word:
+                    continue
+                p = root
+                for c in word:
+                    if not c in p:
+                        p[c] = {}
+                    p = p[c]
+                    # i = ord(c) - ord('a')
+                    # if not p.next[i]:
+                    #     p.next[i] = Trie()
+                    # p = p.next[i]
+                p['end'] = word
+            return root
+        
+        def search(board, x, y, ans, d):
+            
+            c = board[x][y]
+            board[x][y] = '#'
+            left = right = up = down = False
+            if 'end' in d[c]:
+                ans.add(d[c]['end'])
+                
+            if x > 0 and board[x-1][y] in d[c]:
+                search(board, x-1, y, ans, d[c])
+                
+            if x < len(board)-1 and board[x+1][y] in d[c]:
+                search(board, x+1, y, ans, d[c])
+                
+            if y > 0 and board[x][y-1] in d[c]:
+                search(board, x, y-1, ans, d[c])
+            
+            if y < len(board[0])-1 and board[x][y+1] in d[c]:
+                search(board, x, y+1, ans, d[c])   
+            
+            board[x][y] = c
+            
+            
+
+        lo = [[] for _ in range(26)]
+        m = len(board)
+        n = len(board[0])
+        for i in range(m):
+            for j in range(n):
+                lo[ord(board[i][j]) - ord('a')].append((i,j))
+        
+        trie = buildtrie()
+        ans = set()
+        
+        for c in trie:
+            idx = ord(c) - ord('a')
+            for el in lo[idx]:
+                print(el)
+                x,y = el
+                c = board[x][y]
+                res = search(board, x, y, ans, trie)
+                board[x][y] = c
+
+        
+
+       
+        return list(ans)
