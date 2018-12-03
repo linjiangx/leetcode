@@ -1,0 +1,69 @@
+#
+class Solution(object):
+    def maxVacationDays(self, flights, days):
+        """
+        :type flights: List[List[int]]
+        :type days: List[List[int]]
+        :rtype: int
+        """
+        last = [(0, 0)]*len(days[0])
+     
+        for week in range(len(days[0])):
+            tmp = []
+            for currCity in range(len(flights)):   
+                for prev in last:
+                    if (prev[1] == currCity or flights[prev[1]][currCity] == 1):
+                        tmp += [(prev[0]+days[currCity][week], currCity)]
+                        break
+            last = sorted(tmp, reverse=True)
+        return last[0][0]
+
+#
+class Solution(object):
+    def maxVacationDays(self, flights, days):
+        answers = {}
+
+        def solve(week, city):
+            if week == len(days[0]): return 0
+            if answers.get((week, city)) is None:
+                answers[(week, city)] = max([solve(week + 1, j) + days[j][week]
+                                             for j in range(len(flights)) if (flights[city][j] or j == city)])
+            return answers[(week, city)]
+
+        return solve(0, 0)
+#
+class Solution(object):
+    def maxVacationDays(self, flights, days):
+        """
+        :type flights: List[List[int]]
+        :type days: List[List[int]]
+        :rtype: int
+        """
+        if not days:
+            return 0
+
+        n = len(days)
+        k = len(days[0])
+        dp = [[-9999999999 for i in range(n)] for week in range(k)]
+
+        last = []
+        for week in range(k):
+            tmp = []
+            for i in range(n):
+                if week == 0:
+                    if flights[0][i] or i == 0:
+                        dp[0][i] = days[i][0]
+                else:
+                    for pair in last:
+                        j = pair[1]
+                        if flights[j][i] or j == i:
+                            dp[week][i] = dp[week - 1][j] + days[i][week]
+                            break
+        
+                tmp.append((dp[week][i], i))
+            
+            last = sorted(tmp, reverse=True)
+        
+        return last[0][0]
+
+#
