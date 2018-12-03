@@ -1,0 +1,47 @@
+#
+#
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        dp = [False for i in range(len(s))]   
+        for i in range(len(s)):
+            if i - 1 < 0 or dp[i-1] == True:
+                for w in wordDict:
+                    if s[i] == w[0] and i + len(w) <= len(s) and s[i:i+len(w)] == w:
+                        dp[i+len(w)-1] = True
+        return dp[-1]
+
+#
+def _make_trie(words):
+    root = dict()
+    for word in words:
+        current_dict = root
+        for letter in word:
+            current_dict = current_dict.setdefault(letter, {})
+        current_dict['*'] = '*'
+    return root
+
+def _next_to_look(trie, i, s):
+        ntl = set()
+        while (i < len(s) and s[i] in trie):
+            trie = trie[s[i]]
+            if '*' in trie:
+                ntl.add(i+1)
+            i += 1
+        return ntl
+
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        """
+        trie = _make_trie(wordDict)
+        ntl = set([0])
+        while len(ntl):
+            i = ntl.pop()
+            if i >= len(s):
+                return True
+            ntl |= _next_to_look(trie, i, s)
+        return False
+#
