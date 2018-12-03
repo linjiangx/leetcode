@@ -1,0 +1,39 @@
+#
+class Solution(object):
+    def nextGreaterElement(self, findNums, nums):
+        """
+        :type findNums: List[int]
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        res, stack = {}, []
+        for num in nums:
+            while stack and stack[-1] < num:
+                res[stack.pop()] = num
+            stack.append(num)
+
+        return [res[x] if x in res else -1 for x in findNums]
+#
+
+#
+class Solution(object):
+    def nextGreaterElement(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        res = []
+        for i in range(len(nums1)):
+            nums2_index = nums2.index(nums1[i])
+            while nums2_index + 1 <= len(nums2):
+                if nums2_index == len(nums2) - 1:
+                    res.append(-1)
+                    break
+                else:
+                    nums2_index += 1
+                    if nums2[nums2_index] > nums1[i]:
+                        res.append(nums2[nums2_index])
+                        break
+        return res
+#
