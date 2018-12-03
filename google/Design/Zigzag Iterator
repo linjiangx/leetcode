@@ -1,0 +1,16 @@
+#
+
+#
+#
+class ZigzagIterator(object):
+
+    def __init__(self, v1, v2):
+        self.vectors = [(len(v), iter(v)) for v in (v2, v1) if v]
+
+    def next(self):
+        left, iterator = self.vectors.pop()
+        if left > 1: self.vectors.insert(0, (left - 1, iterator))
+        return iterator.next()
+
+    def hasNext(self):
+        return bool(self.vectors)
