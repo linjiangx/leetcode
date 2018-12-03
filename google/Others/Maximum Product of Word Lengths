@@ -1,0 +1,45 @@
+#
+from itertools import combinations
+class Solution(object):
+    def maxProduct(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        d = {}
+        for w in words:
+            mask = 0
+            for c in set(w):
+                mask |= (1 << (ord(c) - ord("a")))
+            d[mask] = max(d.get(mask, 0), len(w))
+        max_len = 0
+        for a,b in combinations(d, 2):
+            if not a&b:
+                max_len = max(max_len,d[a]*d[b])
+        return max_len
+#
+class Solution(object):
+    def maxProduct(self, words):
+        d = {}
+        for w in words:
+            mask = 0
+            for c in set(w):
+                mask |= (1 << (ord(c) - 97))
+            d[mask] = max(d.get(mask, 0), len(w))
+        return max([d[x] * d[y] for x in d for y in d if not x & y] or [0])
+    """
+    说明：
+1）把每一个单词，都转化为二进制数，规则是把26个英文字母映射到二进制数的每一位，例如a映射到第0位、b第一位。如果一个数是abc，那么这个数是00，0000，0000，0000，0000，0000，0111。
+2）进行这个操作是通过二进制移位，然后或上本身，fword |= 1 << ord(letter) - ord('a')，当letter是b时，ord（letter）-ord（'a'）等于1，把1往左移1位（其实就是把第二位变成了1、即存在b，第二位变为1）。
+3）两个数不同是通过a & b = 0来实现的，因为没有相同字母，意味着两个数在任意一位上，都不同（0和1），而0&1 = 0
+
+#
+class Solution(object):
+    def maxProduct(self, words):
+        d = {}
+        for w in words:
+            mask = 0
+            for c in set(w):
+                mask |= (1 << (ord(c) - 97))
+            d[mask] = max(d.get(mask, 0), len(w))
+        return max([d[x] * d[y] for x in d for y in d if not x & y] or [0])
