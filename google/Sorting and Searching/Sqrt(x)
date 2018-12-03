@@ -1,0 +1,27 @@
+#
+class Solution(object):
+    def mySqrt(self, x):
+        left,right=0,x
+        mid=(left+right)//2
+        while left<right:
+            if (mid+1)**2<=x:
+                left=mid+1
+            elif mid**2>x:
+                right=mid-1
+            else:
+                return mid
+            mid = (left+right)//2
+        return mid
+        
+#
+from math import sqrt
+class Solution(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        return int(sqrt(x))
+#
+#
+#
