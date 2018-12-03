@@ -1,0 +1,84 @@
+#
+class Solution(object):
+    def wordsTyping(self, sentence, rows, cols):
+        """
+        :type sentence: List[str]
+        :type rows: int
+        :type cols: int
+        :rtype: int
+        """
+        '''2 17'''
+        '''00 01 02 03 04 05 06 07 08 09 10  11 12 13 14 15 16 17'''
+        '''h  e  l  l  o     w  o  r  l  d      h  e  l  l  o    '''
+        word_lens = [len(word)+1 for word in sentence]
+        sentence_len = sum(word_lens)
+        cols += 1
+        result = rows * ((cols) // sentence_len)
+        cols = cols % sentence_len
+        
+        if cols <= 1: return result
+        for word_len in word_lens:
+            if word_len > cols:
+                return result
+        
+        row_visited, visited = False, {}
+        row, i, n = 1, 0, len(word_lens)
+        while row <= rows:
+            remaining = cols
+            while word_lens[i % n] <= remaining:
+                remaining -= (word_lens[i % n])
+                i += 1
+            
+            if not row_visited:
+                if i % n not in visited:
+                    visited[i % n] = (row, i // n)
+                else:
+                    row_visited = True
+                    row_diff = row - visited[i % n][0]
+                    result_diff = i // n - visited[i % n][1]
+                    result += ((rows-row) // row_diff)*result_diff
+                    row = rows - (rows-row) % row_diff
+            row += 1
+        return result + i // n
+#
+#
+class Solution:
+    def wordsTyping(self, sentence, rows, cols, test=True):
+        """
+        :type sentence: List[str]
+        :type rows: int
+        :type cols: int
+        :rtype: int
+        """
+        p = 0
+        l = len(sentence)
+        res = 0
+        n = 0
+        phase = {}
+        for _ in range(rows):
+            remain = cols
+            line = []
+            lp = len(' '.join(sentence)) + 1
+            lr = remain // (lp)
+            remain = cols - lr * lp
+            res += lr
+            while remain >= len(sentence[p]):
+                remain -= len(sentence[p]) + 1 
+                line.append(sentence[p])
+                if p + 1 == l :
+                    p = 0
+                    res += 1
+                else:
+                    p = p + 1
+            if test and tuple(line+[p]) in phase:
+                period, t = n - phase[tuple(line+[p])][0], res - phase[tuple(line+[p])][1]
+                pre = n
+                rep = (rows - pre ) // period
+                post = (rows - pre ) % period
+                # print(period, t, phase[tuple(line)][0])
+                return rep * t + self.wordsTyping(sentence, pre+post, cols, test=False)
+            phase[tuple(line+[p])] = (n, res)
+            n += 1
+            # print(line)
+        return res 
+#
