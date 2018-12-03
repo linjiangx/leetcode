@@ -1,0 +1,60 @@
+#
+from bisect import bisect_left
+
+def i_lt(self, other):
+    return self.start < other.start
+
+Interval.__lt__ = i_lt
+
+class Solution(object):
+    def insert(self, intervals, newInterval):
+        if not intervals:
+            return [newInterval]
+
+        a = intervals
+
+        x = newInterval.start
+        y = newInterval.end
+
+        i = bisect_left(intervals, Interval(x,x))
+        j = bisect_left(intervals, Interval(y,y), i)
+
+        I = i-1 if i > 0 and x <= a[i-1].end else i
+        J = j-1 if j == len(a) or y < a[j].start else j
+
+        if I > J or J < 0 or I >= len(a):
+            return a[:i] + [newInterval] + a[i:]
+
+        X = min(x, a[I].start)
+        Y = max(y, a[J].end)
+
+        return a[:I] + [Interval(X, Y)] + a[J+1:]
+#
+#
+# Definition for an interval.
+# class Interval(object):
+#     def __init__(self, s=0, e=0):
+#         self.start = s
+#         self.end = e
+
+class Solution(object):
+    def insert(self, intervals, n):
+        """
+        :type intervals: List[Interval]
+        :type newInterval: Interval
+        :rtype: List[Interval]
+        """
+        intervals.append(n)
+        intervals = sorted(intervals, key=lambda t: t.start)
+        res = []
+        for intr in intervals:
+            if not res:
+                res.append(intr)
+                continue
+            
+            if intr.start <= res[-1].end:
+                res[-1].end = max(intr.end, res[-1].end)
+            else:
+                res.append(intr)
+        return res
+#
