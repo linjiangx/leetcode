@@ -1,16 +1,37 @@
-#将重复的pop掉，核心思想是时刻与前面的对比
-class Solution(object):
+#1.将重复的pop掉，核心思想是时刻与前面的对比，复杂度O(n^2)
+class Solution:
     def removeDuplicates(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        if not nums:
-            return 0
-        j = 1
-        for i in range(1,len(nums)):
-            if nums[i]!=nums[i-1]:
-                nums[j] = nums[i]
-                j += 1
-            #print i,j
-        return j
+        numsLen = len(nums)
+        if numsLen <= 1:
+            return numsLen
+        i = 1
+        while i < numsLen:
+            if nums[i] == nums[i - 1]:
+                nums.pop(i)
+                numsLen -= 1
+            else:
+                i += 1
+        return numsLen
+        
+#2.双指针，用新的不重复的元素去覆盖旧的重复的元素，复杂度O(n)
+class Solution:
+    def removeDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        numsLen = len(nums)
+        if numsLen <= 1:
+            return numsLen
+        cur = 0
+        for i in range(numsLen):
+            if nums[i] != nums[cur]:
+                cur += 1
+                nums[cur] = nums[i]
+        cur += 1
+        return cur
+
