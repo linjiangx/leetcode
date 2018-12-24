@@ -1,4 +1,4 @@
-#
+#先将范围加入list，再一次比较list前后元素，差距大于2的有箭头，差距为2的为单个数
 class Solution(object):
     def findMissingRanges(self, nums, lower, upper):
         """
