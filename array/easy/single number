@@ -1,4 +1,4 @@
-#字典，单个会被赋值1，2个会被赋值2，但是感觉字典也占用了额外空间
+#1.字典，单个会被赋值1，2个会被赋值2，但是感觉字典也占用了额外空间
 def singleNumber1(self, nums):
     dic = {}
     for num in nums:
@@ -7,14 +7,28 @@ def singleNumber1(self, nums):
         if val == 1:
             return key
 
-#异或，没有使用模块函数reduce
+#2.异或，没有使用模块函数reduce
 def singleNumber2(self, nums):
     res = 0
     for num in nums:
         res ^= num
     return res
 
-#数组变集合然后求和*2，最后减去原数组和
+#3.数组变集合然后求和*2，最后减去原数组和
 def singleNumber3(self, nums):
     return 2*sum(set(nums))-sum(nums)
 
+#4.字典优化，可以减少部分空间需求，但是最坏情况下空间要求不变
+class Solution:
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        dic = {}
+        for num in nums:
+            if num not in dic:
+                dic[num] = num
+            else:
+                dic.pop(num)  # del dic[num]
+        return list(dic.keys())[0]
