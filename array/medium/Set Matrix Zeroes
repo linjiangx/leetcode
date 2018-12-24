@@ -19,46 +19,28 @@ class Solution:
 
 		    
 #2.当找到0时，将他所在行列所有非0元素设置为特定值如-11232131123，最后查找所有特定值重置为0
-class Solution(object):
-    def fillRowsLeft(self, matrix, i ,j):
-        while i >=0:
-            if matrix[i][j] != 0:
-                matrix[i][j] = -11232131123
-            i -=1
-    def fillRowsRight(self, matrix, i , j):
-        while i < len(matrix):
-            if matrix[i][j] != 0:
-                matrix[i][j] = -11232131123
-            i += 1
-    def fillColumnUp (self, matrix, i , j):
-        while j >= 0:
-            if matrix[i][j] != 0:
-                matrix[i][j] = -11232131123
-            j -=1
-    def fillColumnDown(self,matrix, i, j):
-        while j < len(matrix[0]):
-            if matrix[i][j] != 0:
-                matrix[i][j] = -11232131123
-            j += 1
-    def dfs(self, matrix, i , j):
-        if i < 0 or j < 0 or i >= len(matrix) or j >= len(matrix[0]):
-            return
-        self.fillColumnDown(matrix, i, j)         
-        self.fillColumnUp(matrix, i, j)
-        self.fillRowsLeft(matrix, i , j)
-        self.fillRowsRight(matrix, i , j)
+class Solution:
     def setZeroes(self, matrix):
         """
         :type matrix: List[List[int]]
         :rtype: void Do not return anything, modify matrix in-place instead.
         """
-        rows = len(matrix)
-        columns = len(matrix[0])
-        for i in range(rows):
-            for j in range(columns):
-                if matrix[i][j] == 0:
-                    self.dfs(matrix, i , j)
-        for i in range(rows):
-            for j in range(columns):
-                if matrix[i][j] == -11232131123:
-                    matrix[i][j] = 0
+
+        def setNones(row, col):
+            for i in range(len(matrix[row])):
+                if matrix[row][i] != 0:
+                    matrix[row][i] = None
+
+            for i in range(len(matrix)):
+                if matrix[i][col] != 0:
+                    matrix[i][col] = None
+
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] == 0:
+                    setNones(row, col)
+
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] is None:
+                    matrix[row][col] = 0
