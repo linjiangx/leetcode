@@ -1,14 +1,21 @@
-#判断List是否有任意三个元素按照递增排列
+#1.判断List是否有任意三个元素按照递增排列
 class Solution:
     def increasingTriplet(self, nums):
-        low, res = float('inf'), [float('inf'), float('inf')]
-        for i in range(len(nums)):
-            if nums[i] > res[-1]: return True
-            if nums[i] > low: res = [low, nums[i]]
-            low = min(low, nums[i])
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        first, second = float('inf'), float('inf')
+        for x in nums:
+            if x <= first:
+                first = x
+            elif x <= second:
+                second = x
+            else:
+                return True
         return False
 
-#这个方法可以找更长递增排序
+#2.这个方法可以找更长递增排序
 class Solution(object):
     def increasingTriplet(self, nums):
         sequence = []
