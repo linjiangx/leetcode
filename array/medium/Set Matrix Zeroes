@@ -1,26 +1,25 @@
-#时间O(M*N),空间O(M+N)
-class Solution(object):
+#1.存下需要设置的行列，时间O(M*N),空间O(M+N)
+class Solution:
     def setZeroes(self, matrix):
-					
-	rows = set()
-        columns = set()
-        
-        #First pass to check which rows and columns will need to be changed
-        for y in range(len(matrix)):
-            for x in range(len(matrix[0])):
-                if matrix[y][x] == 0:
-                    rows.add(y)
-                    columns.add(x)
-        
-        #Second pass to change rows and columns to zero values
-        for y in range(len(matrix)):
-            for x in range(len(matrix[0])):
-                if y in rows or x in columns:
-                    matrix[y][x] = 0
-		    
-#当找到0时，将他所在行列所有非0元素设置为特定值如-11232131123，最后查找所有特定值重置为0
-class Solution(object):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        row = set()
+        col = set()
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == 0:
+                    row.add(i)
+                    col.add(j)
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if i in row or j in col:
+                    matrix[i][j] = 0
 
+		    
+#2.当找到0时，将他所在行列所有非0元素设置为特定值如-11232131123，最后查找所有特定值重置为0
+class Solution(object):
     def fillRowsLeft(self, matrix, i ,j):
         while i >=0:
             if matrix[i][j] != 0:
