@@ -6,6 +6,7 @@ class Solution:
         :type strs: List[str]
         :rtype: List[List[str]]
         """
+        # sorted会将string转化为list
         sorted_words = (''.join(sorted(w)) for w in strs)
         ana_dict = {}
         for w, sw in zip(strs, sorted_words):
@@ -30,6 +31,7 @@ class Solution:
                 dic[aa[i]]=[strs[i]]  #这里开始就要构建list，不然后面无法append
             else:
                 dic[aa[i]].append(strs[i])
+        # return list(memo.values())一句顶四句
         res=[]
         for key in dic:
             res.append(dic[key])
