@@ -1,25 +1,37 @@
 #需要掌握二维数组创建a=[[0 for x in range(10)] for y in range(10)]
 #掌握列表替换：rep = ['4' if x == '1' else x for x in lst]，将List里面的1替换为4
-class Solution(object):
+#1.按顺序判断三个条件
+class Solution:
     def isValidSudoku(self, board):
         """
         :type board: List[List[str]]
         :rtype: bool
         """
-        
-        data = set()
         for i in range(9):
+            res = []
             for j in range(9):
                 if board[i][j] != '.':
-                    cur = board[i][j]
-                    if (i, cur) in data or (cur, j) in data or (i/3, j/3, cur) in data:
-                        return False
-                    data.add((i, cur))
-                    data.add((cur, j))
-                    data.add((i/3, j/3, cur))                  
+                    res.append(board[i][j])
+            if len(res) != len(set(res)):
+                return False
+        for i in range(9):
+            res = []
+            for j in range(9):
+                if board[j][i] != '.':
+                    res.append(board[j][i])
+            if len(res) != len(set(res)):
+                return False
+        for i in range(1, 9, 3):
+            for j in range(1, 9, 3):
+                res = []
+                for x, y in [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1], [0, 0]]:
+                    if board[i + x][j + y] != '.':
+                        res.append(board[i + x][j + y])
+                if len(res) != len(set(res)):
+                    return False
         return True
                         
-#这个可读性更高
+#2.这个可读性更高
 def isValidSudoku(self, board):
     return (self.is_row_valid(board) and
             self.is_col_valid(board) and
@@ -40,7 +52,7 @@ def is_col_valid(self, board):
 def is_square_valid(self, board):
     for i in (0, 3, 6):
         for j in (0, 3, 6):
-#这个地方值得参考来处理二维数组        
+            #这个地方值得参考来处理二维数组        
             square = [board[x][y] for x in range(i, i + 3) for y in range(j, j + 3)]
             if not self.is_unit_valid(square):
                 return False
