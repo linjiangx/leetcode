@@ -1,4 +1,4 @@
-#注意全9的情况
+#1.注意全9的情况
 class Solution:
     def plusOne(self, digits):
         """
@@ -17,7 +17,7 @@ class Solution:
         digits.reverse()
         return digits
 
-#数组转化为数字，加一后再转化为数组
+#2.数组转化为数字，加一后再转化为数组
 class Solution:
     def plusOne(self, digits):
         """
@@ -26,3 +26,25 @@ class Solution:
         """
         list = [int(x) for x in str(int(''.join(map(str, digits)))+1)]
         return list
+        
+#3.不反转，直接在原数组上操作
+class Solution:
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+        flag = 1
+        for i in range(len(digits) - 1, -1, -1):
+            digits[i] += flag
+            if digits[i] == 10:
+                digits[i] = 0
+                flag = 1
+            else:
+                flag = 0
+                break
+        if flag == 1:
+            digits.insert(0, 1)
+        return digits
+
+
