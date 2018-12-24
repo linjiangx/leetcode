@@ -20,3 +20,80 @@ class Solution:
                 dp = ''
         return len(ma)
 
+#2.2指针，start 和 i
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        start = -1
+        max = 0
+        d = {}
+        for i in range(len(s)):
+            if s[i] in d and d[s[i]] > start:
+                start = d[s[i]]
+                d[s[i]] = i
+            else:
+                d[s[i]] = i
+                if i - start > max:
+                    max = i - start
+        return max
+
+#3.2指针，当出现相同的元素时，移动左指针，同时对应字典value减1
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if len(s) <= 1:
+            return len(s)
+        left, right = 0, 1
+        le, ma = 1, 1
+        s_len = len(s)
+        dic = {}
+        dic[s[left]] = 1
+        while right < s_len:
+            if s[right] not in dic or dic[s[right]] == 0:
+                dic[s[right]] = 1
+                le += 1
+                ma = max(le, ma)
+                right += 1
+            else:
+                while s[right] in dic and dic[s[right]] >= 1:
+                    dic[s[left]] -= 1
+                    left += 1
+                    le -= 1
+                    if left == right and right < s_len - 1:
+                        right +=1
+                        le +=1
+                        dic[s[left]] = 1
+        return ma
+#4.这是方法1的说明版
+class Solution:
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if len(s) <= 1:
+            return len(s)
+        left, right = 0, 1
+        le, ma = 1, 1
+        s_len = len(s)
+        dic = {}
+        dic[s[left]] = left
+        while right < s_len:
+            if s[right] not in dic:
+                dic[s[right]] = right
+                le += 1
+                ma = max(le, ma)
+                right += 1
+            else:
+                left = dic[s[left]]+1
+                right = left +1
+                le =1
+                dic = {}
+                dic[s[left]] = left
+        return ma
