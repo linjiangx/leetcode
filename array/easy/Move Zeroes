@@ -6,28 +6,31 @@ class Solution:
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        le=len(nums)
-        i=0
-        while i<le:
-            if nums[i]==0:
+        le = len(nums)
+        i = 0
+        while i < le:
+            if nums[i] == 0:
                 nums.pop(i)
                 nums.append(0)
-                le-=1
+                le -= 1
             else:
-                i+=1
+                i += 1
 
 #将数组里非空的值往前面搬运
 #时间N，空间0
 class Solution:
     def moveZeroes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
         i = 0
         for num in nums:
             if num:
                 nums[i] = num
                 i += 1
-        while i < len(nums):
-            nums[i] = 0
-            i += 1
+        for j in range(i, len(nums)):
+            nums[j] = 0
             
 #traverse and swap last 0 and last non 0,记录最近的0位置并与当前的非0位置交换
 #时间N，空间0
