@@ -1,5 +1,5 @@
 #单词里的字母的种类和数目没有改变，只是改变了字母的排列顺序
-#先将原List单个元素分别排序，再与原List做一个zip，最后生成字典
+#1.先将原List单个元素分别排序，再与原List做一个zip，最后生成字典
 class Solution:
     def groupAnagrams(self, strs):
         """
@@ -14,7 +14,7 @@ class Solution:
             else: ana_dict[sw].append(w)
         return [ana_dict[k] for k in ana_dict]
         
-#这个容易理解点
+#2.这个容易理解点
 class Solution:
     def groupAnagrams(self, strs):
         """
@@ -37,19 +37,16 @@ class Solution:
             res.append(dic[key])
         return res
         
-#
+#3.最短
 class Solution:
     def groupAnagrams(self, strs):
         """
         :type strs: List[str]
         :rtype: List[List[str]]
         """
-        from collections import defaultdict
-        
+        from collections import defaultdict    
         mem = defaultdict(list)
-        
         for s in strs:
             temp=sorted(s)
             mem[''.join(temp)] += [s]
-        
         return list(mem.values())
