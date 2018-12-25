@@ -1,3 +1,4 @@
+#1.
 class Solution:
     def maxArea(self, height):
         """
@@ -16,4 +17,24 @@ class Solution:
                 area = height[j]*(j-i)
                 if area > maxarea: maxarea = area
                 j-=1
+        return maxarea
+        
+#2.这个方法多出来一步求Min，其实没必要，因为已经在if判断条件里面了，不过也很清晰
+class Solution:
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        height_len = len(height)
+        left, right = 0, height_len - 1
+        area = (right - left) * min(height[left], height[right])
+        maxarea = area
+        while left < right:
+            if height[left] <= height[right]:
+                left += 1
+            else:
+                right -= 1
+            area = (right - left) * min(height[left], height[right])
+            maxarea = max(area, maxarea)
         return maxarea
