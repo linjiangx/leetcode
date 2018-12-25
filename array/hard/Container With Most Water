@@ -1,4 +1,4 @@
-#1.
+#1.思想在于，两指针，只有移动对应height小的指针才有可能提高面积
 class Solution:
     def maxArea(self, height):
         """
