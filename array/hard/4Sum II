@@ -1,5 +1,4 @@
-
-#
+#1.
 class Solution:
     def fourSumCount(self, A, B, C, D):
         """
@@ -10,25 +9,21 @@ class Solution:
         :rtype: int
         """
         d1 = collections.Counter()
-        d2 = collections.Counter()
-        
+        d2 = collections.Counter()    
         for a in A:
             for b in B:
                 d1[a+b] += 1
-        
         for c in C:
             for d in D:
-                d2[c+d] += 1
-                
+                d2[c+d] += 1  
         res = collections.Counter()
         for k in d1:
             if -k in d2:
-                res[k] = d1[k] * d2[-k]
-                
+                res[k] = d1[k] * d2[-k]       
         return sum([val for val in res.values()])
         
         
-#将方法2里面的counter类换成字典表示
+#2.将方法1里面的counter类换成字典表示
 class Solution:
     def fourSumCount(self, A, B, C, D):
         """
@@ -40,25 +35,55 @@ class Solution:
         """
         dic1={}
         dic2={}
-        
         for a in A:
             for b in B:
                 if a+b not in dic1:
                     dic1[a+b]=1
                 else:
                     dic1[a+b]+=1
-        
         for c in C:
             for d in D:
                 if c+d not in dic2:
                     dic2[c+d]=1
                 else:
-                    dic2[c+d]+=1
-                    
-                
+                    dic2[c+d]+=1     
         res = 0
         for k in dic1:
             if -k in dic2:
-                res += dic1[k] * dic2[-k]
-                
+                res += dic1[k] * dic2[-k]     
         return res
+        
+#3.相比方法2多出了一个分别构建构建a.b.c.d的字典的过程，少了构建c.d的和的字典过程
+class Solution:
+    def fourSumCount(self, A, B, C, D):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :type C: List[int]
+        :type D: List[int]
+        :rtype: int
+        """
+        cnts = 0
+        dd = {}
+        aa = {}
+        bb = {}
+        cc = {}
+        for a in A:
+            aa[a] = aa.get(a, 0) + 1
+        for b in B:
+            bb[b] = bb.get(b, 0) + 1
+        for c in C:
+            cc[c] = cc.get(c, 0) + 1
+        for d in D:
+            dd[d] = dd.get(d, 0) + 1
+        ab = {}
+        for a, av in aa.items():
+            for b, bv in bb.items():
+                ab[a + b] = ab.get(a + b, 0) + av * bv
+
+        for c, cv in cc.items():
+            for d, dv in dd.items():
+                if -c - d in ab:
+                    cnts += ab[-c - d] * cv * dv
+        return cnts
+
