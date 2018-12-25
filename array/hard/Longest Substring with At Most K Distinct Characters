@@ -1,4 +1,4 @@
-#
+#1.每次进来新元素就更新字典，要么更新坐标，要么添加key.value
 class Solution(object):
     
     """
@@ -27,6 +27,51 @@ class Solution(object):
                 low += 1
             ret = max(i - low + 1, ret)
         return ret
-#
+#2.
+def lengthOfLongestSubstringKDistinct(s, k):
+    """
+    :type s: str
+    :rtype: int
+    """
+    if len(s) <= k:
+        return len(s)
+    if k == 0:
+        return 0
+    left, right = 0, k
+    le, ma = k, k
+    s_len = len(s)
+    dic = {}
+    for i in range(k):
+        if s[i] not in dic:
+            dic[s[i]] = 1
+        else:
+            dic[s[i]] += 1
+    diclen = len(dic)
+    while right < s_len:
+        if s[right] not in dic:
+            if len(dic) < k:
+                dic[s[right]] = 1
+                le += 1
+                ma = max(le, ma)
+                right += 1
+            else:
+                while len(dic) >= k:
+                    if dic[s[left]] > 1:
+                        dic[s[left]] -= 1
+                        left += 1
+                        le -= 1
+                    else:
+                        del dic[s[left]]
+                        left += 1
+                        le -= 1
+        else:
+            dic[s[right]] += 1
+            right += 1
+            le += 1
+            ma = max(le, ma)
+    return ma
+
+
+print(lengthOfLongestSubstringKDistinct("eceba", 2))
 
 #
