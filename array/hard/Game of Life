@@ -19,7 +19,6 @@ class Solution:
         for i in range(len(board)):
             for j in range(len(board[0])):
                 judge(i,j)
-        
         for pair in changeList:
             x, y = pair[0], pair[1]
             board[x][y] = 1 if board[x][y] == 0 else 0
