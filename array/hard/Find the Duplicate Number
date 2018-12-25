@@ -5,19 +5,14 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        return (sum(nums) - sum(set(nums)))/(len(nums)-len(set(nums)))
+        return int((sum(nums)-sum(set(nums)))/(len(nums)-len(set(nums))))
         
 #
-class Solution(object):
+class Solution:
     def findDuplicate(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        if nums:
-            store = 0
-            for n in nums:
-                if 1 << n & store:
-                    return n
-                store = store | 1 << n
-        return -1
+        n = len(nums)
+        for num in nums:
+            if nums[abs(num)] < 0:
+                return abs(num)
+            else:
+                nums[abs(num)] *= -1
