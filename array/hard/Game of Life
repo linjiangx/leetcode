@@ -1,4 +1,4 @@
-#
+#关键在于changelist，统计所有会改变的点
 class Solution:
     def gameOfLife(self, board):
         changeList = set()
