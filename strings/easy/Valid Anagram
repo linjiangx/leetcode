@@ -1,4 +1,4 @@
-#先生成字典，再判断字典是否一样，顺序是：长度、键、键值
+#1.先生成字典，再判断字典是否一样，顺序是：长度、键、键值
 class Solution:
     def isAnagram(self, s, t):
         """
@@ -29,9 +29,10 @@ class Solution:
                     res=False
         return res
 
-#一行代码，排序
+#2.一行代码，排序
 return True if s is None or t is None else sorted(s) == sorted(t)
 
+#3.统计所有26字母的数量，都一样就正确
 class Solution(object):
     def isAnagram(self, s, t):
         """
