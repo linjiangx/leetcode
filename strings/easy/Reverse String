@@ -1,3 +1,16 @@
-
-#直接将原str逆序返回
+#1.直接将原str逆序返回
 return s[::-1]
+
+#2.
+class Solution:
+    def reverseString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+
+        a = list(s)
+        a.reverse()
+        s = ''.join(a)
+        return s
+
