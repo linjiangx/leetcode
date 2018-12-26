@@ -1,4 +1,4 @@
-#
+#1.复杂度O（N*K)
 class Solution:
     def maxSlidingWindow(self, nums, k):
         if len(nums) == 0 or len(nums) - k < 0:
@@ -24,5 +24,36 @@ class Solution:
             ans[i] = nums[last_maximum_index]
         return ans
 
-#
-#
+#2.
+class Solution:
+    def maxSlidingWindow(self, nums, k):
+        d = collections.deque()
+        out = []
+        for i, n in enumerate(nums):
+            while d and nums[d[-1]] < n:
+                d.pop()
+            d.append(i)
+            if d[0] == i - k:
+                d.popleft()
+            if i >= k - 1:
+                out.append(nums[d[0]])
+        return out
+        
+#3.这个复杂度O（N*K）
+class Solution:
+    def maxSlidingWindow(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        if len(nums) == 0:
+            return(nums)
+        # Not quite linear, but I could refresh only when I see a value outside the window
+        maxes = []
+        curMax = None
+        for i in range(len(nums)-k+1):
+            if curMax is None or nums[i-1] == curMax or nums[i+k-1] >= curMax:
+                curMax = max(nums[i:k+i])
+            maxes.append(curMax)  
+        return(maxes)
