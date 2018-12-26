@@ -1,36 +1,15 @@
-#题目规定只有小写字母
+#左右查找对应字母，index一致证明只出现一次
 class Solution(object):
     def firstUniqChar(self, s):
-
         minIndex = len(s)
         for c in "abcdefghijklmnopqrstuvwxyz":
             l = s.find(c)
             r = s.rfind(c)
             if l != -1 and l == r:
                 minIndex = min(minIndex, l)
-
         return minIndex if minIndex < len(s) else -1
-
-
-        
+ 
 #字典的方法，如果没有重复就给当前坐标值，重复的话给-1
-class Solution(object):
-    def firstUniqChar(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        n = len(s)
-        dic = {}
-        for i in range(n):
-            if s[i] not in dic:
-                dic[s[i]] = i
-            else:
-                dic[s[i]] = -1
-        res = list(filter(lambda x: x >= 0, dic.values()))
-        return min(res) if res else -1
-
-#不使用lambda
 class Solution:
     def firstUniqChar(self, s):
         """
@@ -49,3 +28,21 @@ class Solution:
             if dic[a]>=0:
                 lis.append(dic[a])
         return min(lis) if lis else -1
+        
+#
+class Solution:
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        dic = {}
+        for i in range(len(s)):
+            if s[i] not in dic:
+                dic[s[i]] = [i]
+            else:
+                dic[s[i]].append(i)
+        for key in dic:
+            if len(dic[key])==1:
+                return dic[key][0]
+        return -1
