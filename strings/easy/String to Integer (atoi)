@@ -17,3 +17,22 @@ class Solution:
             if n<0 or n>9: break
             result = result*10+n
         return min(max(result*sign if sign else result,-2**31),2**31-1)
+
+#2.
+import re
+class Solution(object):
+    def myAtoi(self, str):
+        """
+        :type str: str
+        :rtype: int
+        """
+        res = 0
+        pattern = r"[\s]*[+-]?[\d]+"
+        match = re.match(pattern, str)
+        if match:
+            res = int(match.group(0))
+            if res > 2 ** 31 - 1:
+                res = 2 ** 31 -1
+            if res < - 2 ** 31:
+                res = - 2 ** 31
+        return res
