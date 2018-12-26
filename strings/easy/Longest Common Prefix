@@ -1,6 +1,4 @@
 #求最长前缀，注意三个边界：1.strs为空，2.后面的字符串比第一个短，3.当出现不一样的字符时break
-
-#
 class Solution:
     def longestCommonPrefix(self, strs):
         """
