@@ -1,0 +1,49 @@
+#补0法
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def addTwoNumbers(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        cur = head = ListNode(0)
+        a, b = l1, l2
+        len1 = len2 = 1
+        while a.next:
+            a = a.next
+            len1 += 1
+        while b.next:
+            b = b.next
+            len2 += 1
+        flag = 0
+        if len1 < len2:
+            for i in range(len2 - len1):
+                a.next = ListNode(0)
+                a = a.next
+        else:
+            for i in range(len1 - len2):
+                b.next = ListNode(0)
+                b = b.next
+        for i in range(max(len1,len2)):
+            res = l1.val + l2.val + flag
+            if res >= 10:
+                res -= 10
+                flag = 1
+            else:
+                flag = 0
+            l1 = l1.next
+            l2 = l2.next
+            node = ListNode(res)
+            cur.next = node
+            cur = node
+        if flag:
+            cur.next = ListNode(1)
+        return head.next
+#
+#
