@@ -1,0 +1,39 @@
+#
+class Solution:
+    def myAtoi(self, str):
+        """
+        :type str: str
+        :rtype: int
+        """
+        flag = 2
+        res = ''
+        for x in str:
+            if x == '-' and res == '':
+                if flag == 2:
+                    flag = 0
+                else:
+                    return 0
+            elif x == '+' and res == '':
+                if flag == 2:
+                    flag = 1
+                else:
+                    return 0
+            elif x == ' ' and res == '' and flag ==2:
+                continue
+            elif x in '1234567890':
+                res += x
+            else:
+                break
+        if res == '':
+            return 0
+        num = int(res) if flag else -int(res)
+        if num < -pow(2,31):
+            return -pow(2,31)
+        elif num > pow(2,31) - 1:
+            return pow(2,31) - 1
+        else:
+            return num
+            
+            
+        
+#
