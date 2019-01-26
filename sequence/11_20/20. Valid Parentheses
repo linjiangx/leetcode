@@ -1,0 +1,28 @@
+#Runtime: 32 ms, faster than 100.00% of Python3 online submissions for Valid Parentheses.
+#
+#
+class Solution:
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        res = []
+        for x in s:
+            if x in ['(','[','{']:
+                res.append(x)
+            else:
+                if len(res) == 0:
+                    return False
+                cur = res.pop()
+                if x == ')' and cur == '(':
+                    continue
+                elif x == ']' and cur == '[':
+                    continue
+                elif x == '}' and cur == '{':
+                    continue
+                else:
+                    return False
+        if len(res) == 0:
+            return True
+        return False
