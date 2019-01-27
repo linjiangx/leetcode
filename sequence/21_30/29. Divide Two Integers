@@ -1,0 +1,26 @@
+#
+#
+class Solution:
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        if dividend * divisor > 0:
+            flag = 1
+        else:
+            flag = 0
+        dividend = abs(dividend) 
+        divisor = abs(divisor)
+        res = 0
+        for i in range(32)[::-1]:
+            if dividend >> i >= divisor:
+                res += 1 << i
+                dividend -= divisor <<i
+        res = res if flag else -res
+        if res >= -pow(2,31) and res <= pow(2,31) - 1:
+            return res
+        else:
+            return pow(2,31) - 1
+            
