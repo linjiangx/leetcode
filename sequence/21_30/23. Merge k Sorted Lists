@@ -1,0 +1,33 @@
+#
+from heapq import heappush, heappop
+class Solution:
+    def mergeKLists(self, lists):
+        head=current=ListNode(0)
+        q=[]
+        for l in lists:
+            if l:
+                heappush(q,(l.val,l))
+        while q:
+            value,current.next=heappop(q)
+            current=current.next
+            after=current.next
+            if after:
+                heappush(q,(after.val,after))
+        return head.next
+#
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        self.nodes = []
+        head = point = ListNode(0)
+        for l in lists:
+            while l:
+                self.nodes.append(l.val)
+                l = l.next
+        for x in sorted(self.nodes):
+            point.next = ListNode(x)
+            point = point.next
+        return head.next
