@@ -1,0 +1,32 @@
+#
+#
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def swapPairs(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        pre = head
+        if not head:
+            return None
+        cur = head.next
+        if not cur:
+            return head
+        pre.next = cur.next
+        cur.next = pre
+        head = cur
+        pre2 = pre
+        while pre2.next and pre2.next.next:
+            pre = pre2.next
+            cur = pre2.next.next
+            pre.next = cur.next
+            cur.next = pre
+            pre2.next = cur
+            pre2 = pre
+        return head
