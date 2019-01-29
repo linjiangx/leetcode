@@ -1,0 +1,25 @@
+#
+#
+class Solution:
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        if len(height) < 3:
+            return 0
+        max_height = max(height)
+        max_index = height.index(max_height)
+        res = 0
+        leftmax, rightmax = 0, 0
+        for i in range(max_index):
+            if height[i] > leftmax:
+                leftmax = height[i]
+            else:
+                res += leftmax - height[i]
+        for i in range(len(height) - 1, max_index, -1):
+            if height[i] > rightmax:
+                rightmax = height[i]
+            else:
+                res += rightmax - height[i]
+        return res
