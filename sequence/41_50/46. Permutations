@@ -1,0 +1,22 @@
+#
+#
+class Solution:
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        res = []
+        
+        def helper(pre, remaining):
+            if not remaining:
+                res.append(pre)
+            else:
+                for x in remaining:
+                    new_remaining = remaining.copy()    #这里新生成一个remaining, 避免原值直接多次remove变空了
+                    new_remaining.remove(x)
+                    helper(pre + [x], new_remaining)
+                    
+        helper([], nums)
+        return res
+        
