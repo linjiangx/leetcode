@@ -1,0 +1,26 @@
+#Runtime: 36 ms, faster than 100.00% of Python3 online submissions for Count and Say.
+#
+class Solution:
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        cur = '1'
+        for i in range(n - 1):
+            new = ''
+            cur_num = cur[0]
+            cur_len = len(cur)
+            count = 1
+            for j in range(1, cur_len):
+                if cur[j] == cur[j - 1]:
+                    count += 1
+                else:
+                    new += str(count) + str(cur_num)
+                    cur_num = cur[j]
+                    count = 1
+            new += str(count) + str(cur_num)
+            cur = new
+        return cur
+                    
+            
