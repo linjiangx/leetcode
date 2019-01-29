@@ -1,0 +1,21 @@
+##
+#
+class Solution:
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        str1 = strs[:]
+        for i in range(len(strs)):
+            str1[i] = ''.join(sorted(strs[i]))
+        dic = {}
+        for i in range(len(strs)):
+            if str1[i] not in dic:
+                dic[str1[i]] = [strs[i]]
+            else:
+                dic[str1[i]].append(strs[i])
+        res = []
+        for key in dic:
+            res.append(dic[key])
+        return res
