@@ -1,0 +1,26 @@
+#
+#
+class Solution:
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        res = []
+        n = len(nums)
+        cur_list = []
+        nums.sort()
+        
+        def backtracking(cur_list, rest_nums):
+            if (len(cur_list) == n):
+                res.append(cur_list)
+                return
+            
+            for i in range(len(rest_nums)):
+                if i == 0 or rest_nums[i] != rest_nums[i-1]:
+                    new_restnums = rest_nums.copy()
+                    new_restnums.remove(rest_nums[i])
+                    backtracking(cur_list + [rest_nums[i]], new_restnums)
+                
+        backtracking(cur_list, nums)
+        return res
