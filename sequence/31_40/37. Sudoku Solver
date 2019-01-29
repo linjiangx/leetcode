@@ -1,0 +1,161 @@
+#
+class Solution:
+    def solveSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        rows = [set() for i in range(9)]
+        cols = [set() for i in range(9)]
+        boxes = [set() for i in range(9)]
+        empty = set()
+        
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == '.':
+                    empty.add((i,j))
+                    continue
+                n = board[i][j]
+                #if n in rows[i] or n in cols[j] or n in boxes[(i//3)*3 + j//3]
+                #    return False
+                rows[i].add(n)
+                cols[j].add(n)
+                boxes[(i//3)*3 + j//3].add(n)
+        
+        num = set('123456789')
+        rows = [num - row for row in rows]
+        cols = [num - col for col in cols]
+        boxes = [num - box for box in boxes]
+        result = self.DFS(board, empty, rows, cols, boxes)
+        
+    def DFS(self, board, empty, rows, cols, boxes):
+        if len(empty) == 0:
+            return True
+        maxpossible = 9
+        for r, c in empty:
+            possible = rows[r] & cols[c] & boxes[(r//3)*3 + c//3]
+            if len(possible) < maxpossible:
+                maxpossible = len(possible)
+                i,j = r,c
+        if maxpossible == 0:
+            return False
+        possible = rows[i] & cols[j] & boxes[(i//3)*3 + j//3]
+        empty.remove((i,j))
+        for opt in possible:
+            rows[i].discard(opt)
+            cols[j].discard(opt)
+            boxes[(i//3)*3 + j//3].discard(opt)
+            board[i][j] = opt
+            if self.DFS(board, empty, rows, cols, boxes):
+                return True
+            board[i][j] = '.'
+            rows[i].add(opt)
+            cols[j].add(opt)
+            boxes[(i//3)*3 + j//3].add(opt)
+        empty.add((i,j))
+        return False
+
+#backtrack
+class Solution:
+    def solveSudoku(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        row_remains = [[True] * 10 for i in range(9)] 
+        col_remains = [[True] * 10 for i in range(9)] 
+        cell_remains = [[True] * 10 for i in range(9)] 
+        
+        needToFill = []
+        
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != '.':
+                    num = ord(board[i][j]) - ord('0')
+                    row_remains[i][num] = False
+                    col_remains[j][num] = False
+                    idx = 3 * (i // 3) + (j//3)
+                    cell_remains[idx][num] = False
+                else:
+                    needToFill.append((i, j))
+
+        def back_tracking(board, row_remains, col_remains, cell_remains, needToFill, pos):
+            if pos == len(needToFill):
+                return True
+            i, j = needToFill[pos]
+            for num in range(1, 10):
+                if not row_remains[i][num]:
+                    continue
+                if not col_remains[j][num]:
+                    continue
+                idx = 3 * (i // 3) + (j//3)
+                if not cell_remains[idx][num]:
+                    continue
+                board[i][j] = chr(ord('0') + num)
+                row_remains[i][num] = False
+                col_remains[j][num] = False
+                cell_remains[idx][num] = False
+                flag = back_tracking(board, row_remains, col_remains, cell_remains, needToFill, pos + 1)
+                if flag:
+                    return True
+                board[i][j] = '.'
+                row_remains[i][num] = True
+                col_remains[j][num] = True
+                cell_remains[idx][num] = True
+            return False
+        back_tracking(board, row_remains, col_remains, cell_remains, needToFill, 0)
+        
+#not backtrack
+class Solution:
+    # @param board, a 9x9 2D array
+    # Solve the Sudoku by modifying the input board in-place.
+    # Do not return any value.
+    def solveSudoku(self, board):
+        self.board = board
+        self.solve()
+    
+    def findUnassigned(self):
+        for row in range(9):
+            for col in range(9):
+                if self.board[row][col] == ".":
+                    return row, col
+        return -1, -1
+    
+    def solve(self):
+        row, col = self.findUnassigned()
+        #no unassigned position is found, puzzle solved
+        if row == -1 and col == -1:
+            return True
+        for num in ["1","2","3","4","5","6","7","8","9"]:
+            if self.isSafe(row, col, num):
+                self.board[row][col] = num
+                if self.solve():
+                    return True
+                self.board[row][col] = "."
+        return False
+            
+    def isSafe(self, row, col, ch):
+        boxrow = row - row%3
+        boxcol = col - col%3
+        if self.checkrow(row,ch) and self.checkcol(col,ch) and self.checksquare(boxrow, boxcol, ch):
+            return True
+        return False
+    
+    def checkrow(self, row, ch):
+        for col in range(9):
+            if self.board[row][col] == ch:
+                return False
+        return True
+    
+    def checkcol(self, col, ch):
+        for row in range(9):
+            if self.board[row][col] == ch:
+                return False
+        return True
+       
+    def checksquare(self, row, col, ch):
+        for r in range(row, row+3):
+            for c in range(col, col+3):
+                if self.board[r][c] == ch:
+                    return False
+        return True
