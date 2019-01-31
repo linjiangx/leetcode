@@ -1,0 +1,37 @@
+#
+#
+class Solution:
+
+    def generate_line(self, words, start, end, capacity, is_last):
+        if start == end or is_last:
+            return " ".join(words[start:end+1]) + " " * (capacity - (end - start))
+        else:
+            res = ""
+            interval = int (capacity / (end - start))
+            extra = capacity % (end - start)
+            for i in range(start, end + 1):
+                res += words[i]
+                if i < end:
+                    res += " " * (interval + bool(i - start < extra))
+            return res
+
+    def fullJustify(self, words, maxWidth):
+        """
+        :type words: List[str]
+        :type maxWidth: int
+        :rtype: List[str]
+        """
+        if not words:
+            return []
+        res = []
+        cur_len = len(words[0])
+        start = 0
+        for i in range(1, len(words)):
+            if cur_len + i - start + len(words[i]) > maxWidth:
+                res.append(self.generate_line(words, start, i - 1, maxWidth - cur_len, False))
+                cur_len = len(words[i])
+                start = i
+            else:
+                cur_len += len(words[i])
+        res.append(self.generate_line(words, start, len(words) - 1, maxWidth - cur_len, True))
+        return res
