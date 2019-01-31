@@ -1,0 +1,35 @@
+#
+#
+class Solution:
+    def addBinary(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
+        lena, lenb = len(a), len(b)
+        if lena > lenb:
+            for i in range(lena - lenb):
+                b = '0' + b
+        else:
+            for i in range(lenb - lena):
+                a = '0' + a
+        lenab = max(lena, lenb)
+        flag = 0
+        res = ''
+        for i in range(lenab - 1, -1, -1):
+            if a[i] == '0' and b[i] == '0':
+                res = str(flag) + res
+                flag = 0
+            elif (a[i] == '0' and b[i] == '1') or (a[i] == '1' and b[i] == '0'):
+                if flag:
+                    res = '0' + res
+                else:
+                    res = '1' + res
+            else:
+                res = str(flag) + res
+                flag = 1
+        if flag:
+            res = '1' + res
+        return res
+                    
