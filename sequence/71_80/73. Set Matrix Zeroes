@@ -1,0 +1,63 @@
+#
+class Solution(object):
+
+    def fillRowsLeft(self, matrix, i ,j):
+        while i >=0:
+            if matrix[i][j] != 0:
+                matrix[i][j] = -11232131123
+            i -=1
+    def fillRowsRight(self, matrix, i , j):
+        while i < len(matrix):
+            if matrix[i][j] != 0:
+                matrix[i][j] = -11232131123
+            i += 1
+    def fillColumnUp (self, matrix, i , j):
+        while j >= 0:
+            if matrix[i][j] != 0:
+                matrix[i][j] = -11232131123
+            j -=1
+    def fillColumnDown(self,matrix, i, j):
+        while j < len(matrix[0]):
+            if matrix[i][j] != 0:
+                matrix[i][j] = -11232131123
+            j += 1
+    def dfs(self, matrix, i , j):
+        if i < 0 or j < 0 or i >= len(matrix) or j >= len(matrix[0]):
+            return
+        self.fillColumnDown(matrix, i, j)         
+        self.fillColumnUp(matrix, i, j)
+        self.fillRowsLeft(matrix, i , j)
+        self.fillRowsRight(matrix, i , j)
+    def setZeroes(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        rows = len(matrix)
+        columns = len(matrix[0])
+        for i in range(rows):
+            for j in range(columns):
+                if matrix[i][j] == 0:
+                    self.dfs(matrix, i , j)
+        for i in range(rows):
+            for j in range(columns):
+                if matrix[i][j] == -11232131123:
+                    matrix[i][j] = 0
+#
+class Solution:
+    def setZeroes(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        row = set()
+        col = set()
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == 0:
+                    row.add(i)
+                    col.add(j)
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if i in row or j in col:
+                    matrix[i][j] = 0
