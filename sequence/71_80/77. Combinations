@@ -1,0 +1,20 @@
+#
+#
+def backtrack(n, k, res, temp, start):
+    if k == 0:
+        res.append(temp)
+    else:
+        for i in range(start, n+1):
+            backtrack(n, k-1, res, temp + [i], i+1)
+
+
+class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        res = []
+        backtrack(n, k, res, [], 1)
+        return res
