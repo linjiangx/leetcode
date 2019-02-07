@@ -48,3 +48,31 @@ class Solution:
             f = max(f, n * heights[i])
             
         return f
+
+#
+class Solution:
+    def maximalRectangle(self, matrix: 'List[List[str]]') -> 'int':
+        if not matrix:
+            return 0
+        row_num = len(matrix)
+        col_num = len(matrix[0])
+        heights = [0] * col_num
+        res = []
+        for row in matrix:
+            for i in range(col_num):
+                heights[i] = heights[i] + 1 if row[i] == '1' else 0
+            res.append(self.helper(heights))
+        return max(res)
+
+
+    def helper(self, heights):
+        if len(heights) == 0:
+            return 0
+        elif len(heights) == 1:
+            return heights[0]
+        else:
+            min_height = min(heights)
+            min_index = heights.index(min_height)
+            area = len(heights) * min_height
+            return max(area, self.helper(heights[:min_index]), self.helper(heights[min_index+1:]))
+  
