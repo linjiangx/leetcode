@@ -1,15 +1,59 @@
 #recur
 #
 class Solution:
-    def isScramble(self, s1, s2):
-        n, m = len(s1), len(s2)
-        if n != m or sorted(s1) != sorted(s2):
+    def isScramble(self, s1: 'str', s2: 'str') -> 'bool':
+        m, n= len(s1), len(s2)
+        if m!=n:
             return False
-        if n < 4 or s1 == s2:
+        if s1==s2: 
             return True
-        f = self.isScramble
+        list1, list2 =list(s1), list(s2)
+        list1.sort()
+        list2.sort()
+        if list1!=list2: 
+            return False
         for i in range(1, n):
-            if f(s1[:i], s2[:i]) and f(s1[i:], s2[i:]) or \
-                    f(s1[:i], s2[-i:]) and f(s1[i:], s2[:-i]):
+            if self.isScramble(s1[:i],s2[:i]) and self.isScramble(s1[i:],s2[i:]): 
+                return True
+            if self.isScramble(s1[:i],s2[n-i:]) and self.isScramble(s1[i:],s2[:n-i]): 
                 return True
         return False
+
+#
+def scrambled_recursive(s1, s2):
+    assert len(s1) == len(s2)
+    if s1 == s2:
+        return True
+    if len(s1) == 1:
+        return False
+    if sorted(s1)!=sorted(s2):#does they have same letters
+        return False
+    for j in range(1, len(s1)):
+        #Example, scrambled if s1 == abcde and (s2 == cbaed or s2 == edcba) :
+        #a1, b1 = abc,de <- s1
+        #a2, b2 = cba,ed <- s2 not rotated
+        #a2s, b2s = ed, cba <- s2 rotated
+        a1 = s1[:j]
+        a2 = s2[:j]
+        b1 = s1[j:]
+        if scrambled_recursive(a1, a2):
+            b2 = s2[j:]
+            if scrambled_recursive(b1, b2):
+                return True  # case 1 : s1 and s2 are scrambled
+        a2s = s2[:len(b1)]
+        if scrambled_recursive(b1, a2s):
+            b2s = s2[len(b1):]
+            if  scrambled_recursive(a1, b2s):
+                return True  # case 2 : s1 and s2 rotated are scrambled
+    return False
+
+class Solution(object):
+    def isScramble(self, s1, s2):
+        """
+        :type s1: str
+        :type s2: str
+        :rtype: bool
+        """
+        if len(s1) != len(s2):
+            return False
+        return scrambled_recursive(s1, s2)
