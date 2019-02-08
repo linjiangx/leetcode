@@ -1,0 +1,20 @@
+#
+#
+class Solution:
+    def inorderTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        res = []
+        stack = []
+        cur_node = root
+        while cur_node or len(stack)>0:
+            while (cur_node):
+                stack.append(cur_node)
+                cur_node = cur_node.left
+            cur_node = stack.pop()
+            if cur_node:
+                res.append(cur_node.val)
+            cur_node=cur_node.right
+        return res
