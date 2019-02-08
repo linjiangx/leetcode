@@ -1,0 +1,34 @@
+#
+class Solution(object):
+    def grayCode(self, n):
+        """
+        :type n: int
+        :rtype: List[int]
+        """
+        def get_bin(n):
+            if n < 2:
+                return ['0', '1'][:n+1]
+            prev, output = get_bin(n-1), []
+            for i in xrange(len(prev)):
+                output.extend([prev[i]+'0', prev[i]+'1']) if not i%2 else output.extend([prev[i]+'1', prev[i]+'0'])
+            return output
+        return [int(i, 2) for i in get_bin(n)]
+#
+class Solution:
+    def grayCode(self, n: 'int') -> 'List[int]':
+        ans = []
+        for i in range(1<<n):
+            ans.append(i ^ i>>1) # G(i) ^ G(n-1)
+        return ans;
+        
+#
+class Solution:
+    def grayCode(self, n: 'int') -> 'List[int]':
+        if n==0:
+            return [0]
+        
+        res=self.grayCode(n-1)
+        newres=[]
+        for x in res[::-1]:
+            newres.append(x+2**(n-1))
+        return res+newres
