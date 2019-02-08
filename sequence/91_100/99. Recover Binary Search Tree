@@ -1,0 +1,72 @@
+#
+#
+#
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    
+    def __init__(self):
+        self.previous = TreeNode(-float('inf'))
+        self.first = None
+        self.second = None
+    
+    # Explanation: by traversing the tree in in-order, we execute the code between left()
+    # and right() calls in 'sorted' order. So the problem reduces to find the exchanged
+    # elements in a originally sorted list. In that situation, two things can happen:
+    # #1) the swapped elements are adjacent elements: in this case, all other elements, 
+    # except for the swapped ones will still be sorted. For ex:
+    # [1,2,3,4,5] -> [1,2,4,3,5]. If we check two by two in in-order traversal, 
+    # we will see that: (1,2) is ok, (2,4) is ok, (4*,3*) is wrong, but (3,5) is ok. So we have only
+    # one point of problem in the list. (* mark elements that should be swapped back).
+    # #2) the swapped elements are any other two elements in the list:
+    # for example: [1,2,3,4,5,6] - > [1,4,3,2,5,6]:
+    # in this case, there will be two points of problem at (4*,3) and (3,2*).
+    # So the moral of story: we must detect at most two problems in the list.
+    # So what we do is: 
+    # 1) always track the prev elements, starting from the second (first does not have
+    # previous element).
+    # 2) if we have prev, and current element is smaller thant prev (it shouldn't be since we are in
+    # traversing in in-order), then we found the first point of problem: it is the prev elemet. 
+    # Also initialize the second point of problem as the current element, so we can swap elements.
+    # 3) if we already have the first point of problem, try to check if current value is less than
+    # the prev again, so we can possibly find the second point of problem.
+    # If so, then update the second element to the current element.
+    
+    
+    def recoverTree_rec(self, root):
+        """
+        :type root: TreeNode
+        :rtype: void Do not return anything, modify root in-place instead.
+        """
+        if not root:
+            return
+        
+        self.recoverTree_rec(root.left)
+        
+        # check the first point of problem. Notice that this will only happend from second
+        # visited element on, since self.previous is set to -infinity at the begging. This will
+        # be fixed after first element is set as previous.
+        if not self.first and (root.val < self.previous.val):
+            self.first = self.previous
+            
+        # now check the second point of problem in the list.
+        # notice that the first time the previous if condition is satisfied
+        # this next if condition will also be satisfied (at first we have our two points)
+        # of problem set to consecutive elements.
+        if self.first and (root.val < self.previous.val):
+            self.second = root
+            
+        self.previous = root
+        
+        self.recoverTree_rec(root.right)
+      
+    def recoverTree(self, root):
+        
+        self.recoverTree_rec(root)
+        
+        self.first.val, self.second.val = self.second.val, self.first.val
