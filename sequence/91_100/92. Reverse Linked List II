@@ -1,0 +1,61 @@
+#
+#
+class Solution:
+    def reverseBetween(self, head: 'ListNode', m: 'int', n: 'int') -> 'ListNode':
+        pos = 1
+        
+        start = head
+        temp = None
+        
+        while pos<m:
+            temp = head
+            head = head.next
+            pos+=1
+            
+        tail = head
+        conn = temp
+        
+        n=n-m+1
+        
+        while n:
+            nextt = head.next
+            head.next = temp
+            temp = head
+            head = nextt
+            n-=1
+            
+        if conn:
+            conn.next = temp
+        else:
+            start = temp
+            
+        tail.next = head
+        
+        return start
+#
+#recur
+class Solution:
+    def rev(self, head, size):
+        prev = None
+        node = head
+        for _ in range(size):
+            tmp = node.next
+            node.next = prev
+            prev = node
+            node = tmp
+        return prev, node
+    
+    def reverseBetween(self, head, m, n):
+        prev_m = None
+        node_m = head
+        for _ in range(m-1):
+            prev_m = node_m
+            node_m = node_m.next
+        node_n, next_n = self.rev(node_m, n - m + 1)
+        if prev_m:
+            prev_m.next = node_n
+        else:
+            head = node_n
+        node_m.next = next_n
+        return head
+#
