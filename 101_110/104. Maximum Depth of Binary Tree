@@ -1,0 +1,23 @@
+#
+class Solution:
+    def maxDepth(self, root: 'TreeNode') -> 'int':
+        if not root:
+            return 0
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+#
+class Solution:
+    def maxDepth(self, root: 'TreeNode') -> 'int':
+        if not root:
+            return 0
+        queue = collections.deque([root])
+        level = 0
+        while queue:
+            for i in range(len(queue)):#遍历该层所有节点
+                p = queue.popleft()
+                if p.left:
+                    queue.append(p.left)
+                if p.right:
+                    queue.append(p.right)
+            level+=1
+        return level
+#
