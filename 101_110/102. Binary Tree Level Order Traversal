@@ -1,0 +1,21 @@
+#
+#
+from collections import deque
+class Solution:
+    def levelOrder(self, root):
+        if not root: return []
+        traversal_queue = deque([root])
+        ans = []
+        while traversal_queue:
+            level_len = len(traversal_queue)
+            level_nodes = []
+            while level_len:
+                node = traversal_queue.popleft()
+                level_nodes.append(node.val)
+                if node.left:
+                    traversal_queue.append(node.left)
+                if node.right:
+                    traversal_queue.append(node.right)
+                level_len -= 1
+            ans.append(level_nodes)
+        return ans
