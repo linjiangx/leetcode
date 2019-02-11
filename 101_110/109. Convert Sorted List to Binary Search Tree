@@ -1,0 +1,48 @@
+#
+class Solution:
+    def sortedListToBST(self, head):
+        """
+        :type head: ListNode
+        :rtype: TreeNode
+        """
+        # recursion 
+        if not head:
+            return None
+        if not head.next:
+            return TreeNode(head.val)
+        
+        pre = head
+        slow = head.next
+        fast = head.next.next
+        
+        while fast and fast.next:
+            pre = pre.next
+            slow = slow.next
+            fast = fast.next.next
+        
+        node = TreeNode(slow.val)
+        pre.next = None
+        node.left = self.sortedListToBST(head)
+        node.right = self.sortedListToBST(slow.next)
+        
+        return node
+#
+class Solution:
+    def sortedListToBST(self, head: 'ListNode') -> 'TreeNode':
+        if not head:
+            return None
+        nums = []
+        while head:
+            nums.append(head.val)
+            head = head.next
+        return self.sortedArrayToBST(nums)
+        
+    def sortedArrayToBST(self, nums: 'List[int]') -> 'TreeNode':
+        if not nums:
+            return None
+        nums_len = len(nums)
+        index = nums_len // 2
+        root = TreeNode(nums[index])
+        root.left = self.sortedArrayToBST(nums[:index])
+        root.right = self.sortedArrayToBST(nums[index+1:])
+        return root
