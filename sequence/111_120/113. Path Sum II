@@ -1,0 +1,18 @@
+#
+#
+class Solution(object):
+    def pathSum(self, root, sum):
+        res = []
+        if root:
+            self.dfs(root, sum - root.val, [root.val], res)
+        return res
+    
+    def dfs(self,node, sum, path, res):
+        if not node.left and not node.right and sum == 0:
+            res.append(path)
+            return 
+        
+        if node.left:
+            self.dfs(node.left, sum - node.left.val, path + [node.left.val], res)
+        if node.right:
+            self.dfs(node.right, sum - node.right.val, path + [node.right.val], res)
