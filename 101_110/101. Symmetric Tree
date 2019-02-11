@@ -1,0 +1,50 @@
+#
+#deque
+import collections
+class Solution:
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        if not root.left and not root.right:
+            return True
+        if not root.left or not root.right:
+            return False
+        a=collections.deque()
+        a.append(root.left)
+        a.append(root.right)
+        while a:
+            left=a.popleft()
+            right=a.popleft()
+            if not left and not right:
+                continue
+            if not left or not right:
+                return False
+            if left.val!=right.val:
+                return False
+            a.append(left.left)
+            a.append(right.right)
+            a.append(left.right)
+            a.append(right.left)
+        return True
+
+#recur
+class Solution:
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        return self.mirrorTree(root.left,root.right)
+    def mirrorTree(self,left,right):
+        if not left and not right:
+            return True
+        if not left or not right:
+            return False
+
+        return (left.val==right.val) and self.mirrorTree(left.left,right.right) and self.mirrorTree(left.right,right.left)
