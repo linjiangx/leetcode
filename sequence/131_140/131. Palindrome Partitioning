@@ -1,0 +1,16 @@
+#
+#
+class Solution:
+    def partition(self, s: 'str') -> 'List[List[str]]':
+        if not s:
+            return []
+    
+        res = [[s[0]]]
+        for c in s[1:]:
+            for path in res[:]: #用[:]，当res添加元素时，path不增加循环次数，按照初始res执行,path变化的同时，res也会变化
+                if c == path[-1]: #①情况，res的element额外+1
+                    res.append(path[:-1] + [path[-1] + c])
+                if len(path) > 1 and path[-2] == c: #②情况，res的element额外+1
+                    res.append(path[:-2] + [path[-2] + path[-1] + c])
+                path.append(c)#当前element + 单独一个新字符
+        return res
