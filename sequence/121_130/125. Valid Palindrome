@@ -1,0 +1,10 @@
+#
+#
+class Solution:
+    def isPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        news=[i.lower() for i in s if i.isalnum()]
+        return news==news[::-1]
