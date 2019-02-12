@@ -1,0 +1,44 @@
+#
+#想法就是只有和边界相连的O才不会被转化为X
+class Solution(object):
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        rows = len(board)
+        if rows <= 2:
+            return
+        cols = len(board[0])
+        if cols <= 2:
+            return
+        
+        # find the Os on the border and flip their connections to 'Z' using DFS
+        def flipZ(row, col):
+            board[row][col] = 'Z'
+            neighbors = [(row, col-1), (row, col+1), (row-1, col), (row+1, col)]
+            for (i, j) in neighbors:
+                if 0 <= i < rows and 0 <= j < cols:
+                    if board[i][j] == 'O':
+                        flipZ(i, j)
+        
+        # top and bottom
+        for col in xrange(cols):
+            if board[0][col] == 'O':
+                flipZ(0, col)
+            if board[rows-1][col] == 'O':
+                flipZ(rows-1, col)
+        # left and right
+        for row in xrange(rows):
+            if board[row][0] == 'O':
+                flipZ(row, 0)
+            if board[row][cols-1] == 'O':
+                flipZ(row, cols-1)
+
+        # then flip remaining Os to X and remaining Zs to O
+        for row in xrange(rows):
+            for col in xrange(cols):
+                if board[row][col] == 'O':
+                    board[row][col] = 'X'
+                elif board[row][col] == 'Z':
+                    board[row][col] = 'O'
