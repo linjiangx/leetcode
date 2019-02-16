@@ -1,0 +1,58 @@
+#
+#
+class Solution:
+    def maxPoints(self, points):
+        """
+        :type points: List[Point]
+        :rtype: int
+        """
+        if not points:
+            return 0
+
+        from collections import Counter
+
+        # This is to store the target points and their max points they have wrt their neighbors.
+        cache = [None] * len(points)
+        
+        for i in range(len(points)):
+            temp = []  # this is to store the gradients of all other points (except target point)
+            overlap, V, H, D = 0, 0, 0, 0
+            for j in range(len(points)):
+                if i != j:
+                    a, b = points[i], points[j]
+                    
+                    # Count number of overlaps
+                    # ========================
+                    if a.x == b.x and a.y == b.y:
+                        overlap += 1
+                    
+                    # Count number of verticals
+                    # =========================
+                    elif a.x == b.x:
+                        V += 1
+                    
+                    # Count number of horizontals
+                    # ===========================
+                    elif a.y == b.y:
+                        H += 1
+                    
+                    # Keep track of the gradient 
+                    # Later, we will get the most common gradient (by count)
+                    # ======================================================
+                    else:
+                        grad = (a.x - b.x) / (a.y - b.y)
+                        temp.append(grad)
+                        
+            # End of inner for loop.
+            if temp:
+                _, count = Counter(temp).most_common(1)[0]
+                D = count
+                
+            # Updade V, H, D with the overlap counts
+            V += overlap 
+            H += overlap
+            D += overlap
+
+            cache[i] = max([V, H, D]) + 1  # "+1" to include itself
+        # End of outer for loop.
+        return max(cache)
