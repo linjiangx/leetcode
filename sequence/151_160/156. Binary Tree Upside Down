@@ -1,0 +1,29 @@
+##
+
+##
+class Solution(object):
+    def upsideDownBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        if root is None:
+                return None
+            
+        def recursive(node):
+            if node.left is None: # if node.left is None, node.right is None.
+                return node, node
+            
+            root, rightest = recursive(node.left)
+            
+            if node.right:
+                rightest.left = node.right
+                rightest.left.left = None
+                rightest.left.right = None
+                
+            node.left = None
+            node.right = None
+            rightest.right = node
+            
+            return root, node
+        return recursive(root)[0]
