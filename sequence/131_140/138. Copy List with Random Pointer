@@ -1,0 +1,14 @@
+
+#
+#
+class Solution(object):
+    def copyRandomList(self, head):
+        temp=RandomListNode(0)
+        p=temp
+        while head:
+            p.next=RandomListNode(head.label)
+            if head.random:
+                p.next.random=RandomListNode(head.random.label)
+            head=head.next
+            p=p.next
+        return temp.next
