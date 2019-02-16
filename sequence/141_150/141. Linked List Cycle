@@ -1,0 +1,20 @@
+
+#
+#
+class Solution(object):
+    def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        if not head:
+            return False
+        l, r = head, head.next
+        while l and r and r.next:
+            if l == r:
+                # only need to check adjusent
+                return True
+            else:
+                l = l.next
+                r = r.next.next
+        return False
