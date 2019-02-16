@@ -1,0 +1,36 @@
+#
+#
+class Solution:
+    def isOneEditDistance(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        
+        Time :O(N)
+        Space :O(1)
+        
+        """     
+        if len(s)>len(t):
+            s,t=t,s
+        if len(t) - len(s) > 1:
+            return False
+        edits = 0
+        sameLength = False
+        if len(s) == len(t):
+            sameLength= True
+        i,j = 0,0
+        while i<len(s) and j<len(t):
+            if edits > 1:
+                return False
+            if s[i] != t[j]:
+                edits +=1
+                j += 1
+                if sameLength:                    
+                    i +=1
+            else:
+                i +=1
+                j +=1  
+        if j!=len(t):
+            edits +=1
+        return edits == 1
