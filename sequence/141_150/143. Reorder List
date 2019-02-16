@@ -1,0 +1,25 @@
+##
+
+#
+class Solution:
+    def reorderList(self, head):
+        """
+        :type head: ListNode
+        :rtype: void Do not return anything, modify head in-place instead.
+        """
+        temp = head
+        stack = []
+        while(temp != None):
+            stack.append(temp)
+            temp = temp.next
+        if len(stack) == 0:
+            return head
+        temp = head
+        i = (len(stack) - 1)//2
+        while(i > 0):
+            node = stack.pop()
+            node.next = temp.next
+            temp.next = node
+            temp = temp.next.next
+            i -= 1
+        stack.pop().next = None
