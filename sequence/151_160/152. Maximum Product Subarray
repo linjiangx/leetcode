@@ -1,0 +1,16 @@
+#
+#
+class Solution:
+    def maxProduct(self, A):
+        ans=A[0]
+        pre_max=A[0]
+        pre_min=A[0]
+        cur_max=A[0]
+        cur_min=A[0]
+        for i in range(1,len(A)):
+            cur_max=max(max(pre_max*A[i],pre_min*A[i]),A[i])
+            cur_min=min(min(pre_max*A[i],pre_min*A[i]),A[i])
+            ans=max(cur_max,ans)
+            pre_max=cur_max
+            pre_min=cur_min
+        return ans
