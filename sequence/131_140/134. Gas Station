@@ -1,0 +1,25 @@
+#
+#
+class Solution:
+    def canCompleteCircuit(self, gas, cost):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        tank = 0
+        for i in range(len(gas)):
+            tank += gas[i] - cost[i]
+        if tank < 0:
+            return -1
+
+        start = 0
+        extra = 0
+        for i in range(len(gas)):
+            gain = gas[i] - cost[i]
+            if extra + gain < 0:
+                start = i + 1
+                extra = 0
+            else:
+                extra += gain
+        return start
