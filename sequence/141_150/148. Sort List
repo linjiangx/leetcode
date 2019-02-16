@@ -1,0 +1,41 @@
+#
+class Solution:
+    def sortList(self, head: 'ListNode') -> 'ListNode':
+        a = []
+        p = head
+        while p:
+            a.append(p.val)
+            p = p.next
+
+        p = head
+        for val in sorted(a):
+            p.val = val
+            p = p.next
+        return head
+#
+class Solution(object):
+    def sortList(self, head):
+        if not head or not head.next:
+            return head
+        slow,fast=head,head.next
+        while fast and fast.next:
+            slow=slow.next
+            fast=fast.next.next
+        right=slow.next
+        slow.next=None
+        hleft,hright=self.sortList(head),self.sortList(right)
+        return self.merge(hleft,hright)
+
+    def merge(self,hleft,hright):
+        head=cur=ListNode(0)
+        while hleft and hright:
+            if hleft.val<hright.val:
+                cur.next=hleft
+                hleft=hleft.next
+            else:
+                cur.next=hright
+                hright=hright.next
+            cur=cur.next
+        if hleft or hright:
+            cur.next=hleft or hright
+        return head.next
