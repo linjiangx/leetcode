@@ -1,0 +1,23 @@
+#
+#
+class Solution:
+    def minSubArrayLen(self, s: 'int', nums: 'List[int]') -> 'int':
+        n = len(nums)
+        min_len = n + 1
+        # two pointer: left and right pointer
+        i, j = 0, 0
+        sub_sum = 0
+        while i < n and j < n:
+            sub_sum += nums[j]
+            if sub_sum >= s:
+                min_len = min(min_len, j - i + 1)
+                # left pointer move forward, so minus nums[i],
+                sub_sum -= nums[i]
+                i += 1
+                # right pointer keep, so minus nums[j] to avoid adding multiple times
+                sub_sum -= nums[j]
+            else:
+                # right pointer move forward
+                j += 1
+
+        return min_len if min_len < n + 1 else 0
