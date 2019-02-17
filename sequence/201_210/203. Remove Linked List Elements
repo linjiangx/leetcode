@@ -1,0 +1,15 @@
+#
+#
+class Solution:
+    def removeElements(self, head, val):
+        dummy = ListNode(-1)
+        dummy.next = head
+        pointerNode = dummy
+
+        while pointerNode != None and pointerNode.next != None:
+            if pointerNode.next.val == val:
+                pointerNode.next = pointerNode.next.next
+            else:
+                pointerNode = pointerNode.next
+
+        return dummy.next
