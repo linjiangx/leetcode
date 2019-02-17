@@ -1,0 +1,28 @@
+#
+class Solution(object):
+    def isHappy(self, n):
+        mem = set()
+        while n != 1:
+            n = sum((int(i) ** 2 for i in str(n)))
+            if n in mem:
+                return False
+            else:
+                mem.add(n)
+        else:
+            return True
+#
+class Solution:
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        for i in range(1000):
+            sum=0
+            a=list(str(n))
+            for j in a:
+                sum+=int(j)**2
+            n=sum
+            if n==1:
+                return True
+        return False
