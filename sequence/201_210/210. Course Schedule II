@@ -1,0 +1,39 @@
+###
+
+#
+class Solution:
+    def findOrder(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: List[int]
+        """
+        V = numCourses
+        G = [[] for _ in range(V)]
+        for u,v in prerequisites:
+            G[v].append(u)
+        # above is just construction of a Graph
+        
+        visited = ['WHITE' for _ in range(V)]
+        sort_res = [] # our answer
+
+        def DFS(u):
+            visited[u] = 'GRAY' # visiting now
+        
+            for v in G[u]: # for each adjacent vertex of u
+                if visited[v] == 'GRAY': # got one visiting vertex
+                    return True # cyclic!
+                if visited[v] == 'WHITE': # havn't been visited
+                    if DFS(v): # just visit it and find if there's a cyclic structure!
+                        return True
+                
+            visited[u] = 'BLACK' # departure
+            sort_res.append(u) # now add this node(vertex) to the result, obviously, ancestor is always after descendants
+            return False # got no dangerous, it's safe to be an acyclic part!
+            
+        for i in range(V):
+            if visited[i] == 'WHITE': # for v not visited
+                if DFS(i): # just try to find out!
+                    return [] # Oops, cyclic one
+                
+        return sort_res[::-1] # reverse the "path" so we can go through the source to the sink
