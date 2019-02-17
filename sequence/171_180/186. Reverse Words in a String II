@@ -1,0 +1,21 @@
+#
+#
+class Solution:
+    def reverseWords(self, str: 'List[str]') -> 'None':
+        """
+        Do not return anything, modify str in-place instead.
+        """
+        str.reverse()
+        l, r = 0, 0
+        while l < len(str):
+            while r < len(str) and str[r] != ' ':
+                r += 1
+            self.reverse(str, l, r-1)
+            r += 1
+            l = r
+        
+    def reverse(self, str, l, r):
+        while l < r:
+            str[l], str[r] = str[r], str[l]
+            l += 1
+            r -= 1
