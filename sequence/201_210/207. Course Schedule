@@ -1,0 +1,33 @@
+#
+#
+from collections import defaultdict
+class Solution:
+    def canFinish(self, numCourses, prerequisites):
+        """
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
+        :rtype: bool
+        
+        Time: O(N)
+        Space: O(N) on stack frame. O(N) on heap.
+        """
+        graph = defaultdict(list)
+        visited = {}
+        for child,parent in prerequisites:
+            graph[parent].append(child)
+        for course in range(numCourses):
+            if not self.visit(graph,visited,course):
+                return False
+        return True
+        
+    def visit(self, graph, visited, node):
+        if visited.get(node) == 'P': #Seen in a previous iteration, 'Permanently Marked'
+            return True
+        if visited.get(node) == 'T': #Seen in the same iteration of DFS, 'Temporaily Marked'
+            return False
+        visited[node] = 'T'
+        for child in graph.get(node,[]):
+            if not self.visit(graph,visited,child):
+                return False
+        visited[node] = 'P'
+        return True
