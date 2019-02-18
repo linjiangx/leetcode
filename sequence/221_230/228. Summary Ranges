@@ -1,0 +1,23 @@
+#
+#
+class Solution(object):
+    def summaryRanges(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[str]
+        """
+        # rs: range start pointer
+        # re: range end pointer
+        # ans: answer list
+        ans = []
+        rs = 0
+        while rs < len(nums):
+            re = rs + 1
+            while re < len(nums) and nums[re] == nums[re - 1] + 1:
+                re += 1
+            if nums[re - 1] == nums[rs]:
+                ans.append(str(nums[rs]))
+            else:
+                ans.append(str(nums[rs]) + "->" + str(nums[re - 1]))
+            rs = re
+        return ans
