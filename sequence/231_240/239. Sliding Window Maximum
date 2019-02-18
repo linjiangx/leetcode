@@ -1,0 +1,26 @@
+#
+#
+class Solution:
+    def maxSlidingWindow(self, nums, k):
+        if len(nums) == 0 or len(nums) - k < 0:
+            return []
+        
+        ans = [0] * (len(nums) - k + 1)
+        
+        #Hold the maximum index
+        last_maximum_index = -1
+        
+        #For each iteration, we will definitely find an answer to ans array
+        for i in range(len(nums) - k + 1):
+
+            if last_maximum_index < i:
+                last_maximum_index = i
+                for j in range(i, i+k):
+                    if nums[j] > nums[last_maximum_index]:
+                        last_maximum_index = j
+            #If not the situations above, we still need to check the new slided value with the last_maximum
+            else:
+                if nums[last_maximum_index] < nums[i + k - 1]:
+                    last_maximum_index = i + k - 1
+            ans[i] = nums[last_maximum_index]
+        return ans
