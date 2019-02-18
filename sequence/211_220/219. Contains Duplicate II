@@ -1,0 +1,23 @@
+#
+#
+class Solution(object):
+    def containsNearbyDuplicate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
+        dict_count = collections.Counter(nums)
+        # print(dict_count)
+        list_dict = [x for x in dict_count.keys() if dict_count[x] >= 2]
+        # print(list_dict)
+        if list_dict:
+            for t in list_dict:
+                temp_list = [u for u, j in enumerate(nums) if j==t]
+                # print(temp_list)
+                for i in range(len(temp_list)-1):
+                    if abs(temp_list[i+1] - temp_list[i]) <=k:
+                        return True
+            return False
+        else:
+            return False
