@@ -1,0 +1,23 @@
+#
+#
+#
+class Solution:
+    def combinationSum3(self, k: 'int', n: 'int') -> 'List[List[int]]':
+        #dfs solution?
+        r= []        
+        
+        for i in range(1,10):
+            if n > i:
+                self.dfs(k-1,n-i, [i], r)
+        return r    
+    
+    def dfs(self, k, n, prev, r):
+        #print(prev)
+        #end case
+        #print('k : %d n : %d' %(k, n))
+        if k == 0 and n==0:
+            r.append(prev)
+            
+        for i in range(prev[-1]+1,10):
+            if n >= i:
+                self.dfs(k-1,n-i, prev+[i], r)
