@@ -1,0 +1,37 @@
+#
+#
+class Solution(object):
+    def isPalindrome(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        if head is None:
+            return True
+        
+       
+        pre = slow = head
+        fast = slow.next
+        
+        while fast and fast.next:
+            fast = fast.next.next
+            temp = slow.next
+            slow.next = pre
+            pre = slow
+            slow = temp
+            
+        if not fast:
+            point1 = slow.next
+            point2 = pre
+        else:
+            point1 = slow.next
+            point2 = slow
+            slow.next = pre
+            
+        while point1 and point2:
+            if point1.val != point2.val:
+                return False
+            point1 = point1.next
+            point2 = point2.next
+                
+        return True
