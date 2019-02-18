@@ -1,0 +1,22 @@
+#
+#
+class Solution(object):
+    def kthSmallest(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        s = []
+        c = 0
+        while s or root:
+            while root:
+                s.append(root)
+                root = root.left
+            
+            root = s.pop()
+            c += 1
+            if c == k:
+                return root.val
+            
+            root = root.right
