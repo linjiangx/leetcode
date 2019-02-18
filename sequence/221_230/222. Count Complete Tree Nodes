@@ -1,12 +1,42 @@
 #
+class Solution(object):
+    
+    def getLeftDepth(self, node):
+        level = 0
+        while node:
+            node = node.left
+            level += 1
+        
+        return level
+        
+    def getRightDepth(self, node):
+        level = 0
+        while node:
+            node = node.right
+            level += 1
+        
+        return level
+        
+    def countNodes(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        
+        #first solution to iterate all node O(n)
+        
+        #second solution to go to each level, only to the right O(logN)
+        
+        if not root:
+            return 0
+        
+        leftDepth = self.getLeftDepth(root)
+        rightDepth = self.getRightDepth(root)
+        if leftDepth == rightDepth:
+            return pow(2, leftDepth) - 1
+        else:
+            return self.countNodes(root.left) + self.countNodes(root.right) + 1
 #
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
 class Solution(object):
     def countNodes(self, root):
         """
