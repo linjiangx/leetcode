@@ -1,4 +1,35 @@
 #
+class Solution(object):
+    def closestValue(self, root, target):
+        """
+        :type root: TreeNode
+        :type target: float
+        :rtype: int
+        """
+        
+        left = None
+        right = None
+        ptr = root
+        while ptr:
+            if ptr.val == target:
+                return ptr.val
+            elif target < ptr.val:
+                right = ptr.val
+                ptr = ptr.left
+            else:
+                left = ptr.val
+                ptr = ptr.right
+                
+        min_diff = float('inf')
+        closest = None
+        if left != None:
+            min_diff = abs(target - left)
+            closest = left
+        if right != None and abs(target - right) < min_diff:
+            min_diff = abs(target - right)
+            closest = right
+            
+        return closest
 #
 class Solution(object):
     def closestValue(self, root, target):
