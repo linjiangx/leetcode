@@ -1,0 +1,25 @@
+#
+#
+import collections
+class Solution:
+    def findItinerary(self, tickets: 'List[List[str]]') -> 'List[str]':
+        dic, self.result = collections.defaultdict(list), []
+        for t in tickets:
+            dic[t[0]].append(t[1])
+        for key in dic.keys():
+            dic[key] = sorted(dic[key])
+        self.dfs(dic, ['JFK'], len(tickets) + 1)
+        return self.result
+        
+    def dfs(self, dic, res, l):
+        if len(res) == l:
+            self.result = res
+            return True
+        cur = res[-1]
+        if cur in dic:
+            for i in range(len(dic[cur])):
+                nex = dic[cur].pop(i)
+                if self.dfs(dic, res + [nex], l):
+                    return True
+                dic[cur].insert(i, nex)
+        return False
