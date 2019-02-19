@@ -1,0 +1,19 @@
+#
+#
+class Solution:
+    def validTree(self, n: 'int', edges: 'List[List[int]]') -> 'bool':
+        d = {x: [] for x in range(n)}
+        for edge in edges:
+            d[edge[0]].append(edge[1])
+            d[edge[1]].append(edge[0])
+        import collections
+        queue = collections.deque()
+        queue.append(0)
+        visited = set()
+        while queue:
+            current = queue.popleft()
+            if current in visited:
+                return False
+            visited.add(current)
+            queue.extend([x for x in d[current] if x not in visited])
+        return len(visited) == n
