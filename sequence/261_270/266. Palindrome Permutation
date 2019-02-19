@@ -1,0 +1,15 @@
+#
+#
+class Solution:
+    def canPermutePalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        D = {}
+        for i in s:
+            if i in D:
+                D.pop(i)
+            else:
+                D[i] = 1
+        return len(D) <= 1
