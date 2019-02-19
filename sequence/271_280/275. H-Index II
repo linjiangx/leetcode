@@ -1,0 +1,16 @@
+#
+#
+class Solution:
+    def hIndex(self, citations):
+        """
+        :type citations: List[int]
+        :rtype: int
+        """
+        N=len(citations)
+        if N==0:return 0
+        l,r = 0,N-1
+        while l<r:
+            mid = l+(r-l)//2
+            if citations[mid]+mid<N: l=mid+1
+            else: r=mid
+        return 0 if citations[l]+l<N else N-l
