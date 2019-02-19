@@ -1,0 +1,14 @@
+#
+#
+class Solution(object):
+    def shortestDistance(self, words, word1, word2):
+        ans = float('inf')
+        i1 = i2 = float('-inf')
+        for i, w in enumerate(words):
+            if w == word1:
+                i1 = i
+                ans = min(i1 - i2, ans)
+            if w == word2:
+                i2 = i
+                ans = min(i2 - i1, ans)
+        return ans
