@@ -1,0 +1,28 @@
+#
+class Solution:
+    res = [1]
+    i2,i3,i5 = 0,0,0
+    def nthUglyNumber(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        while len(Solution.res)<n:
+            next2 = 2 * Solution.res[Solution.i2]
+            next3 = 3 * Solution.res[Solution.i3]
+            next5 = 5 * Solution.res[Solution.i5]
+            next_ = min(next2,next3,next5)
+            if next_==next2:
+                Solution.i2 += 1
+            if next_==next3:
+                Solution.i3 += 1
+            if next_==next5:
+                Solution.i5 += 1
+            Solution.res.append(next_)
+        return Solution.res[n-1]
+#
+class Solution:
+    def nthUglyNumber(self, n):
+        ugly = sorted(2**a * 3**b * 5**c
+                  for a in range(32) for b in range(20) for c in range(14))
+        return ugly[n-1]
