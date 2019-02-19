@@ -1,0 +1,15 @@
+#
+#
+class Solution:
+    def getHint(self, s, g) :
+        bulls,cows=0,0
+        dict1,dict2 = collections.defaultdict(lambda: 0),collections.defaultdict(lambda: 0)
+        for i in range(len(s)):
+            if(s[i]==g[i]):
+                bulls+=1
+            else:
+                dict1[s[i]]+=1
+                dict2[g[i]]+=1
+        for m in dict2.keys():
+            cows += min(dict1[m],dict2[m])
+        return str(bulls)+"A"+str(cows)+"B"
