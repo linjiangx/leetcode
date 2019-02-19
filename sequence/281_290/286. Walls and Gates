@@ -1,0 +1,37 @@
+
+##
+class Solution(object):
+    def wallsAndGates(self, rooms):
+        """
+        :type rooms: List[List[int]]
+        :rtype: void Do not return anything, modify rooms in-place instead.
+        """
+        if len(rooms) == 0:
+            return None
+        m = len(rooms)
+        n = len(rooms[0])
+        dxs = [0, 1, -1, 0]
+        dys = [-1, 0, 0, 1]
+
+        for i in range(m):
+            for j in range(n):
+                if rooms[i][j] != 0:
+                    continue
+                que = collections.deque()
+                que.append((i, j, 0))
+
+                while que:
+                    x, y, dist = que.popleft()
+                    for dx, dy in zip(dxs, dys):
+                        nx = dx + x
+                        ny = dy + y
+                        if self.isValid(rooms, nx, ny) and rooms[nx][ny] > dist + 1:
+                            rooms[nx][ny] = dist + 1
+                            que.append((nx, ny, dist + 1))
+
+    def isValid(self, rooms, i, j):
+        m = len(rooms)
+        n = len(rooms[0])
+        if 0 <= i < m and 0 <= j < n:
+            return True
+        return False
