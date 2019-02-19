@@ -1,0 +1,31 @@
+#
+#
+import itertools
+from collections import defaultdict
+
+class Solution(object):
+    def diffWaysToCompute(self, input):  # Divide and conquer
+        
+        def _ways(string):
+            res = []
+            if not string:
+                return res
+            
+            for i, c in enumerate(string):
+                if c in "+-*":
+                    left = _ways(string[0:i])
+                    right = _ways(string[i + 1:])
+
+                    for l in left:  # 两个for循环可以用 itertools.product 优化
+                        for r in right:
+                            if c == '+':  # 操作符可以用lambda 优化
+                                res.append(l + r)
+                            elif c == '-':
+                                res.append(l - r)
+                            elif c == '*':
+                                res.append(l * r)
+            if not res:   # 说明没有operator，直接返回结果
+                res.append(int(string))
+            return res
+
+        return _ways(input)
