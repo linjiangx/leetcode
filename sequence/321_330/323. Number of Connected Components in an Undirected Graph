@@ -1,0 +1,28 @@
+#
+#
+class Solution:
+    def countComponents(self, n, edges):
+        adj = collections.defaultdict(list)
+        for (u, v) in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+            
+        q, visited = collections.deque([]), set()
+                
+        def bfs_visit():
+            while q:
+                u = q.popleft()
+                for v in adj[u]:
+                    if v not in visited:
+                        visited.add(v)
+                        q.append(v)
+                        
+        count = 0
+        for u in range(n):
+            if u not in visited:
+                count += 1
+                visited.add(u)
+                q.append(u)
+                bfs_visit()
+        
+        return count
