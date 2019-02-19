@@ -1,0 +1,62 @@
+#
+#
+class UnionFind(object):
+    def __init__(self, r,c):
+        self.v = [-1] * (r * c)
+        self.r = r
+        self.c = c
+        self.parents = set([])
+        
+    def makeSet(self, idx):
+        self.v[idx] = idx
+        self.parents.add(idx)
+        
+    def findParent(self, idx):
+        if self.v[idx] != idx:
+            self.v[idx] = self.findParent(self.v[idx])
+        return self.v[idx]
+    
+    def union(self, idx1, idx2):
+        p1 = self.findParent(idx1)
+        p2 = self.findParent(idx2)
+        
+        self.v[p1] = p2
+        if p1 in self.parents and p1 != p2:
+            self.parents.remove(p1) 
+        
+    def numParents(self):
+        return len(self.parents)
+
+class Solution(object):
+    def numIslands2(self, m, n, positions):
+        """
+        :type m: int
+        :type n: int
+        :type positions: List[List[int]]
+        :rtype: List[int]
+        """
+        
+        M = [[0 for x in range(n)] for y in range(m)]
+        
+        A = UnionFind(m,n)
+        
+        parents = set([])
+        res = []
+        for p in positions:
+            M[p[0]][p[1]] = 1
+            idx = n * p[0] + p[1]
+            
+            A.makeSet(idx)
+            
+            for d in [(0,1), (1,0), (0,-1), (-1,0)]:
+                i = p[0] + d[0]
+                if i < 0 or i >= m:
+                    continue
+                j = p[1] + d[1]
+                if j < 0 or j >= n:
+                    continue
+                if M[i][j] == 1:
+                    A.union(idx, i *n + j)
+            res.append(A.numParents())
+        
+        return res
