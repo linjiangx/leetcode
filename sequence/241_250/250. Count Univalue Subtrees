@@ -1,0 +1,26 @@
+#
+#
+class Solution(object):
+    def countUnivalSubtrees(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        self.count = 0
+        self.cntutil(root)
+        return self.count
+    
+    def cntutil(self, root):
+        if not root:
+            return True
+        
+        l = self.cntutil(root.left)
+        r = self.cntutil(root.right)
+        if l and r:
+            lleaf = root.left.val if root.left else root.val
+            rleaf = root.right.val if root.right else root.val
+            x = root.val == lleaf == rleaf
+            self.count += x
+            return x
+        
+        return False
