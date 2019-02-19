@@ -1,0 +1,29 @@
+#
+#
+from collections import defaultdict
+
+class Solution:
+    def shortestWordDistance(self, words, word1, word2):
+        """
+        :type words: List[str]
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        
+        d = defaultdict(list)
+        
+        for i, w in enumerate(words):
+            if w in (word1, word2):
+                d[w].append(i)
+            
+        mini_dist = len(words)
+        
+        for idx1 in d[word1]:
+            for idx2 in d[word2]:
+                if idx1 == idx2:
+                    continue
+                
+                mini_dist = min(mini_dist, abs(idx1 - idx2))
+        
+        return mini_dist
