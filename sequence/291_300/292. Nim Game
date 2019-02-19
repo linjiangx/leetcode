@@ -1,0 +1,15 @@
+#
+#
+class Solution:
+    def canWinNim(self, n):
+        """
+        As in any adversarial game, player 1 wins if he can play a move in which player 2 cannot win
+        In NIM's game, this translates into:
+        - 1, 2, 3: the one who plays wins
+        - 4: the one who plays loses (falls to 1, 2, 3)
+        - 5, 6, 7: the one who plays wins (just play to get 4)
+        - 8: the one who plays loses (falls to 5, 6, 7)
+        - Etc
+        So you only need to test for position that are multiple of 4.
+        """
+        return n % 4 != 0
