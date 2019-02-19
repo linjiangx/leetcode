@@ -1,0 +1,18 @@
+#
+#
+class Solution(object):
+    def closestValue(self, root, target):
+        """
+        :type root: TreeNode
+        :type target: float
+        :rtype: int
+        """
+        list1=self.helper(root)
+        list2=[abs(x-target) for x in list1]
+        index=list2.index(min(list2))
+        return list1[index]
+        
+    def helper(self,root):
+        if not root:
+            return []
+        return self.helper(root.left)+[root.val]+self.helper(root.right)
