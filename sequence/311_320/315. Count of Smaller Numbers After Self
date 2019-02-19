@@ -1,0 +1,19 @@
+
+#
+#
+import bisect
+
+class Solution(object):
+    def countSmaller(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        state = []
+        res = [0]*len(nums)
+        for i in xrange(len(nums)-1, -1, -1):
+            idx = bisect.bisect_left(state, nums[i])
+            res[i] = idx
+            # state.insert(idx, nums[i])
+            state[idx:idx] = [nums[i]]
+        return res
