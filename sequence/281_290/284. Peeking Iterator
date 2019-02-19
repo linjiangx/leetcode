@@ -1,0 +1,38 @@
+#
+#
+class PeekingIterator(object):
+    def __init__(self, iterator):
+        """
+        Initialize your data structure here.
+        :type iterator: Iterator
+        """
+        self.list = []
+        while iterator.hasNext():
+            self.list.append(iterator.next())
+        self.list = self.list[::-1]
+        
+    def peek(self):
+        """
+        Returns the next element in the iteration without advancing the iterator.
+        :rtype: int
+        """
+        if self.list: 
+            return self.list[-1]
+        
+        return None
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        if self.list: 
+            return self.list.pop()
+        
+        return None
+        
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return len(self.list) > 0
