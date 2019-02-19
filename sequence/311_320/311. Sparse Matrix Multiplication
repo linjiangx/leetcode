@@ -1,0 +1,17 @@
+
+#
+#
+class Solution(object):
+    def multiply(self, A, B):
+        res = []
+        if len(A) == 0 or len(B) == 0 or len(A[0]) == 0 or len(B[0]) == 0 or len(A[0]) != len(B):
+            return res
+        for i in range(len(A)):
+            arr = []
+            for k in range(len(B[0])):
+                s = 0
+                for j in range(len(A[i])):
+                    s += A[i][j] * B[j][k]
+                arr.append(s)
+            res.append(arr)
+        return res
