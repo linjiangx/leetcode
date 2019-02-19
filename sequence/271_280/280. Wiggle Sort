@@ -1,0 +1,13 @@
+#
+
+#
+class Solution:
+    def wiggleSort(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: void Do not return anything, modify nums in-place instead.
+        """
+        
+        for cnt in range(0, len(nums), 2):
+            if cnt+1 < len(nums) and nums[cnt] > nums[cnt+1]: nums[cnt+1], nums[cnt] = nums[cnt], nums[cnt+1]
+            if cnt+2 < len(nums) and nums[cnt+1] < nums[cnt+2]: nums[cnt+1], nums[cnt+2] = nums[cnt+2], nums[cnt+1]
