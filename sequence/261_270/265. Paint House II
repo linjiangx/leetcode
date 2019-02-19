@@ -1,0 +1,24 @@
+#
+#
+class Solution:
+    def minCostII(self, costs: 'List[List[int]]') -> 'int':
+        if not costs or not costs[0]:
+            return 0
+        color, house = len(costs[0]), len(costs)
+        dp = [[0] * color for _ in range(house)]
+        for i in range(color):
+            dp[0][i] = costs[0][i]
+        
+        for i in range(1, house):
+            min_cost = min(dp[i - 1])
+            min_index = dp[i - 1].index(min_cost)
+            second_min_cost = min(dp[i - 1][:min_index] + dp[i - 1][min_index + 1:])
+            
+            for j in range(color):
+                cost = costs[i][j]
+                if j == min_index:
+                    dp[i][j] = cost + second_min_cost
+                else:
+                    dp[i][j] = cost + min_cost
+        
+        return min(dp[-1])
