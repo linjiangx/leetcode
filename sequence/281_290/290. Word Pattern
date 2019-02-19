@@ -1,0 +1,9 @@
+#
+#
+class Solution(object):
+    def wordPattern(self, pattern, str):
+
+        l = str.split()
+        if len(pattern) != len(l):
+            return False
+        return len(set(zip(pattern, l))) == len(set(pattern)) == len(set(l))
