@@ -1,0 +1,28 @@
+#
+#
+class Solution(object):
+    def minCost(self, costs):
+        """
+        :type costs: List[List[int]]
+        :rtype: int
+        """
+        zeroIdxCostPrev=0
+        oneIdxCostPrev=0
+        twoIdxCostPrev=0
+        
+        zeroIdxCost=0
+        oneIdxCost=0
+        twoIdxCost=0
+        
+        
+        i=0
+        while i<len(costs):
+            zeroIdxCost=costs[i][0]+min(oneIdxCostPrev,twoIdxCostPrev)
+            oneIdxCost=costs[i][1]+min(zeroIdxCostPrev,twoIdxCostPrev)
+            twoIdxCost=costs[i][2]+min(oneIdxCostPrev,zeroIdxCostPrev)
+            
+            zeroIdxCostPrev=zeroIdxCost
+            oneIdxCostPrev=oneIdxCost
+            twoIdxCostPrev=twoIdxCost
+            i=i+1
+        return min([zeroIdxCostPrev,oneIdxCostPrev,twoIdxCostPrev])
