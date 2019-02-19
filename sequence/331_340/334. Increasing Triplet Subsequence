@@ -1,0 +1,10 @@
+#
+#
+class Solution:
+    def increasingTriplet(self, nums):
+        low,res=float('inf'),[float('inf'),float('inf')]
+        for num in nums:
+            if num>res[-1]:return True
+            if num>low:res=[low,num]
+            low=min(low,num)
+        return False
