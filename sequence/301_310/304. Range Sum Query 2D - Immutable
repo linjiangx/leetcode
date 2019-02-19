@@ -1,0 +1,39 @@
+
+#
+#
+class NumMatrix(object):
+
+    def __init__(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        """
+        self.matrix=matrix
+        
+        if not self.matrix:
+            return
+        
+        T=[[0 for _ in range(len(self.matrix[0])+1)] for _ in range (len(self.matrix)+1)]
+        
+        for i in range(1,len(T)):
+            for j in range(1,len(T[0])):
+                T[i][j]=self.matrix[i-1][j-1]+T[i-1][j]+T[i][j-1]-T[i-1][j-1]
+        self.T=T
+
+    def sumRegion(self, row1, col1, row2, col2):
+        """
+        :type row1: int
+        :type col1: int
+        :type row2: int
+        :type col2: int
+        :rtype: int
+        """
+        
+        #our matrix T has one more row and column
+        r1,c1,r2,c2=row1+1,col1+1,row2+1,col2+1
+        
+        #T[r2][c2]=Total Sum(inclusive of limits)
+        #T[r1-1][c2]=Subtract Upper Strip
+        #T[r2][c1-1]=Subtract Left Strip
+        #T[r1-1][c1-1] = Add the double subtracted part once for T[r1-1][c2] and T[r2][c1-1]
+        
+        return self.T[r2][c2]-self.T[r1-1][c2]-self.T[r2][c1-1]+self.T[r1-1][c1-1]
