@@ -1,0 +1,48 @@
+#
+#
+class Solution(object):
+    def closestKValues(self, root, target, k):
+        """
+        :type root: TreeNode
+        :type target: float
+        :type k: int
+        :rtype: List[int]
+        """
+        def getPredecessor():
+            node = pre[-1]
+            pre.pop()
+            if node.left:
+                pre.append(node.left)
+                while pre[-1].right:
+                    pre.append(pre[-1].right)
+                    
+        def getSuccessor():
+            node = suc[-1]
+            suc.pop()
+            if node.right:
+                suc.append(node.right)
+                while suc[-1].left:
+                    suc.append(suc[-1].left)
+        
+        pre = []
+        suc = []
+        res = []
+        
+        while root:
+            if root.val < target:
+                pre.append(root)
+                root = root.right
+            else:
+                suc.append(root)
+                root = root.left
+        
+        while k:
+            if not suc or (pre and target - pre[-1].val < suc[-1].val - target):
+                res.append(pre[-1].val)
+                getPredecessor()
+            else:
+                res.append(suc[-1].val)
+                getSuccessor()
+            k -= 1
+            
+        return res
