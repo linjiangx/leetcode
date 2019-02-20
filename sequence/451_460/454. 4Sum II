@@ -1,0 +1,29 @@
+class Solution:
+    def fourSumCount(self, A, B, C, D):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :type C: List[int]
+        :type D: List[int]
+        :rtype: int
+        """
+        dic1 = {}
+        dic2 = {}
+        res = 0
+        for i in range(len(A)):
+            for j in range(len(B)):
+                if A[i] + B[j] not in dic1:
+                    dic1[A[i] + B[j]] = 1
+                else:
+                    dic1[A[i] + B[j]] += 1
+        for i in range(len(C)):
+            for j in range(len(D)):
+                if C[i] + D[j] not in dic2:
+                    dic2[C[i] + D[j]] = 1
+                else:
+                    dic2[C[i] + D[j]] += 1
+        for key1 in dic1:
+            if -key1 in dic2:
+                res += dic1[key1]*dic2[-key1]
+        return res
+        
