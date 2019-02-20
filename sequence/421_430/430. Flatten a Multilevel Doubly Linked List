@@ -1,0 +1,27 @@
+#
+#
+class Solution(object):
+    def flatten(self, head):
+        """
+        :type head: Node
+        :rtype: Node
+        """
+        if head is None:
+            return head
+        curr = head
+        stack = []
+        stack.append(curr)
+        while stack:
+            node = stack.pop()
+            if node:
+                if node.next:
+                    stack.append(node.next)
+                if node.child:
+                    stack.append(node.child)
+                node.child = None
+                curr.next = node
+                node.prev = curr
+                curr = curr.next
+                
+        head.prev = None
+        return head
