@@ -1,0 +1,37 @@
+
+#
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: Node
+        :rtype: str
+        """
+        if root == None:
+            return ''
+        res = str(root.val) + '['
+        for cur in root.children:
+            res += self.serialize(cur)
+        res += ']'
+        return res
+        
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: Node
+        """
+        stack = []
+        start = 0
+        for i, c in enumerate(data):
+            if c == '[':
+                newNode = Node(int(data[start:i]), [])
+                stack.append(newNode)
+                start = i + 1
+            elif c == ']':
+                if len(stack) > 1:
+                    ch = stack.pop()
+                    stack[-1].children.append(ch)
+                start = i + 1
+        return stack[0] if stack else None
