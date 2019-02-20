@@ -1,0 +1,26 @@
+#
+
+#
+class Solution(object):
+    def sortTransformedArray(self, nums, a, b, c):
+        """
+        :type nums: List[int]
+        :type a: int
+        :type b: int
+        :type c: int
+        :rtype: List[int]
+        """
+        r = []
+        v = -b / 2.0 / a if a != 0 else -b * float('inf')
+        from bisect import bisect
+        p = bisect(nums, v); d = p - 1
+        while -1 < d <= p < len(nums):
+            k = d
+            if v - nums[d] < nums[p] - v: d -= 1
+            else: k = p; p += 1
+            r.append(a * nums[k] * nums[k] + b * nums[k] + c)
+        k, u = (d, -1) if d > -1 else (p, 1)
+        while -1 < k < len(nums):
+            r.append(a * nums[k] * nums[k] + b * nums[k] + c)
+            k += u
+        return r if a >= 0 else r[ : : -1]
