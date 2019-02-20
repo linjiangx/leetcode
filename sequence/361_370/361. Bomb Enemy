@@ -1,0 +1,52 @@
+#
+#
+class Solution(object):
+    def maxKilledEnemies(self, grid):
+        """
+        :type grid: List[List[str]]
+        :rtype: int
+        """
+        if not grid:
+            return 0
+        
+        R, C = len(grid), len(grid[0])
+        max_k = 0
+        
+        def check(i, j):
+            count_e = 0
+            x, y = i, j
+            
+            while (y >= 0 and grid[x][y] != "W"):
+                if grid[x][y] == "E":
+                    count_e += 1
+                y -= 1
+            
+            x, y = i, j     # Reset
+            
+            while (y < C and grid[x][y] != "W"):                    
+                if grid[x][y] == "E":
+                    count_e += 1
+                y += 1
+                
+            x, y = i, j     # Reset
+            
+            while(x >= 0 and grid[x][y] != "W"):
+                if grid[x][y] == "E":
+                    count_e += 1
+                x -= 1
+            
+            x, y = i, j     # Reset
+            
+            while(x < R and grid[x][y] != "W"):
+                if grid[x][y] == "E":
+                    count_e += 1
+                x += 1
+            
+            return count_e
+        
+        for i in range(R):
+            for j in range(C):
+                if grid[i][j] == "0":
+                    max_k = max(max_k, check(i, j))
+                    
+        return max_k
