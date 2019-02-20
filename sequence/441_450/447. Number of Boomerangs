@@ -1,0 +1,30 @@
+#
+#
+class Solution:
+    def numberOfBoomerangs(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: int
+        """
+        #import math
+        def dis(p1,p2):
+            x = p1[0]-p2[0]
+            y = p1[1]-p2[1]
+            return pow(x,2)+pow(y,2)
+        n = len(points)
+        count = 0
+        for i in range(0,n):
+            d = {}
+            for j in range(0,n):
+                distance = dis(points[i],points[j])
+                if distance in d:
+                    d[distance] += 1
+                else:
+                    d[distance] = 1
+            #print(points[i])
+            #print(d)
+            for e in d:
+                # Arrangement n!/(n-m)!
+                if d[e] > 1:
+                    count += math.factorial(d[e])//math.factorial(d[e]-2)
+        return count
