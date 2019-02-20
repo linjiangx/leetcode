@@ -1,0 +1,30 @@
+
+#
+#
+class Solution:
+    def decodeString(self, s: 'str'):
+        numStack = []
+        strStack = ['']
+        num = 0
+        for c in s:
+            if c.isdigit():
+                num = 10 * num + int(c)
+            else:
+                if c == '[':
+                    strStack.append(c)
+                    numStack.append(num)
+                    num = 0
+                elif c == ']':
+                    topStr = strStack.pop()
+                    topNum = numStack.pop()
+                    strStack.pop() # Pop '['
+                    if strStack[-1] == '[':
+                        strStack.append(topStr * topNum)
+                    else:
+                        strStack[-1] += topStr * topNum
+                else:
+                    if strStack[-1] == '[':
+                        strStack.append(c)
+                    else:
+                        strStack[-1] += c
+        return strStack[0]
