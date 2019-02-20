@@ -1,0 +1,29 @@
+#
+#
+class Solution(object):
+    def pathSum(self, root, sum):
+        """
+        :type root: TreeNode
+        :type sum: int
+        :rtype: int
+        """
+        memory = {0: 1}
+        
+        def dfs(node, cusum, sum):
+            if not node: return 0
+            count = 0
+            cusum += node.val
+            if cusum - sum in memory: 
+                count += memory[cusum - sum]
+                
+            if cusum in memory:
+                memory[cusum] += 1
+            else:
+                memory[cusum] = 1
+                
+            count += dfs(node.left, cusum, sum)
+            count += dfs(node.right, cusum, sum)
+            memory[cusum] -= 1
+            return count
+        
+        return dfs(root, 0, sum)
