@@ -1,0 +1,42 @@
+#
+
+#
+class Solution(object):
+    def hasPath(self, maze, start, destination):
+        """
+        :type maze: List[List[int]]
+        :type start: List[int]
+        :type destination: List[int]
+        :rtype: bool
+        """
+        def nei(i,j):
+            res =[]
+            u,d,l,r = i,i,j,j
+            while l>=0 and maze[i][l]!=1:
+                l -=1
+            if l!=j:
+                res.append([i,l+1])
+            while r<len(maze[0]) and maze[i][r]!=1:
+                r += 1
+            if r!=j:
+                res.append([i,r-1])
+            while u>=0 and maze[u][j]!=1:
+                u -= 1
+            if u!=i:
+                res.append([u+1,j])
+            while d<len(maze) and maze[d][j]!=1:
+                d += 1
+            if d!=i:
+                res.append([d-1,j])
+            return res
+        visited = [[0 for i in range(len(maze[0]))] for i in range(len(maze))]
+        st = [start]
+        while st:
+            cur = st.pop()
+            if cur == destination:
+                return True
+            visited[cur[0]][cur[1]] = 1
+            for i in nei(cur[0],cur[1]):
+                if not visited[i[0]][i[1]]:
+                    st.append(i)
+        return False
