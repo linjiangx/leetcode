@@ -1,0 +1,19 @@
+#
+#
+import heapq 
+from collections import Counter
+class Solution(object):
+    def frequencySort(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        self.q = []
+        self.charMap = Counter(s)
+        final = ""
+        for item in self.charMap.keys():
+            heapq.heappush(self.q, (-1*self.charMap[item], item))
+        while self.q:
+            frequency, character = heapq.heappop(self.q)
+            final += character * (-1*frequency)
+        return final
