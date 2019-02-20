@@ -1,0 +1,44 @@
+
+#
+#
+class Solution:
+    def getMaxRepetitions(self, s1, n1, s2, n2):
+        """
+        :type s1: str
+        :type n1: int
+        :type s2: str
+        :type n2: int
+        :rtype: int
+        """
+        i1, i2 = 0, 0
+        dic_ind = {}
+        dic_ln = {}
+        dic_ind[0] = 0
+        dic_ln[0] = 0
+        k = 0
+        cnt = 0
+        while k < n1:
+            if i2 == len(s2):
+                cnt += 1
+                i2 = 0
+            elif i1 == len(s1):
+                k += 1
+                i1 = 0
+                dic_ln[k] = cnt
+                if i2 not in dic_ind:
+                    dic_ind[i2] = k
+                else:
+                    break
+            else:
+                if s1[i1] == s2[i2]:
+                    i2 += 1
+                i1 += 1
+
+        if k == n1:
+            return cnt // n2
+        loop_cnt = dic_ln[k] - dic_ln[dic_ind[i2]]  # get the count of s2 in the loop
+        loop_range = k - dic_ind[i2]  # get the range of the loop with same i2 position
+        num_loop = (n1 - dic_ind[i2]) // loop_range  # get the number of the loops starting the first i2 line
+        ln_rest = (n1 - dic_ind[i2]) % loop_range  # get the rest of the lines
+        res_p = dic_ln[dic_ind[i2] + ln_rest]  # combine the starting point with rest of the lines
+        return (res_p + num_loop * loop_cnt) // n2
