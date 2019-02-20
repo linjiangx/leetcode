@@ -1,0 +1,16 @@
+#
+#
+class Solution(object):
+    def largestDivisibleSubset(self, nums):
+        dp = {-1: 0};
+        path = {};
+        ans = []
+        for num in sorted(nums):
+            j, i = max((dp[i], i) for i in dp if num % i == 0)
+            dp[num] = j + 1
+            path[num] = i
+        k = max(dp, key=dp.get)
+        while k != -1:
+            ans.append(k)
+            k = path[k]
+        return ans 
