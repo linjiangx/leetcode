@@ -1,0 +1,22 @@
+#
+#
+'''
+each land (denoted by 1) has 4 edges: add 4
+when two edges are duplicated (top or left): minus 2
+'''
+
+class Solution(object):
+    def islandPerimeter(self, grid):
+        res = 0
+        top = [0] * len(grid[0])  # surrounded by water (top)
+        for row in grid:
+            pre = 0  # surrounded by water (left)
+            for i, cur in enumerate(row):
+                if cur == 1:
+                    res -= top[i] * 2  # minus 2 if there are dup edges on the top
+                    if pre == 0:
+                        res += 4  # (0 -> 1), add 4 (for new land)
+                    else:
+                        res += 2  # (1 -> 1), add 2 (4 new edges, but 2 are dup on the left)
+                top[i], pre = cur, cur
+        return res
