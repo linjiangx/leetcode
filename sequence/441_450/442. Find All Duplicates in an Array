@@ -1,0 +1,18 @@
+
+#
+#
+class Solution(object):
+    def findDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        dups = {}
+        ans = []
+        for num in nums:
+            if num not in dups:
+                dups[num] = 1
+            else:
+                ans.append(num)
+        return ans
+        ```
