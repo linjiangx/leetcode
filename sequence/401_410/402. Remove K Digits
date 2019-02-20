@@ -1,0 +1,28 @@
+#
+
+#
+class Solution(object):
+    def removeKdigits(self, num, k):
+        """
+        :type num: str
+        :type k: int
+        :rtype: str
+        """
+        start = 0
+        for _ in range(k):
+            for i in range(start,len(num)-1):
+                if num[i]>num[i+1]:
+                    num = num[:i]+num[i+1:]
+                    if i!=0:
+                        start = i-1
+                    else:
+                        start = 0
+                    break
+                    
+            else:
+                num = num[:-1]
+                start = len(num)-2
+        if num=='':
+            return '0'
+        else:
+            return str(int(num))
