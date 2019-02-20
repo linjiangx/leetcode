@@ -1,0 +1,23 @@
+#
+#
+from collections import defaultdict, deque
+class Solution(object):
+    def minTransfers(self, trans):
+        debt = defaultdict(int)
+        for i, j, k in trans: debt[i] -= k; debt[j] += k
+        debt = list(filter(None, debt.values()))
+
+        def SplitDebt():
+            cset, Q = set(), deque([([0], debt[0])])
+            while Q:
+                cset, csum = Q.popleft()
+                if csum == 0: break
+                for j in range(cset[-1] + 1, len(debt)):
+                    Q.append((cset + [j], csum + debt[j]))
+            if not cset: return False
+            debt[:] = [debt[i] for i in set(range(len(debt))) - set(cset)]
+            return True
+
+        res = len(debt)
+        while debt and SplitDebt(): res -= 1
+        return res
