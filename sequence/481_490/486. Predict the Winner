@@ -1,0 +1,10 @@
+#
+#
+class Solution(object):
+    def PredictTheWinner(self, nums):
+        self.dp = [[0]*len(nums) for i in range(len(nums))]
+        def helper(i,j):
+            if i < j and not self.dp[i][j]:
+                self.dp[i][j] = max(nums[i] - helper(i + 1, j), nums[j] - helper(i, j - 1))
+            return self.dp[i][j]
+        return helper(0, len(nums)-1) >= 0
