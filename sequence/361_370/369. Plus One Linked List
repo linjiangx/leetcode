@@ -1,0 +1,23 @@
+#
+#
+class Solution:
+    def plusOne(self, head: 'ListNode') -> 'ListNode':
+        num_str = ''
+        start_head = head
+        while head:
+            num_str += str(head.val) 
+            head = head.next    
+        num_int = int(num_str) + 1
+        num_str = str(num_int)
+        
+        head = start_head
+        i = 0
+        
+        while i < len(num_str):
+            head.val = int(num_str[i])
+            if i + 1 < len(num_str):
+                head.next = ListNode(int(num_str[i]))
+            head = head.next
+            i += 1
+            
+        return start_head
