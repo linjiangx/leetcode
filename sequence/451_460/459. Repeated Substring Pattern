@@ -1,0 +1,6 @@
+##
+
+#
+class Solution():
+    def repeatedSubstringPattern(self, s):
+        return (s+s)[1:].find(s) != (len(s)-1)
