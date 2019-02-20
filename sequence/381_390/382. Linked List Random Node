@@ -1,0 +1,16 @@
+#
+#
+from random import randint
+
+
+class Solution(object):
+    def __init__(self, head):
+        self.head = head
+
+    def getRandom(self):
+        res, i, cur = None, 0, self.head
+        while cur:
+            if randint(0, i) == 0:
+                res = cur.val
+            i, cur = i+1, cur.next
+        return res 
