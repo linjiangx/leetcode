@@ -1,0 +1,16 @@
+#
+#
+class Solution(object):
+    def validWordAbbreviation(self, word: 'str', abbr: 'str') -> 'bool':
+        i, num, n = 0, '', len(abbr)
+        for j, c in enumerate(abbr):
+            if c.isalpha():
+                if i >= len(word) or c != word[i]: return False
+                i += 1
+            else:
+                num += c
+                if num == '0': return False
+                if j < n - 1 and abbr[j + 1].isalpha() or (j == n - 1):
+                    i += int(num)
+                    num = ''
+        return i == len(word)
