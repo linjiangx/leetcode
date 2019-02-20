@@ -1,0 +1,20 @@
+
+#
+#
+class Solution:
+    def constructRectangle(self, area: 'int') -> 'List[int]':
+        s = math.sqrt(area)
+        m = float('inf')
+        cur_a = 0
+        cur_b = 0
+        if s == int(s):
+            return [int(s),int(s)]
+        else:
+            for i in range(1,int(s)+1):
+                j = area//i
+                if i*j == area:
+                    if j-i < m:
+                        m = min(m,j-i)
+                        cur_a = i
+                        cur_b = j
+            return [cur_b,cur_a]
