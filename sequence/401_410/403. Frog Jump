@@ -1,0 +1,19 @@
+#
+
+#
+class Solution(object):
+    def canCross(self, stones):
+        """
+        :type stones: List[int]
+        :rtype: bool
+        """
+        dp = [set() for item in stones]
+        dp[0].add(1) #dp[i][j] means if starts from i, we can jump j steps
+        for i in range(len(stones)):
+            for j in range(i):
+                k = stones[i]-stones[j]
+                if k in dp[j]: #target distance exists in previous stones
+                    dp[i].add(k)
+                    dp[i].add(k+1)
+                    dp[i].add(k-1) #if k-1<=0, we can skip this, but it doesn't matter
+        return bool(dp[len(stones)-1])
