@@ -1,0 +1,15 @@
+#
+#
+class Solution:
+    def findWords(self, words: 'List[str]') -> 'List[str]':
+        r1 = set('qwertyuiop')
+        r2 = set('asdfghjkl')
+        r3 = set('zxcvbnm')
+        out = []
+        for i in range(0,len(words)):
+            w = words[i].lower()
+            temp = list(w)
+            ts = set(temp)
+            if len(r1) == len(r1 | ts) or len(r2) == len(r2 | ts) or len(r3) == len(r3 | ts):
+                out.append(words[i])
+        return out
