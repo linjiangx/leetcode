@@ -1,0 +1,34 @@
+#
+#
+from collections import defaultdict, deque
+from typing import List
+
+class Twitter:
+
+    def __init__(self):
+        self.time = 0
+        self.tweets_by_user = defaultdict(deque)
+        self.following = defaultdict(set)
+
+    def postTweet(self, userId: int, tweetId: int):
+        self.time += 1
+        user_tweets = self.tweets_by_user[userId]
+        user_tweets.appendleft((self.time, tweetId))
+        if len(user_tweets) > 10:
+            user_tweets.pop()
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        tweets = list(self.tweets_by_user[userId])
+        for user in self.following[userId]:
+            tweets.extend(self.tweets_by_user[user])
+        tweets.sort(key=lambda p: p[0], reverse=True)
+        return [tweet for _, tweet in tweets[:10]]
+
+    def follow(self, followerId: int, followeeId: int):
+        if followerId != followeeId:
+            self.following[followerId].add(followeeId)
+
+    def unfollow(self, followerId, followeeId):
+        followes = self.following[followerId]
+        if followeeId in followes:
+            followes.remove(followeeId)
