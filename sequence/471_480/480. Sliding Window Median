@@ -1,0 +1,54 @@
+#
+#
+class Solution:
+    def medianSlidingWindow(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[float]
+        """
+        if k == 1: 
+            ans = nums
+        elif k == 2:
+            ans = [(nums[i]+nums[i+1])/2 for i in range(len(nums)-1)]
+        else:
+            first_k = sorted(nums[:k])
+            hp_low, hp_high = [-n for n in first_k[:(k+1)//2]], first_k[(k+1)//2:]
+            heapq.heapify(hp_low)
+            heapq.heapify(hp_high)
+
+            ans = [-hp_low[0] if k%2 else (-hp_low[0]+hp_high[0])/2]
+            wait_to_pop = collections.Counter()
+
+            for i in range(k, len(nums)):
+                out_num, in_num = nums[i-k], nums[i]
+                wait_to_pop[out_num] += 1
+
+                balance = -1 if out_num <= -hp_low[0] else 1
+
+                if in_num <= -hp_low[0]:
+                    balance += 1
+                    heapq.heappush(hp_low, -in_num)
+                else:
+                    balance -= 1
+                    heapq.heappush(hp_high, in_num)
+
+                if balance < 0:
+                    heapq.heappush(hp_low, -heapq.heappop(hp_high))
+                elif balance > 0:
+                    heapq.heappush(hp_high, -heapq.heappop(hp_low))
+
+                while wait_to_pop[-hp_low[0]]:
+                    wait_to_pop[-hp_low[0]] -= 1
+                    heapq.heappop(hp_low)
+
+
+                while wait_to_pop[hp_high[0]]:
+                    wait_to_pop[hp_high[0]] -= 1
+                    heapq.heappop(hp_high)
+
+                median = -hp_low[0] if k%2 else (-hp_low[0]+hp_high[0])/2
+                ans.append(median)
+        
+        return list(map(float,ans))
+                
