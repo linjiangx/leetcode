@@ -1,0 +1,8 @@
+
+##
+
+class Solution:
+	def lexicalOrder(self, n: 'int') -> 'List[int]':
+		solution = list( map ( str, list( range(1, n + 1) ) ) )
+		solution.sort()
+		return list(map(int, solution))
