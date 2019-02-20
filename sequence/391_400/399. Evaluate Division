@@ -1,0 +1,42 @@
+#
+#
+'''
+		Create a graph with variables as nodes, their values as edge weights.
+		Also add the reverse edges. [When a/b is given, we also know b/a]
+		All we have to do is a DFS(only once) and query multiple times.
+		We build mapping in such a way that a path from one node to all other nodes are recorded. 
+'''
+from collections import defaultdict
+
+class Solution(object):
+    
+    def calcEquation(self, equations, values, queries):
+        graph = defaultdict(list)
+        self.createGraph(equations, values, graph)
+        mapping = {}
+        for node in graph:
+            if node not in mapping:
+                mapping[node] = (1,node)
+                self.DFS(graph, node, mapping)
+        
+        result = []
+        for a,b in queries:
+            if a not in mapping or b not in mapping:
+                result.append(-1.0)
+            elif mapping[a][1] != mapping[b][1]:
+                result.append(-1.0)
+            else:
+                result.append(float(mapping[a][0])/float(mapping[b][0]))
+            
+        return result
+    
+    def createGraph(self, equations, values, graph):
+        for e,v in zip(equations,values):
+            graph[e[0]].append((e[1], v))
+            graph[e[1]].append((e[0], 1.0/v))
+    
+    def DFS(self, graph, node, mapping):
+        for nextNode, value in graph[node]:
+            if nextNode not in mapping:
+                mapping[nextNode] = (mapping[node][0]/value, mapping[node][1])
+                self.DFS(graph, nextNode, mapping)
