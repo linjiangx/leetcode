@@ -1,0 +1,24 @@
+#
+#
+class Solution(object):
+    def depthSum(self, nestedList):
+        """
+        :type nestedList: List[NestedInteger]
+        :rtype: int
+        """
+        
+        def depthSum_(elem, weight):
+            running_sum = 0
+            
+            if elem.isInteger():
+                running_sum += elem.getInteger() * weight
+            else:
+                for nested_elem in elem.getList():
+                    running_sum += depthSum_(nested_elem, weight + 1)
+                    
+            return running_sum
+        
+        tsum = 0
+        for elem in nestedList:
+            tsum += depthSum_(elem, 1)
+        return tsum
