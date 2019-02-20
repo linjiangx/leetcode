@@ -1,0 +1,39 @@
+#
+#
+class Solution:
+    def pacificAtlantic(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        ans = []
+        if not matrix or not matrix[0]:
+            return ans
+        
+        self.nRow, self.nCol = len(matrix), len(matrix[0])
+        self.matrix = matrix
+        paVisited = [[False] * self.nCol for _ in range(self.nRow)]
+        atVisited = [[False] * self.nCol for _ in range(self.nRow)]
+        
+        for r in range(self.nRow):
+            self.dfs(r, 0, paVisited)
+            self.dfs(r, self.nCol-1, atVisited)
+        
+        for c in range(self.nCol):
+            self.dfs(0, c, paVisited)
+            self.dfs(self.nRow-1, c, atVisited)
+            
+        for r in range(self.nRow):
+            for c in range(self.nCol):
+                if paVisited[r][c] and atVisited[r][c]:
+                    ans += [[r,c]]
+        return ans
+            
+        
+    def dfs(self, r, c, visited):
+        if not visited[r][c]:
+            visited[r][c] = True
+            for (dr, dc) in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                r_temp, c_temp = r+dr, c+dc
+                if 0 <= r_temp < self.nRow and 0 <= c_temp < self.nCol and self.matrix[r][c] <= self.matrix[r_temp][c_temp]:
+                    self.dfs(r_temp, c_temp, visited)
