@@ -1,0 +1,22 @@
+#
+#
+class Solution:
+    def numberOfArithmeticSlices(self, A):
+        if len(A) < 3: # Base case
+            return 0
+        
+        diffs = [] # Find differences
+        for i in range(len(A[:-1])):
+            diffs.append(A[i + 1] - A[i])
+
+        f = lambda x: (x*(x+1))/2 # Sum of ints
+        tot, cur = 0, 0
+        for i, d in enumerate(diffs[:-1]):
+            if diffs[i] == diffs[i+1]:
+                cur += 1
+                if i + 2 == len(diffs):
+                    tot += f(cur)
+            else:
+                tot += f(cur)
+                cur = 0
+        return int(tot)
