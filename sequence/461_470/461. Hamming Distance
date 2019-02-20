@@ -1,0 +1,31 @@
+#
+#
+class Solution(object):
+    def hammingDistance(self, x, y):
+        """
+        :type x: int
+        :type y: int
+        :rtype: int
+        """
+        def intToBit(n):
+            l=[]
+            while n>0:
+                if n%2==0:
+                    l.append(0)
+                else:
+                    l.append(1)
+                n=n//2
+            return l
+        xb=intToBit(x)
+        yb=intToBit(y)
+        dif=0
+        if len(xb)>len(yb):
+            for i in range(len(xb)-len(yb)):
+                yb.append(0)
+        if len(xb)<len(yb):
+            for i in range(abs(len(xb)-len(yb))):
+                xb.append(0)
+        for i in range(len(xb)):
+            if xb[i]!=yb[i]:
+                dif+=1
+        return dif
