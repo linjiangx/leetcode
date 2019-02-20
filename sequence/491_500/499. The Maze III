@@ -1,0 +1,27 @@
+#
+#
+class Solution:
+    def findShortestWay(self, maze, ball, hole):
+        N, M = len(maze), len(maze[0])
+        visit = set()
+        steps = [('d', 1, 0), ('l', 0, -1), ('r', 0, 1), ('u', -1, 0)]
+        hq = [(0, '', ball[0], ball[1])]
+        while hq:
+            move, step, i, j = heapq.heappop(hq)
+            if (i, j) in visit:
+                continue
+            if [i, j] == hole:
+                return step
+            visit.add((i, j))
+            for s, x, y in steps:
+                tmpmove = 0
+                ni, nj = i, j
+                while 0 <= ni + x < N and 0 <= nj + y < M and maze[ni + x][nj + y] == 0:
+                    if [ni, nj] == hole:
+                        break
+                    tmpmove += 1
+                    ni += x
+                    nj += y
+                if (ni, nj) not in visit:
+                    heapq.heappush(hq, (move + tmpmove, step + s, ni, nj))
+        return 'impossible'
