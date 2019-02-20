@@ -1,0 +1,27 @@
+#
+#
+
+class Codec:
+
+    def encode(self, root):
+        def fun(first, rest):
+            r = None
+            if first:
+                r = TreeNode(first.val)
+                if first.children:
+                    r.left = fun(first.children[0], first.children[1 : ])
+                if rest: r.right = fun(rest[0], rest[1 : ])
+            return r
+        return fun(root, [])
+
+    def decode(self, data):
+        def fun(o):
+            r = []
+            if o:
+                first = Node(o.val, None)
+                r.append(first)
+                first.children = fun(o.left)
+                rest = fun(o.right)
+                r += rest
+            return r
+        return fun(data)[0] if data else None
