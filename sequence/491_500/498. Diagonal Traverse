@@ -1,0 +1,43 @@
+
+##
+class Solution(object):
+    def findDiagonalOrder(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[int]
+        """
+        m = len(matrix)
+        if m == 0:
+            return []
+        n = len(matrix[0])
+        if n == 0:
+            return []
+        segs = []
+        for i in range(m):
+            seg = self.genSeg(matrix, i, 0)
+            segs.append(seg)
+        for j in range(1, n):
+            seg = self.genSeg(matrix, m - 1, j)
+            segs.append(seg)
+
+        ans = []
+        for i in range(len(segs)):
+            if i % 2 == 0:
+                for num in segs[i]:
+                    ans.append(num)
+            else:  # reverse the direction
+                for num in reversed(segs[i]):
+                    ans.append(num)
+        return ans
+
+    # given a start position, go along bottomLeft -> topRight
+    def genSeg(self, matrix, startRow, startCol):
+        seg = []
+        i = startRow
+        j = startCol
+        while i >= 0 and j < len(matrix[0]):
+            curr = matrix[i][j]
+            seg.append(curr)
+            i -= 1
+            j += 1
+        return seg
