@@ -1,0 +1,32 @@
+#
+#
+class Solution(object):
+    def validUtf8(self, data):
+        def first_n_bits(n, val):
+            masks = [0x00, 0x80, 0xc0, 0xe0, 0xf0, 0xf8]
+            return (masks[n] & val) >> (8-n)
+        
+        def next_n_bytes_are_valid(idx, n):
+            if idx+n > len(data): return False
+            return all([first_n_bits(2, byte) == 2 for byte in data[idx:idx+n]])
+
+        idx,n = 0,len(data)
+
+        while idx < n:
+            val = data[idx]
+            
+            if first_n_bits(1, val) == 0: # byte val
+                idx += 1
+            elif first_n_bits(3, val) == 6: # 2 byte val
+                if not next_n_bytes_are_valid(idx+1, 1): return False
+                idx += 2
+            elif first_n_bits(4, val) == 14: # 3 byte val
+                if not next_n_bytes_are_valid(idx+1, 2): return False
+                idx += 3
+            elif first_n_bits(5, val) == 30: # 4 byte val
+                if not next_n_bytes_are_valid(idx+1, 3): return False
+                idx += 4
+            else:
+                return False
+        
+        return True
