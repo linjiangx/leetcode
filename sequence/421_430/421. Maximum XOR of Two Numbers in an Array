@@ -1,0 +1,55 @@
+#
+#
+from collections import defaultdict
+
+TrieNode = lambda : defaultdict(TrieNode)
+
+class Solution:
+    def findMaximumXOR(self, nums: 'List[int]') -> 'int':
+        # convert to binary strings
+        bits = [bin(num)[2:] for num in nums]
+        max_len = max(map(len, bits))
+        
+        # pad to longest length
+        bits = ['0' * (max_len- len(num)) + num for num in bits]
+        
+        
+        # insert into trie
+        root = TrieNode()
+        
+        def _insert(node, word, i):
+            if i == len(word):
+                node['end'] = word
+                return
+            
+            _insert(node[word[i]], word, i+1)
+            
+        for num in bits:
+            _insert(root, num, 0)
+            
+        # for each number, search for its complement
+        def _search(node, word, i):
+            if i == len(word):
+                return 0
+        
+            # if bit does not match, search complement of current bit
+            if word[i] not in node:
+                # 
+                return 0 + _search(node[str(int(word[i]) ^ 1)], word, i+1)
+            
+            # if bit match, add xor = 1, add score
+            else:
+                return 2 ** (max_len - (i+1)) + _search(node[word[i]], word, i+1)
+        
+        best = 0
+        for num in bits:
+            # flip bits and pad to max len
+            comp = bin(int(num, 2) ^ int('1'*max_len, 2))[2:]
+            comp = '0' * (max_len - len(comp)) + comp
+            
+            score = _search(root, comp, 0)
+            print(score)
+            if score > best:
+                best = score
+                
+        return best
