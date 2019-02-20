@@ -1,0 +1,19 @@
+class Solution:
+    def addStrings(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        i,j = len(num1)-1, len(num2)-1
+        plus = 0
+        ans = ''
+        while i >= 0 or j >= 0 or plus:
+            if i >= 0:
+                plus += int(num1[i])
+            if j >= 0:
+                plus += int(num2[j])
+            ans = str(plus%10) + ans
+            i,j = i-1,j-1
+            plus = plus // 10
+        return ans
