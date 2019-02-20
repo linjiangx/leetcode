@@ -1,0 +1,41 @@
+#
+#
+class Solution:
+    def wordsTyping(self, sentence, rows, cols, test=True):
+        """
+        :type sentence: List[str]
+        :type rows: int
+        :type cols: int
+        :rtype: int
+        """
+        p = 0
+        l = len(sentence)
+        res = 0
+        n = 0
+        phase = {}
+        for _ in range(rows):
+            remain = cols
+            line = []
+            lp = len(' '.join(sentence)) + 1
+            lr = remain // (lp)
+            remain = cols - lr * lp
+            res += lr
+            while remain >= len(sentence[p]):
+                remain -= len(sentence[p]) + 1 
+                line.append(sentence[p])
+                if p + 1 == l :
+                    p = 0
+                    res += 1
+                else:
+                    p = p + 1
+            if test and tuple(line+[p]) in phase:
+                period, t = n - phase[tuple(line+[p])][0], res - phase[tuple(line+[p])][1]
+                pre = n
+                rep = (rows - pre ) // period
+                post = (rows - pre ) % period
+                # print(period, t, phase[tuple(line)][0])
+                return rep * t + self.wordsTyping(sentence, pre+post, cols, test=False)
+            phase[tuple(line+[p])] = (n, res)
+            n += 1
+            # print(line)
+        return res 
