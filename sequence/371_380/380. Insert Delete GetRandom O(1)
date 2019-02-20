@@ -1,0 +1,23 @@
+#
+#
+class RandomizedSet:
+    def __init__(self):
+        self.S = set()        
+    def insert(self, val):
+        if val in self.S: return False        
+        self.S.add(val)               
+        return  True    
+    def remove(self, val):        
+        if val not in self.S: return False
+        self.S.discard(val)
+        return  True    
+    def getRandom(self):        
+        return random.sample(self.S, 1)[0]
+        
+
+
+# Your RandomizedSet object will be instantiated and called as such:
+# obj = RandomizedSet()
+# param_1 = obj.insert(val)
+# param_2 = obj.remove(val)
+# param_3 = obj.getRandom()
