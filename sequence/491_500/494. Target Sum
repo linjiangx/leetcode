@@ -1,0 +1,57 @@
+#
+#
+class Solution:
+    def findTargetSumWays(self, nums, S):
+        """
+        :type nums: List[int]
+        :type S: int
+        :rtype: int
+        """
+        
+        # Top-down DP solution
+        # ans(t, s) = ans(t-1, s-nums[t]) + ans(t-1, s+nums[t])    
+        
+        ans = {}
+        n = len(nums)-1
+        stack = [(n, S)]
+
+        while stack:
+            # peek top
+            t, s = stack[-1]
+            
+            # look up the values for children
+            pos = None
+            neg = None
+            
+            # base case
+            if t == 0:
+                if nums[0] == s:
+                    pos = 1
+                else:
+                    pos = 0
+                if -nums[0] == s:
+                    neg = 1
+                else:
+                    neg = 0
+                    
+            # try to look up from cache
+            else:
+                if (t-1, s-nums[t]) in ans:
+                    pos = ans[t-1, s-nums[t]] 
+
+                if (t-1, s+nums[t]) in ans:
+                    neg = ans[t-1, s+nums[t]]
+
+                    
+            # if both pos and neg ans are available then update ans and pop from stack 
+            # if either pos or neg not available, push to stack to calculate it
+            if pos is not None and neg is not None:
+                ans[t, s] = pos + neg
+                stack.pop()
+                
+            elif pos is None:
+                stack.append((t-1, s-nums[t]))
+            elif neg is None:
+                stack.append((t-1, s+nums[t]))
+                
+        return ans[(n, S)]
