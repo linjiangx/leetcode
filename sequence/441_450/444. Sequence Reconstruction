@@ -1,0 +1,29 @@
+#
+#
+class Solution:
+    def sequenceReconstruction(self, org, seqs):
+        """
+        :type org: List[int]
+        :type seqs: List[List[int]]
+        :rtype: bool
+        """
+        pairs = set()
+        idxs = {}
+        
+        for i in range(len(org)):
+            idxs[org[i]] = i
+            
+        for i in range(len(seqs)):
+            s = seqs[i]
+            for j in range(len(s)):
+                if s[j] not in idxs:
+                    return False
+                if j > 0 and idxs[s[j-1]] >= idxs[s[j]]:
+                    return False
+                pairs.add((s[j-1],s[j]))
+                    
+        if not pairs: return False
+        for i in range(1, len(org)):
+            if (org[i-1], org[i]) not in pairs:
+                return False
+        return True
