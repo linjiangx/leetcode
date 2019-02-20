@@ -1,0 +1,26 @@
+#
+#
+class Solution:
+    def validIPAddress(self, IP):
+        """
+        :type IP: str
+        :rtype: str
+        """
+        def is_ipv4():
+            ls = IP.split('.')
+            if len(ls) == 4 and all(g.isdigit() and str(int(g)) == g and 0 <= int(g) <= 255 for g in ls):
+                return True
+            return False
+        
+        def is_ipv6():
+            ls = IP.split(':')
+            if len(ls) == 8 and all(0 < len(g) <= 4 and all(c in '0123456789abcdefABCDEF' for c in g) for g in ls):
+                return True
+            return False   
+        
+        if '.' in IP and is_ipv4():
+            return 'IPv4'
+        if ':' in IP and is_ipv6():
+            return 'IPv6'
+        
+        return 'Neither'
