@@ -1,0 +1,26 @@
+#
+
+#
+class Solution:
+    def isRectangleCover(self, rectangles):
+        
+        size = 0
+        corners = set()
+        
+        for x, y, X, Y in rectangles:
+            fours = [(x, y), (x, Y), (X, y), (X, Y)]
+            for point in fours:
+                if point not in corners:
+                    corners.add(point)
+                else:
+                    corners.remove(point)
+            size += (Y - y) * (X - x)
+            
+        if len(corners) != 4:
+            return False
+  
+        corners = sorted(corners, key=lambda x: (x[0], x[1]))
+        
+        if (corners[3][0] - corners[1][0]) * (corners[3][1] - corners[2][1]) != size:
+            return False
+        return True
