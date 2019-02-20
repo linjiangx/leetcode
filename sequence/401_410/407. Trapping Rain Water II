@@ -1,0 +1,37 @@
+#
+#
+'''
+Push water of outline to heap
+Pop min height and iterate its 4 direction
+If the location has not been visited, push into heap and update the result
+'''
+class Solution:
+    def trapRainWater(self, heightMap: 'List[List[int]]') -> 'int':
+        
+        ans = 0
+        if not len(heightMap) or not len(heightMap[0]):
+            return ans
+        
+        from heapq import heappush, heappop
+        heap = []
+        m, n = len(heightMap), len(heightMap[0])
+        visited = [[0] * n for _ in range(m)]
+        
+        for i in range(m):
+            for j in range(n):
+                if j in [0, n-1] or i in [0, m-1]:
+                    heappush(heap, (heightMap[i][j], i, j))
+                    visited[i][j] = 1
+        
+        while heap:
+            height, i, j = heappop(heap)
+            dx = [0, 0, 1, -1]
+            dy = [1, -1, 0, 0]
+            for t in range(4):
+                if 0 <= i + dx[t] < m and 0 <= j + dy[t] < n and visited[i + dx[t]][j + dy[t]] == 0:
+                    h = max(height, heightMap[i + dx[t]][j + dy[t]])
+                    heappush(heap, (h , i + dx[t], j + dy[t]))
+                    ans += h - heightMap[i + dx[t]][j + dy[t]]
+                    visited[i + dx[t]][j + dy[t]] = 1
+                    
+        return ans
