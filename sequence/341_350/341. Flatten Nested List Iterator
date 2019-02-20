@@ -1,0 +1,32 @@
+#
+
+#
+class NestedIterator(object):
+
+    def __init__(self, nestedList):
+        """
+        Initialize your data structure here.
+        :type nestedList: List[NestedInteger]
+        """
+        self.res = collections.deque()
+        
+        def construct(List):
+            for c in List:
+                if c.isInteger(): 
+                    self.res.append(c.getInteger())
+                else:
+                    construct(c.getList())
+        construct(nestedList)
+        
+    def next(self):
+        """
+        :rtype: int
+        """
+        if self.hasNext:
+            return self.res.popleft()
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return len(self.res) > 0
