@@ -1,0 +1,27 @@
+'''
+Idea: The algorithm consists of two steps:
+
+We group the points by their y coordinates. We construct a dictionary dic, and for each group, dic maps the y coordinate of the group to the list of x coordinates of the points in the group.
+We initialize a variable line = None, denoting the x coordinate of the reflection line. We then enumerate the key, val pairs of dic, and for each key, val pair, we sort val (i.e., we let all points with y == key line up along the x axis). We enumerate pairs of points x_head, x_tail at the two ends of val, and gradually moving towards the middle. If line == None, then we assign line = (x_head + x_tail) / 2, because x_head and x_tail must be mirror image of each other with respect to line; Else, if line is already assigned some value, we need to check if line == (x_head + x_tail) / 2. If not, we return False. If all such pairs have been check and we didn't return False, we return True.
+Time complexity: O(n log n), space complexity: O(n).
+'''
+
+class Solution:
+    def isReflected(self, points: 'List[List[int]]') -> 'bool':
+        dic = {}
+        for x, y in points:
+            if y in dic:
+                dic[y].append(x)
+            else:
+                dic[y] = [x]
+        line = None
+        for key, val in dic.items():
+            val = sorted(val)
+            for j in range(len(val) // 2 + 1):
+                mid = (val[j] + val[len(val)-1-j]) / 2
+                if not line:
+                    line = mid
+                else:
+                    if line != mid:
+                        return False
+        return True
