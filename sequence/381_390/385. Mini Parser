@@ -1,0 +1,63 @@
+#
+#
+class Solution(object):
+    def __init__(self):
+        self.digits = set(['-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+    
+    def deserialize(self, s):
+        """
+        :type s: str
+        :rtype: NestedInteger
+        """
+        elems = []
+        isList = False
+        if s[0] == '[' and s[-1] == ']':
+            s = s[1:len(s)-1]
+            isList = True
+        
+        i = 0
+        while i < len(s):
+            c = s[i]
+            if c in self.digits:
+                j = i+1
+                while j<len(s) and s[j] in self.digits: j+=1
+                digit = int(s[i:j])
+                ni = NestedInteger()
+                ni.setInteger(digit)
+                elems.append(ni)
+                i = j
+                pass
+            elif c == '[':
+                j = self.splitNI(s, i)
+                ni = self.deserialize(s[i:j+1])
+                elems.append(ni)
+                i = j+1
+            elif c == ',':
+                i += 1
+        
+        ni = None
+        if len(elems)==1:
+            if not isList:
+                ni = elems[0]
+            else:
+                ni = NestedInteger()
+                ni.add(elems[0])
+        else:
+            ni = NestedInteger()
+            for e in elems:
+                ni.add(e)
+        return ni
+        
+    def splitNI(self, s, i):
+        if s[i] != '[': return -1
+        cnt = 1
+        i += 1
+        while i<len(s):
+            if s[i] == '[':
+                cnt += 1
+            elif s[i] == ']':
+                cnt -= 1
+            if cnt == 0:
+                break
+            i += 1
+        return i
