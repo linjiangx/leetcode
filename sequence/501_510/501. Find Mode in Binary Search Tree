@@ -1,0 +1,25 @@
+#
+#
+class Solution:
+    def findMode(self, root: 'TreeNode') -> 'List[int]':
+        self.freqDic = {}
+        self.makeFreq(root)
+        
+        max = 0;
+        for k,v in self.freqDic.items() : 
+            if v > max : max = v
+        
+        result = []
+        for k, v in self.freqDic.items() :
+            if v == max :result.append(k)
+        
+        return result
+        
+        
+        
+    def makeFreq(self, node: 'TreeNode') -> 'None' :
+        if not node : return
+        
+        self.freqDic[node.val] = self.freqDic.get(node.val, 0) + 1
+        self.makeFreq(node.left)
+        self.makeFreq(node.right)
