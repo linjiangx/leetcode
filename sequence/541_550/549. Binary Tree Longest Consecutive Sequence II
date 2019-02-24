@@ -1,0 +1,23 @@
+#
+#
+class Solution:
+    def longestConsecutive(self, root: 'TreeNode') -> 'int':
+        self.ans = 0
+        def helper(node):
+            if not node:
+                return [0, 0]
+            ans = [1, 1]
+            left = helper(node.left)
+            right = helper(node.right)
+            if node.left and node.left.val == node.val + 1:
+                ans[0] = left[0] + 1
+            if node.right and node.right.val == node.val + 1:
+                ans[0] = max(ans[0], right[0]+1)
+            if node.left and node.left.val == node.val - 1:
+                ans[1] = left[1] + 1
+            if node.right and node.right.val == node.val - 1:
+                ans[1] = max(ans[1], right[1]+1)
+            self.ans = max(self.ans, sum(ans) - 1)
+            return ans
+        helper(root)
+        return self.ans
