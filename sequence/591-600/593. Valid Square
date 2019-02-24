@@ -1,0 +1,17 @@
+#
+#
+class Solution:
+    def validSquare(self, p1, p2, p3, p4):
+        if p1 == p2 or p1 == p3 or p1 == p4 or p2 == p3 or p2 == p4 or p3 == p4:
+            return False
+
+        x = [p1, p2, p3, p4]
+
+        x.sort()
+
+        return getDistance(x[0], x[1]) == getDistance(x[0], x[2]) == getDistance(x[1], x[3]) == getDistance(x[2], x[
+            3]) and getDistance(x[0], x[3]) == getDistance(x[1], x[2])
+
+
+def getDistance(pt1, pt2):
+    return (abs(pt1[0] - pt2[0]) ** 2 + abs(pt1[1] - pt2[1]) ** 2)
