@@ -1,0 +1,35 @@
+#
+#
+class Solution:
+    def outerTrees(self, points):
+        """
+        :type points: List[Point]
+        :rtype: List[Point]
+        """
+        points.sort(key = lambda p: (p.x, p.y))
+        
+        if len(points) <= 3:
+            return points
+        
+        def cross_prod(a, b, c):
+            return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x)
+        
+        lower = []
+        lower_len = 0
+        for p in points:
+            while lower_len >= 2 and cross_prod(lower[-2], lower[-1], p) < 0:
+                lower.pop()
+                lower_len -= 1
+            lower.append(p)
+            lower_len += 1
+            
+        upper = []
+        upper_len = 0
+        for p in reversed(points):
+            while upper_len >= 2 and cross_prod(upper[-2], upper[-1], p) < 0:
+                upper.pop()
+                upper_len -= 1
+            upper.append(p)
+            upper_len += 1
+        
+        return lower[:-1]+upper[:-1]
