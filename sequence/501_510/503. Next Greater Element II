@@ -1,0 +1,14 @@
+#
+#
+class Solution(object):
+    def nextGreaterElements(self, nums):
+        mem,n,st = {},len(nums),[]
+        res = [-1 for i in range(n)]
+        nums = nums[::-1] + nums[::-1]
+        for ind,i in enumerate(nums):
+            while st and i>=st[-1]:
+                st.pop()
+            st.append(i)
+            if len(st)>=2:
+                res[n-ind%n-1] = st[-2]
+        return res
