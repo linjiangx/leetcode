@@ -1,0 +1,24 @@
+#
+#
+class Solution:
+    def findCircleNum(self, M: 'List[List[int]]') -> 'int':
+        def find(x):
+            if x != uf[x]: uf[x] = find(uf[x])
+            return uf[x]
+
+        def union(x, y):
+            p, q = find(x), find(y)
+            if p != q:
+                uf[p] = q
+                return True
+            else:
+                return False
+
+        N = len(M)
+        uf = {i: i for i in range(N)}
+        nb_circle = N
+        for i in range(N):
+            for j in range(i + 1, N):
+                if M[i][j] == 1 and union(i, j):
+                    nb_circle -= 1
+        return nb_circle
