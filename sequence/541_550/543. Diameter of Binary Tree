@@ -1,0 +1,17 @@
+#
+#
+class Solution(object):
+    def diameterOfBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        def dfs(root):
+            if not root:
+                return 0, 0
+            l = dfs(root.left)
+            r = dfs(root.right)
+            here = max(l[0],r[0])+1
+            return here, max(l[1],r[1],l[0]+r[0]+1)
+        res = dfs(root)[1]
+        return res-1 if res > 0 else 0
