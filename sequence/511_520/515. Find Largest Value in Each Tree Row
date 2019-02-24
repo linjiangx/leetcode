@@ -1,0 +1,22 @@
+
+##
+class Solution:
+    def largestValues(self, root: 'TreeNode') -> 'List[int]':
+        if root is None:
+            return []
+        queue = [[root]]
+        res = []
+        while queue:
+            nodes = queue.pop(0)
+            next_lv = []
+            largest = float('-inf')
+            for node in nodes:
+                largest = max(largest, node.val)
+                if node.left:
+                    next_lv.append(node.left)
+                if node.right:
+                    next_lv.append(node.right)
+            res.append(largest)
+            if next_lv:
+                queue.append(next_lv)
+        return res
