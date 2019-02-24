@@ -1,0 +1,15 @@
+#
+#
+class Solution:
+    def findMinDifference(self, timePoints):
+        """
+        :type timePoints: List[str]
+        :rtype: int
+        """
+        timePoints = map(lambda x: int(x.split(":")[0])*60 + int(x.split(":")[1]), timePoints)
+        timePoints = sorted(timePoints)
+        timePoints.append(timePoints[0]+24*60)
+        res  = float('inf')
+        for i in range(1, len(timePoints)):
+            res = min(res, timePoints[i]-timePoints[i-1])
+        return res
