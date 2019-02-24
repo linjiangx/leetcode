@@ -1,0 +1,17 @@
+#
+#
+class Solution(object):
+    def leastBricks(self, wall):
+        """
+        :type wall: List[List[int]]
+        :rtype: int
+        """
+        counter = collections.defaultdict(int)
+        ans = 0
+        for i in range(len(wall)):
+            count = 0
+            for j in range(len(wall[i])-1):
+                count += wall[i][j]
+                counter[count] += 1
+                ans = max(ans,counter[count])
+        return len(wall)-ans
