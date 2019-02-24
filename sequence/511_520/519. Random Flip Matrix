@@ -1,0 +1,41 @@
+#
+#
+class Solution:
+
+    def __init__(self, n_rows, n_cols):
+        """
+        :type n_rows: int
+        :type n_cols: int
+        """
+        self.n = n_rows * n_cols
+        self.n_cols = n_cols
+        self.reset()
+
+    def flip(self):
+        """
+        :rtype: List[int]
+        """
+        index = int(random.random() * (self.n - len(self.removed)))
+        alreadySkipped = 0
+        while True:
+            removedBefore = bisect.bisect(self.removed, index)
+            if removedBefore == alreadySkipped:
+                break
+            index += removedBefore - alreadySkipped
+            alreadySkipped = removedBefore
+        bisect.insort(self.removed, index)
+        # del self.indexes[i]
+        return (index // self.n_cols, index % self.n_cols)
+
+    def reset(self):
+        """
+        :rtype: void
+        """
+        # self.indexes = list(range(self.n))
+        self.removed = []
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(n_rows, n_cols)
+# param_1 = obj.flip()
+# obj.reset()
