@@ -1,0 +1,23 @@
+#
+#
+class Solution:
+    def updateBoard(self, board, click):
+        dirs = ((0, 1), (1, 0), (-1, 0), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1))
+        def outOfBounds(row, column):
+            if row < 0 or column < 0 or row >= len(board) or column >= len(board[0]):
+                return True
+  
+        def dfs(row, column):
+            if outOfBounds(row, column) or board[row][column] == 'B':
+                return
+            if board[row][column] == 'M':
+                board[row][column] = 'X'
+                return True
+            total = sum(board[row+r][column+c]=='M' for r, c in dirs if not outOfBounds(row+r, column+c))
+            if total == 0:
+                board[row][column] = 'B'
+                return any(dfs(row+r, column+c) for r, c in dirs)
+            else:
+                board[row][column] = str(total)
+        dfs(click[0], click[1])
+        return board
