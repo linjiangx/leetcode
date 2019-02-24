@@ -1,0 +1,170 @@
+
+##
+class FileSystem:
+    class Node:
+        def __init__(self,file=False,file_name=""):
+            self._file = file
+            self._file_name = file_name
+            self._val = ""
+            self._children = dict()
+
+        def is_file(self):
+            return self._file == True
+
+        def get_content(self):
+            return self._val
+
+        def append_content(self,val):
+            self._val = self._val + val
+
+        def add_child(self,name,child):
+            self._children[name] = child
+
+        def get_child(self,name):
+            return self._children.get(name,None)
+
+        def get_children(self):
+            return self._children
+
+        def add_child(self,name,node):
+            self._children[name] = node
+
+        def in_dir(self,path):
+            return self._children.get(path,None)
+
+        def get_file_name(self):
+            return self._file_name
+
+    def __init__(self):
+        self._root = self.Node()
+
+
+    def path_decomposition(self,path):
+        """
+
+        :param path: a string of path
+        :return: a list of name
+        """
+        N = len(path)
+        dir_list = list()
+        dir_current = ""
+        for i in range(N):
+            if path[i] == "/":
+                if dir_current != "":
+                    dir_list.append(dir_current)
+                    dir_current = ""
+            else:
+                dir_current += path[i]
+
+        if dir_current != "":
+            dir_list.append(dir_current)
+            
+        return dir_list
+
+
+    def ls(self, path):
+        """
+        :type path: str
+        :rtype: List[str]
+        """
+        path_list = self.path_decomposition(path)
+        walk = self._root
+        
+        for d in path_list:
+            if walk.in_dir(d) is not None:
+                walk = walk.get_child(d)
+
+            else:
+                return []
+
+        if walk is not None:
+            if walk.is_file():
+                return [walk.get_file_name()]
+            else:
+                res = []
+                for name in walk.get_children().keys():
+                    res.append(name)
+                res.sort()
+                return res
+        return []
+
+
+    def mkdir(self, path):
+        """
+        :type path: str
+        :rtype: void
+        """
+        path_list = self.path_decomposition(path)
+        walk = self._root
+        N = len(path_list)
+        i = 0
+        while i < N:
+            if walk.in_dir(path_list[i]):
+                walk = walk.get_child(path_list[i])
+                i += 1
+
+            else:
+                break
+        while i < N:
+            new_node = self.Node(file_name=path_list[i])
+            walk.add_child(path_list[i],new_node)
+            walk = walk.get_child(path_list[i])
+            i += 1
+
+
+
+    def addContentToFile(self, filePath, content):
+        """
+        :type filePath: str
+        :type content: str
+        :rtype: void
+        """
+        path_list = self.path_decomposition(filePath)
+        N = len(path_list)
+        i = 0
+        walk = self._root
+        while i < N-1:
+            if walk.in_dir(path_list[i]):
+                walk = walk.get_child(path_list[i])
+                i += 1
+            else:
+                break
+
+        while i < N-1:
+            new_node = self.Node(file_name=path_list[i])
+            walk.add_child(path_list[i],new_node)
+            walk = walk.get_child(path_list[i])
+            i += 1
+
+        if walk.in_dir(path_list[N-1]):
+            walk = walk.get_child(path_list[-1])
+        else:
+            new_node = self.Node(True,path_list[-1])
+            walk.add_child(path_list[-1],new_node)
+            walk = walk.get_child(path_list[-1])
+
+        walk.append_content(content)
+
+
+    def readContentFromFile(self, filePath):
+        """
+        :type filePath: str
+        :rtype: str
+        """
+        path_list = self.path_decomposition(filePath)
+        walk = self._root
+        for d in path_list:
+            if walk.in_dir(d):
+                walk = walk.get_child(d)
+            else:
+                return ""
+
+        return walk.get_content()
+
+
+# Your FileSystem object will be instantiated and called as such:
+# obj = FileSystem()
+# param_1 = obj.ls(path)
+# obj.mkdir(path)
+# obj.addContentToFile(filePath,content)
+# param_4 = obj.readContentFromFile(filePath)
