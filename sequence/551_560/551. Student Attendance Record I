@@ -1,0 +1,15 @@
+#
+
+#
+class Solution(object):
+    def checkRecord(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        aTimes = s.count('A')
+        triple_l = s.count('LLL')
+        
+        if (aTimes > 1 or triple_l):
+            return False
+        return True
