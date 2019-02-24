@@ -1,0 +1,8 @@
+#
+#
+class Solution:
+    def matrixReshape(self, nums: 'List[List[int]]', r: 'int', c: 'int') -> 'List[List[int]]':
+        if r >= len(nums) and c >= len(nums[0]):
+            return nums
+        one_row = [nums[i][j] for i in range(len(nums)) for j in range(len(nums[i]))]
+        return [one_row[c*i:c*i+c] for i in range(r)]
