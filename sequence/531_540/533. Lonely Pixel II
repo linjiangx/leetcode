@@ -1,0 +1,9 @@
+#
+#
+class Solution:
+    def findBlackPixel(self, picture, N):
+        ctr = collections.Counter(map(tuple, picture))
+        cols = [col.count('B') for col in zip(*picture)]
+        return sum(N * zip(row, cols).count(('B', N))
+                   for row, count in ctr.items()
+                   if count == N == row.count('B'))
