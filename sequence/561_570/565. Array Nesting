@@ -1,0 +1,15 @@
+#
+#
+class Solution:
+    def arrayNesting(self, nums: 'List[int]') -> 'int':
+        res = 0
+        for i in range(len(nums)):
+            cache = set()
+            j = i
+            while nums[j] < len(nums) and len(cache) <= len(nums) and j not in cache and j >=0:
+                cache.add(j)
+                tmp = nums[j]
+                nums[j] = -1
+                j = tmp
+            res = max(len(cache), res)
+        return res
