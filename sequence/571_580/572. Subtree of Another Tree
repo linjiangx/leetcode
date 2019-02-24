@@ -1,0 +1,39 @@
+#
+#
+class Solution:
+    # recursive helper function to compare two trees
+    def compare_trees(self, s, t):
+        # if both are empty then they are the same
+        if s is None and t is None:
+            return True
+        # if only one is empty then they are different
+        if s is None or t is None:
+            return False
+        
+        # different values means different trees
+        if s.val != t.val:
+            return False
+        
+        # compare left and right subtrees
+        if not self.compare_trees(s.left, t.left):
+            return False
+        return self.compare_trees(s.right, t.right)
+    
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+        # empty s tree has no subtrees
+        if s is None: return False
+        
+        # empty t tree is a subtree of every tree
+        if t is None: return True
+        
+        # check if current root and t are equal
+        if self.compare_trees(s, t):
+            return True
+        
+        # if not, recurse to left and right subtrees
+        if self.isSubtree(s.left, t):
+            return True
+        if self.isSubtree(s.right, t):
+            return True
+        
+        return False
