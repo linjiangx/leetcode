@@ -1,0 +1,20 @@
+#
+#
+class Solution:
+    def maxVacationDays(self, flights, days):
+        """
+        :type flights: List[List[int]]
+        :type days: List[List[int]]
+        :rtype: int
+        """
+        N, K = len(days), len(days[0])
+        most = [float('-inf')] * N
+        most[0] = 0
+        for week in range(K):
+            cur = [float('-inf')] * N
+            for loc in range(N):
+                for _next, f in enumerate(flights[loc]):
+                    if f or _next == loc:
+                        cur[_next] = max(cur[_next], most[loc] + days[_next][week])
+            most = cur
+        return max(most)
