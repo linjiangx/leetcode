@@ -1,0 +1,39 @@
+#
+class Solution:
+    def findFrequentTreeSum(self, root: 'TreeNode') -> 'List[int]':
+        if root == None:
+            return []
+        freq = dict()
+        def helper(node):
+            if node is None:
+                return 0
+            curr_sum = node.val + helper(node.left) + helper(node.right)
+            if curr_sum in freq:
+                freq[curr_sum] += 1
+            else:
+                freq[curr_sum] = 1
+            return curr_sum
+        helper(root)
+        curr_max = 0
+        out = []
+        for sum_val in freq:
+            f = freq[sum_val]
+            if f > curr_max:
+                out = [sum_val]
+                curr_max = f
+            elif f == curr_max:
+                out.append(sum_val)
+        return out
+#
+class Solution(object):
+    def findFrequentTreeSum(self, root):
+        if root is None: return []
+        h = collections.defaultdict(int)
+        self.f(root,h)
+        freq = max(h.values())
+        return [key for key in h if h[key] == freq]
+    def f(self,node,h):
+        if node is None: return 0
+        v = node.val + self.f(node.left,h) + self.f(node.right,h)
+        h[v] +=1
+        return v
