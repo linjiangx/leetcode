@@ -1,0 +1,32 @@
+
+#
+#
+'''
+dpa[i] = number of combinations of length i with exactly one A
+dpw[i] = number of combinations of length i without any A
+'''
+
+
+class Solution:
+    def checkRecord(self, n):
+        dpa,dpw = {},{}
+        dpa[0] = 0   
+        dpw[0] = 1
+        
+        dpa[1] = 1
+        dpw[1] = 2
+        
+        dpa[2] = 4
+        dpw[2] = 4
+
+        for i in range(3,n + 1): 
+            
+            dpa[i] = dpa[i - 1] + dpa[i - 2] + dpa[i - 3] + dpw[i - 1] + dpw[i - 2] + dpw[i - 3]
+			#                              ending with 
+			#               p                  pl                llp                       a                     al                all
+            dpa[i] = dpa[i] % (10 ** 9 + 7)
+            dpw[i] = dpw[i - 1] + dpw[i - 2] + dpw[i - 3]
+            # ending with
+			#          p            pl            pll
+            dpw[i] = dpw[i] % (10 ** 9 + 7)
+        return ( dpa[n] + dpw[n] ) % (10 **9 + 7)
