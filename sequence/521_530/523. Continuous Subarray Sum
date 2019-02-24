@@ -1,0 +1,33 @@
+#
+#
+class Solution:
+    def checkSubarraySum(self, nums: 'List[int]', k: 'int') -> 'bool':
+        
+        if len(nums)<2:
+            return False     
+        
+        #If found [0, 0], any k is True
+        preZero = False
+        for i in nums:
+            if i==0:
+                if preZero:
+                    return True
+                else:
+                    preZero = True
+            else:
+                preZero = False
+                
+        #If k==0 and no [0, 0], 100% False
+        if k==0:
+            return False
+        
+        #General case
+        d = {}
+        s = 0
+        for i in range(len(nums)):
+            s += nums[i]
+            dKey = s % k
+            if i!=0 and (dKey==0 or dKey in d):
+                return True
+            d[dKey] = i
+        return False
