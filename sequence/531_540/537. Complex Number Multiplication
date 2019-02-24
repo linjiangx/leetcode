@@ -1,0 +1,19 @@
+#
+#
+
+class Solution(object):
+    def complexNumberMultiply(self, u, v):
+        a,b = self.f(u)
+        c,d = self.f(v)
+        return '{}+{}i'.format(str(a*c - b*d), str(b*c + d*a))
+    
+    '''
+    return the tuple (u,v)
+    where u is the real part
+    and v is the complex part
+    
+    u + iv is the full complex number
+    '''
+    def f(self,a):
+        s = a.split('+')
+        return (int(s[0]), int(s[1][:-1]))
