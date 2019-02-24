@@ -1,0 +1,18 @@
+#
+#
+class Solution:
+    def findLUSlength(self, strs: 'List[str]') -> 'int':
+        for length in range(max(len(s) for s in strs), 0, -1):
+            uniques, duplicated = set(), set()
+            for s in strs:
+                for sub in itertools.combinations(s, length):
+                    if sub in duplicated:
+                        continue
+                    elif sub in uniques:
+                        uniques.remove(sub)
+                        duplicated.add(sub)
+                    else:
+                        uniques.add(sub)
+            if uniques:
+                return length
+        return -1
