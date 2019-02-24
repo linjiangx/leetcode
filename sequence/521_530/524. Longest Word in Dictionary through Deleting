@@ -1,0 +1,21 @@
+#
+#
+class Solution:
+    def findLongestWord(self, s: 'str', d: 'List[str]') -> 'str':
+       
+        longest = ""
+        
+        for word in d :
+            
+            j = 0
+            
+            for ch in s :
+                
+                if ch == word[j] :
+                    j += 1
+                    
+                if j == len(word) :
+                    longest = min(longest, word, key=lambda x: (-len(x), x))
+                    break
+                
+        return longest
