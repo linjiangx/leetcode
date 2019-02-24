@@ -1,0 +1,17 @@
+
+#
+#
+class Solution:
+    def sumUp(self, node, toAdd):
+        if not node: return 0
+        rightSum = self.sumUp(node.right, toAdd)
+        temp = node.val
+        node.val += toAdd + rightSum
+        leftSum = self.sumUp(node.left, node.val)
+        return rightSum + leftSum + temp
+
+
+    def convertBST(self, root):
+
+        self.sumUp(root, 0)
+        return root
