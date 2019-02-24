@@ -1,0 +1,62 @@
+#
+#
+class Solution(object):
+    def fractionAddition(self, expression):
+        """
+        :type expression: str
+        :rtype: str
+        """
+        if expression is None or not len(expression):
+            return ''
+        
+        nums = self.parse(expression)
+        n = len(nums)
+
+        num, den = 0, 1    # 0/1 + a/b = a/b
+        for i in range(0, n, 2):
+            num, den = self.multiple(num, den, nums[i], nums[i + 1])
+        
+        return '{}/{}'.format(num, den)
+        
+    def parse(self, expression):
+        ''' Extract all numbers, numerator is signed, and numerator is unsigned.
+        :return: [num1, den1, num2, den2, ..., num_n, den_n] list
+        '''
+
+        n = len(expression)
+
+        sign = 1
+        num = 0
+        nums = []
+        for i in range(n):
+            c = expression[i]
+            if c.isdigit():
+               num = num * 10 + int(c) 
+
+            if c in {'+', '-', '/'} or i == (n - 1):
+                if num:    # The first num might be 0, if the first char is '+' or '-'.
+                    nums.append(sign * num)
+                    
+                # Reset
+                num = 0
+                sign = -1 if c == '-' else 1
+        
+        return nums
+    
+    def multiple(self, a, b, c, d):
+        # Multiple
+        # a/b + c/d = (ad + bc) / (bd)
+        num = a * d + b * c
+        den = b * d
+        
+        # Reducing fractions to simplest form.
+        d = self.gcd(num, den)
+        
+        return (num // d), (den // d)
+        
+    @staticmethod
+    def gcd(a, b):
+        while b != 0:
+            a, b = b, a % b
+            
+        return a
