@@ -1,0 +1,20 @@
+#
+#
+class Solution:
+    def findMinMoves(self, machines: 'List[int]') -> 'int':
+        N = len(machines)
+        D = sum(machines)
+        if D % N != 0:
+            return -1
+        
+        target = D // N
+        ans = 0
+        send_out = [0] * N
+        for i in range(N-1):
+            if machines[i] > target:
+                send_out[i] += machines[i] - target
+            elif machines[i] < target:
+                send_out[i+1] = target - machines[i]
+            machines[i+1] += machines[i] - target
+            ans = max(ans, send_out[i], send_out[i+1])
+        return ans
