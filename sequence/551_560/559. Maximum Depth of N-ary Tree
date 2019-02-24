@@ -1,0 +1,16 @@
+#
+#
+class Solution(object):
+    def maxDepth(self, root):
+        """
+        :type root: Node
+        :rtype: int
+        """
+        def dfs(root):
+            if not root:
+                return 0
+            res = 0
+            for child in root.children:
+                res = max(dfs(child), res)
+            return res+1
+        return dfs(root)
