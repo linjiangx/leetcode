@@ -1,0 +1,20 @@
+#
+#
+class Solution(object):
+    def postorder(self, root):
+        """
+        :type root: Node
+        :rtype: List[int]
+        """
+        nodes = []
+        result = []
+        if not root:
+            return []
+        nodes.append(root)
+        while nodes:
+            r = nodes.pop()
+            result.append(r.val)
+            if r.children:
+                nodes.extend(r.children)
+        result.reverse()
+        return result
