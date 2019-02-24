@@ -1,0 +1,23 @@
+
+#
+#
+class Solution:
+    def getMinimumDifference(self, root: 'TreeNode') -> 'int':
+        def DFS(root,s):
+            if root.left != None:
+                s.add(root.left.val)
+                DFS(root.left,s)
+            if root.right != None:
+                s.add(root.right.val)
+                DFS(root.right,s)
+        
+        s = set()
+        s.add(root.val)
+        DFS(root,s)
+        l = list(s)
+        l.sort()
+        #print(l)
+        cur_dis = float("inf")
+        for i in range(0,len(l)-1):
+            cur_dis = min(cur_dis,l[i+1]-l[i])
+        return cur_dis
