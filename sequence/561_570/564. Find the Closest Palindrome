@@ -1,0 +1,33 @@
+#
+#
+class Solution:
+    def nearestPalindromic(self, n: str) -> str:
+        len_n = (len(n))
+        isOdd = len_n % 2  # 判断数字是奇数位还是偶数位
+        int_n = int(n[:len_n // 2 + isOdd])
+        '''
+        回文数是有范围的，比如说n为三位数，那么其最近回文数的范围在[99, 1001]之间
+        '''
+        max_Palindromic = str(10 ** len_n + 1)
+        min_Palindromic = str(10 ** (len_n - 1) - 1)
+        if abs(int(min_Palindromic) - int(n)) > abs(int(max_Palindromic) - int(n)):
+            nearestPalindromic = max_Palindromic
+        else:
+            nearestPalindromic = min_Palindromic
+        '''
+        是回文数需要改变中间的那个数字，要么增加1，要么减小1，比如121，可以变成111和131。
+        另一种情况是原数不是回文数，我们只需要改变右半边就行了，比如123，变成121。
+        那么其实这三种情况可以总结起来，分别相当于对中间的2进行了-1, +1, +0
+        '''
+        for i in [-1, 0, 1]:
+            nearestPalindromic_i = list(str(int_n + i))
+            tmp = list(str(int_n + i))
+            tmp.reverse()
+            if isOdd == 1:
+                del tmp[0]
+            nearestPalindromic_i.extend(tmp)
+            if ''.join(nearestPalindromic_i) == n:  # 除去自身
+                continue
+            if abs(int(nearestPalindromic) - int(n)) > abs(int(''.join(nearestPalindromic_i)) - int(n)):
+                nearestPalindromic = ''.join(nearestPalindromic_i)
+        return nearestPalindromic
