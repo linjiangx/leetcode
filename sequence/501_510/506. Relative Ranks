@@ -1,0 +1,33 @@
+#
+#
+class Solution:
+    def findRelativeRanks(self, nums: 'List[int]') -> 'List[str]':
+        res = [ [num,i]   for i, num in enumerate(nums)]
+        res.sort(key=lambda x : x[0], reverse=True)
+        
+        answer = ['' for _ in nums]
+        
+        for i, num in enumerate(res[:3]) : 
+            if i == 0 : 
+                answer[num[1]] = "Gold Medal"
+            elif i == 1:
+                answer[num[1]] = "Silver Medal"
+            else: 
+                answer[num[1]] = "Bronze Medal"
+        
+        #All three Methods will work
+        
+        ##Method 1
+        #for i, num in enumerate(res[3:], start = 3) : 
+        #   answer[res[i][1]] = str(i + 1)
+        
+        ##Method 2
+        for i, num in enumerate(res[3:], start = 3) : 
+            answer[num[1]] = str(i + 1)
+        
+        
+        ##Method 3
+        #for i in range(3, len(res)) : 
+        #   answer[res[i][1]] = str(i+1)
+        
+        return answer
