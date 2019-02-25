@@ -1,0 +1,18 @@
+#
+#
+from queue import PriorityQueue
+class Solution:
+    
+    def scheduleCourse(self, courses: 'List[List[int]]') -> 'int':
+        que = []
+        
+        courses.sort(key=lambda c:c[1])  #sor by end time
+        curr = 0
+        for course in courses:
+            curr += course[0]
+            heapq.heappush(que, -course[0])
+            if(curr > course[1]):
+                curr += heapq.heappop(que)  #get the largest last time
+            
+                
+        return len(que)
