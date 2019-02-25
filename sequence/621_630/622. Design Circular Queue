@@ -1,0 +1,60 @@
+#
+#
+class MyCircularQueue:
+
+    def __init__(self, k: int):
+        """
+        Initialize your data structure here. Set the size of the queue to be k.
+        """
+        self.__array = [None] * k
+        self.__num_elements = 0
+        self.__head = 0
+        self.__tail = 0
+
+    def enQueue(self, value: int) -> bool:
+        """
+        Insert an element into the circular queue. Return true if the operation is successful.
+        """
+        if self.isFull():
+            return False
+        self.__array[self.__tail] = value
+        self.__num_elements += 1
+        self.__tail += 1
+        self.__tail %= len(self.__array)
+        return True
+
+    def deQueue(self) -> bool:
+        """
+        Delete an element from the circular queue. Return true if the operation is successful.
+        """
+        if self.isEmpty():
+            return False
+        poped_value = self.__array[self.__head]
+        self.__num_elements -= 1
+        self.__head += 1
+        self.__head %= len(self.__array)
+        return True
+
+    def Front(self) -> int:
+        """
+        Get the front item from the queue.
+        """
+        return self.__array[self.__head] if not self.isEmpty() else -1
+
+    def Rear(self) -> int:
+        """
+        Get the last item from the queue.
+        """
+        return self.__array[self.__tail - 1] if not self.isEmpty() else -1
+
+    def isEmpty(self) -> bool:
+        """
+        Checks whether the circular queue is empty or not.
+        """
+        return True if self.__num_elements == 0 else False
+
+    def isFull(self) -> bool:
+        """
+        Checks whether the circular queue is full or not.
+        """
+        return True if len(self.__array) == self.__num_elements else False
