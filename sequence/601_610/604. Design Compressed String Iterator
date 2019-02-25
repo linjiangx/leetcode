@@ -1,0 +1,41 @@
+#
+#
+class StringIterator:
+
+    def __init__(self, compressedString):
+        """
+        :type compressedString: str
+        """
+        self.string = compressedString
+        self.ptr = 0
+        
+        self.read_new_chars()
+
+    def read_new_chars(self):
+        if self.ptr < len(self.string):
+            self.char = self.string[self.ptr]
+            self.ptr += 1
+
+            self.count = 0
+            while self.ptr < len(self.string) and self.string[self.ptr].isdigit():
+                self.count = self.count * 10 + int(self.string[self.ptr])
+                self.ptr += 1
+
+    def next(self):
+        """
+        :rtype: str
+        """
+        if self.count > 0:
+            self.count -= 1
+            char = self.char
+            if self.count <= 0:
+                self.read_new_chars()
+            return char
+        else:
+            return ' '
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return self.count > 0
