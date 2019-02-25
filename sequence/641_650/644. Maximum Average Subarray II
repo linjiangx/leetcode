@@ -1,0 +1,29 @@
+
+#
+#
+class Solution:
+    def findMaxAverage(self, nums: 'List[int]', k: 'int') -> 'float':
+        self.N, self.K = len(nums), k
+        self.prefix = [0] * (self.N+1)
+        for i in range(self.N):
+            self.prefix[i+1] = self.prefix[i] + nums[i]
+            
+        lo, hi = min(nums), max(nums)
+        while hi - lo >= 10**(-5):
+            mi = lo + (hi - lo) / 2.0
+            if self.isAveragePossible(mi):
+                lo = mi
+            else:
+                hi = mi
+        return lo
+            
+    
+    def isAveragePossible(self, x: 'float') -> 'bool':
+        min_No_x = float('inf')
+        for i in range(self.N+1):
+            if i + self.K == self.N + 1:
+                return False
+            min_No_x = min(min_No_x, self.prefix[i] - i * x)
+            if self.prefix[i+self.K] - (i + self.K) * x >= min_No_x:
+                return True
+        return False
