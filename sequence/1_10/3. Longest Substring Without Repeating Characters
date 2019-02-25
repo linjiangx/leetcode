@@ -1,50 +1,41 @@
-#
+#python, dict
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
         """
         :type s: str
         :rtype: int
         """
-        if len(s)<=1:
+        if len(s) <= 1:
             return len(s)
-        ht = {}
-        first = 0
-        longest = 0
-        for i in range(len(s)):
-            if s[i] in ht and first <= ht[s[i]]:  #first <= ht[s[i]]，避免更新前面标记的时候向左边更新了
-                first = ht[s[i]]+1
-            elif i-first+1 > longest:
-                longest = i-first+1
-            ht[s[i]] = i
-            
-        return longest
-#
-class Solution:
-    def lengthOfLongestSubstring(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        if len(s) == 0:
-            return 0
-        firstIndex = secondIndex = 0
-        maxlen = curlen = 1
         dic = {}
-        dic[s[0]] = 0
-        while secondIndex < len(s)-1:
-            secondIndex += 1
-            if s[secondIndex] not in dic:
-                dic[s[secondIndex]] = secondIndex
-                curlen += 1
-                if curlen > maxlen:
-                    maxlen = curlen
-            else:
-                firstIndex = dic[s[secondIndex]] + 1
-                dic = {}
-                secondIndex = firstIndex
-                dic[s[secondIndex]] = secondIndex
-                curlen = 1
-        return maxlen
-            
+        left = right = 0
+        longest = 0
+        for right in range(len(s)):
+            if s[right] in dic and left <= dic[s[right]]:
+                left = dic[s[right]] + 1
+            elif right - left + 1 > longest:
+                longest = right - left + 1
+            dic[s[right]] = right
+        return longest
+        
+#java, hashmap
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if(s.length() <= 1) return s.length();
+        Map<Character, Integer> map = new HashMap<Character, Integer>();
+        int left = 0, right = 0, longest = 0;
+        for(right = 0; right < s.length(); right++){
+            if(map.containsKey(s.charAt(right)) && left <= map.get(s.charAt(right))){
+                left = map.get(s.charAt(right))+ 1;
+            }
+            else if(right - left + 1 > longest){
+                longest = right - left + 1;
+            }
+            map.put(s.charAt(right), right);
+                        
+        }
+        return longest;
+    }
+}         
 #
 #
