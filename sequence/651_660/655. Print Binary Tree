@@ -1,0 +1,41 @@
+#
+
+#
+class Solution:
+    def printTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[str]]
+        """
+
+        # To know the dimensions of the matrix, first get the height of the tree
+        # Number of rows(h) = height
+        # Number of colums(w) = 2^h - 1 
+        h = self.height(root)
+        w = 2 ** h - 1
+
+        # create the matrix using the dimensions
+        self.matrix = []
+        for i in range(h):
+            x = []
+            for j in range(w): x.append("")
+            self.matrix.append(x)
+
+            # recursively find the middle of the row and put in the root.val
+        # for the first row, root is in the middle so mid = (l + r ) / 2
+        # recusrsively repeat this for the child nodes, changing th l and r accordingly
+        self.construct(root, 0, 0, w - 1)
+        return self.matrix
+
+    def construct(self, root, row, l, r):
+        if not root: return
+        mid = (l + r) / 2
+
+        self.matrix[row][mid] = str(root.val)
+
+        self.construct(root.left, row + 1, l, mid - 1)
+        self.construct(root.right, row + 1, mid + 1, r)
+
+    def height(self, root):
+        if not root: return 0
+        return 1 + max(self.height(root.left), self.height(root.right))
