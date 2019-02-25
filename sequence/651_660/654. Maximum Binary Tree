@@ -1,0 +1,18 @@
+#
+#
+class Solution(object):
+    def constructMaximumBinaryTree(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: TreeNode
+        """
+        if len(nums)==0: return None
+        mi,mx=0,nums[0]
+        for i,num in enumerate(nums):
+            if num>mx:
+                mx=num;
+                mi=i;
+        root = TreeNode(nums[mi])
+        root.left = self.constructMaximumBinaryTree(nums[0:mi])
+        root.right = self.constructMaximumBinaryTree(nums[mi+1:len(nums)])
+        return root
