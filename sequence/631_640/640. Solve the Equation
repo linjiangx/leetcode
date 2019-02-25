@@ -1,0 +1,69 @@
+#
+#
+class Solution(object):
+    def solveEquation(self, equation):
+        """
+        :type equation: str
+        :rtype: str
+        """
+        first, second = equation.split("=")
+        
+        def simplify(expr):
+            
+            expr = expr.split("+")
+            
+            xarr = [] # array of x variables
+            sarr = [] # array of pos integers
+            marr = [] # array of sub expressions
+            
+            for num in expr:
+                if '-' in num:
+                    marr.append(num)
+                    
+                elif 'x' in num:
+                    xarr.append(num)
+                
+                else:
+                    sarr.append(int(num))
+            
+            def x_sum_func(x, opr, x_sum):
+                if x == "x":
+                    return opr(x_sum, 1)
+                else:
+                    return opr(x_sum, int(x[:-1]))
+            
+            x_sum = 0
+            for x in xarr:
+                x_sum = x_sum_func(x, operator.add, x_sum)
+                    
+            sum_expr = sum(sarr)
+            
+            for num in marr:
+                pieces = num.split('-')
+                
+                for piece in pieces[1:]:
+                    if "x" in piece:
+                        x_sum = x_sum_func(piece, operator.sub, x_sum)
+                    else:
+                        sum_expr -= int(piece)
+
+                if 'x' in pieces[0]:
+                    x_sum = x_sum_func(pieces[0], operator.add, x_sum)
+                    
+                elif pieces[0] != "":
+                    sum_expr += int(pieces[0])
+            
+            return(x_sum, sum_expr)
+        
+        x1, s1 = simplify(first)
+        x2, s2 = simplify(second)
+        
+        num_x = x1 - x2 # bring x on one side
+        num_y = s2 - s1 # bring integers on other side
+        
+        try:
+            return "x={}".format(str(int(num_y/num_x)))
+        except:
+            if num_x == num_y == 0:
+                return "Infinite solutions"
+            return "No solution"
