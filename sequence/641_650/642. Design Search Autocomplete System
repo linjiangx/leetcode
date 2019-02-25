@@ -1,0 +1,91 @@
+#
+#
+import heapq
+
+class TrieNode(object):
+
+    def __init__(self):
+        self.letterMap ={}
+        self.isCompleteSentence = False
+
+class AutocompleteSystem(object):
+
+    def __init__(self, sentences, times):
+        """
+        :type sentences: List[str]
+        :type times: List[int]
+        """
+        self.rootNode = TrieNode()
+        self.sentenceMap = {}
+        self.incomingInput = ""
+        self.clearInput = False
+        for i in range(len(sentences)):
+            self.sentenceMap[sentences[i]] = times[i]
+        for sentence in sentences:
+            self.insertIntoTrie(sentence,0, self.rootNode)
+
+    def insertIntoTrie(self, sentence, index, node):
+        if index == len(sentence):
+            node.isCompleteSentence = True
+            return
+        letter = sentence[index]
+        nextNode = node.letterMap.get(letter,None)
+        if not nextNode:
+            newNode = TrieNode()
+            node.letterMap[letter] = newNode
+            self.insertIntoTrie(sentence,index+1,newNode)
+        else:
+            self.insertIntoTrie(sentence, index+1, nextNode)
+
+    def findTrieNode(self, sentence, index, node):
+        if index == len(sentence):
+            return node
+        letter = sentence[index]
+        if not node.letterMap.get(letter,None):
+            return
+        return self.findTrieNode(sentence, index+1, node.letterMap.get(letter))
+
+
+    def findAllWords(self, node,sentence):
+        if node.isCompleteSentence:
+                self.words.append(sentence)
+        for neighbor in node.letterMap.keys():
+            self.findAllWords(node.letterMap.get(neighbor), sentence + neighbor)
+
+    def doClearInput(self):
+        if self.clearInput:
+            self.insertIntoTrie(self.incomingInput, 0,self.rootNode)
+            if not self.sentenceMap.get(self.incomingInput):
+                self.sentenceMap[self.incomingInput] = 0
+            self.sentenceMap[self.incomingInput] += 1
+            self.incomingInput = ""
+            self.clearInput = False
+
+    def input(self, c):
+        """
+        :type c: str
+        :rtype: List[str]
+        """
+        if c == "#":
+            self.clearInput = True
+            self.doClearInput()
+            return []
+        elif "#" in c :
+            c = c[:-1]
+            self.clearInput = True
+        self.incomingInput += c
+        
+        maxHeap = []
+        results= []
+        node = self.findTrieNode(self.incomingInput,0,self.rootNode)
+        if not node:
+            self.doClearInput()
+            return []
+        self.words = []
+        self.findAllWords(node, "")
+        for word in self.words:
+            heapq.heappush(maxHeap, (-1 * self.sentenceMap.get(self.incomingInput + word),  self.incomingInput + word))
+        while maxHeap and len(results) < 3:
+            results.append(heapq.heappop(maxHeap)[1])
+        self.doClearInput()
+        return results
