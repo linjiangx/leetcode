@@ -1,0 +1,27 @@
+##
+#
+class Solution(object):
+    def findMaxAverage(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: float
+        """
+        begin = 0
+        end   = 0
+        n     = len(nums)
+        kavg  = 0
+        if k < len(nums):
+            ksum  = sum(nums[0:k])  # sum of first k items
+            kavg  = ksum / float(k) # avg of first k items
+            beg   = 0 # beginning of avg window
+            x     = k # end of avg window
+            
+            while x < n: # when end falls beyond n
+                ksum = ksum - nums[beg] + nums[x]      # get ksum
+                kavg = max( kavg , (ksum / float(k)) ) # set kavg to maximum of kavg and new kavg
+                beg += 1                               # begining of avg window increases
+                x   += 1                               # end of avg window increases
+        else:
+            kavg = sum(nums) / float(len(nums))        # kavg if items are lesser than k
+        return kavg
