@@ -1,0 +1,32 @@
+#
+#
+class Solution:
+    def countSubstrings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+
+        def isPalindromic(s):
+            i = 0
+            j = len(s) - 1
+            while i <= j:
+                if s[i] != s[j]:
+                    return False
+                else:
+                    i += 1
+                    j -= 1
+            return True
+
+        dp = [0] * (len(s) + 1)
+
+        for i in range(len(s)):
+
+            dp[i + 1] = dp[i] + 1  # count each single char
+
+            for j in range(i):
+
+                if isPalindromic(s[j:i + 1]):
+                    dp[i + 1] += 1  # count from 0 to i index. i,e, for abaaaa, if i = 5, then there should be test: a, ab, aba, abaa, abaaa, abaaaa
+
+        return dp[-1]
