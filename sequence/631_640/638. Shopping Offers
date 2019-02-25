@@ -1,0 +1,18 @@
+
+#
+#
+class Solution:
+    def shoppingOffers(self, price, special, needs):
+        def subtract(a_list, b_list):
+            out = tuple(a - b for a, b in zip(a_list, b_list))
+            return None if any(x < 0 for x in out) else out
+        
+        dp = {tuple(needs): 0}
+        for offer in special:
+            for needs, state_price in list(dp.items()):
+                new_state, new_price = subtract(needs, offer), state_price + offer[-1]
+                while new_state:
+                    dp[new_state] = min(dp.get(new_state, math.inf), new_price)
+                    new_state, new_price = subtract(new_state, offer), new_price + offer[-1]
+                    
+        return min(sum(p*x for p, x in zip(price, needs)) + state_price for needs, state_price in dp.items())
