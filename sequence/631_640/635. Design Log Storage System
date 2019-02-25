@@ -1,0 +1,62 @@
+#
+#
+class LogSystem(object):
+    def __init__(self):
+        self.dic_id = {}
+
+    def put(self, id, timestamp):
+        """
+        :type id: int
+        :type timestamp: str
+        :rtype: void
+        """
+        string = timestamp.split(":")
+        output = "".join(string)
+        
+        output = int(output)
+        if output not in self.dic_id:
+            self.dic_id[output] = []
+            self.dic_id[output].append(id)
+        else:
+            self.dic_id[output].append(id)
+
+    def retrieve(self, s, e, gra):
+        """
+        :type s: str
+        :type e: str
+        :type gra: str
+        :rtype: List[int]
+        """
+        s = s.split(":")
+        e = e.split(":")
+        if gra == "Year":
+            s = "".join(s[0:1] + ["0"*10])
+            e = "".join(e[0:1] + ["9"*10])   
+        elif gra == "Month":
+            s = "".join(s[0:2] + ["0"*8])
+            e = "".join(e[0:2] + ["9"*8])
+        elif gra == "Day":
+            s = "".join(s[0:3] + ["0"*6])
+            e = "".join(e[0:3] + ["9"*6])
+        elif gra == "Hour":
+            s = "".join(s[0:4] + ["0"*4])
+            e = "".join(e[0:4] + ["9"*4])
+        elif gra == "Minute":
+            s = "".join(s[0:5] + ["0"*2])
+            e = "".join(e[0:5] + ["9"*2])
+        elif gra == "Second":
+            s = "".join(s)
+            e = "".join(e)
+        else:
+            return None
+        
+        s = int(s)
+        e = int(e)
+
+        output = []
+        for i in self.dic_id:
+            if (i >= s) and (i <= e):
+                for j in self.dic_id[i]:
+                    output.append(j)
+                    
+        return output
