@@ -1,0 +1,21 @@
+
+#
+#
+class Solution:
+    def findLongestChain(self, pairs):
+        """
+        :type pairs: List[List[int]]
+        :rtype: int
+        """
+        if not pairs:
+            return 0
+        pairs = sorted(pairs, key = lambda a: a[1])
+        count = 1
+        idx = 1
+        cur_min = pairs[0][1]
+        while(idx <= len(pairs)-1):
+            if pairs[idx][0]> cur_min:
+                cur_min = pairs[idx][1]
+                count+= 1
+            idx +=1
+        return count
