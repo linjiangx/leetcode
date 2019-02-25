@@ -1,0 +1,56 @@
+#
+#
+class TreeNode(object):
+    def __init__(self,val):
+        self.val=val
+        self.children={}
+        self.endhere=False
+
+class Trie(object):
+    def __init__(self,val):
+        self.root=TreeNode(val)
+        
+    def insert(self,word):
+        cur=self.root
+        for k in word:
+            if not k in cur.children:
+                cur.children[k]=TreeNode(k)
+            cur=cur.children[k]
+        cur.endhere=True
+        
+    def search(self,word):
+        cur=self.root
+        for k in word:
+            if k not in cur.children:
+                return False
+            cur=cur.children[k]
+        return cur.endhere
+    
+class Solution(object):
+    def replaceWords(self, words, sentence):
+        """
+        :type dict: List[str]
+        :type sentence: str
+        :rtype: str
+        """
+        trie=Trie(None)
+        for word in words:
+            trie.insert(word)
+
+        def check(word):
+            cur=trie.root
+            for i,k in enumerate(word):
+                if cur.endhere==True:
+                    return word[:i]
+                if k not in cur.children:
+                    return word
+                cur=cur.children[k]
+            if cur.endhere==True:
+                return word[:i+1]
+            else:
+                return word
+        
+        res=[]
+        for word in sentence.split():
+            res+=check(word),
+        return ' '.join(res)
