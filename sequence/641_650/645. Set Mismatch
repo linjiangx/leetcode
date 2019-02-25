@@ -1,0 +1,13 @@
+#
+#
+class Solution(object):
+    def findErrorNums(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        # if use another variable, e.g. q = sum(set(nums)) to reduce the calculation burden
+        # the speed can be faster than 100% 
+        repeat_num = sum(nums) - sum(set(nums))
+        miss_num = len(nums)*(len(nums)+1)/2 - sum(set(nums))
+        return [repeat_num, int(miss_num)]
