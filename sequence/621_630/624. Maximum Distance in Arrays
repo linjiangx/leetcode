@@ -1,0 +1,16 @@
+#
+#
+class Solution:
+    def maxDistance(self, arrays):
+        """
+        :type arrays: List[List[int]]
+        :rtype: int
+        """
+        left, right = arrays[0][0], arrays[0][-1]
+        res = 0
+        for i in range(1, len(arrays)):
+            res = max(res, max(abs(arrays[i][-1]-left), abs(arrays[i][0]-right)))
+            left = min(left, arrays[i][0])
+            right = max(right, arrays[i][-1])
+            
+        return res
