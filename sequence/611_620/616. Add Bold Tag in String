@@ -1,0 +1,37 @@
+#
+#
+class Solution(object):
+    def addBoldTag(self, s, dict):
+        """
+        :type s: str
+        :type dict: List[str]
+        :rtype: str
+        """
+        n = len(s)
+        bold = [False] * n
+        
+        for sub in dict:
+            size = len(sub)
+            start = s.find(sub)            
+            while start != -1:
+                for i in range(start, start + size):
+                    bold[i] = True
+                start = s.find(sub, start + 1)
+                
+        result = ''
+        inside_bold = False
+        for i, c in enumerate(s):
+            if bold[i]:
+                if not inside_bold:
+                    result += '<b>'
+                    inside_bold = True
+            else:
+                if inside_bold:
+                    result += '</b>'
+                    inside_bold = False
+            result += c
+            
+        if inside_bold:
+            result += '</b>'
+            
+        return result
