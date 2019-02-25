@@ -1,0 +1,26 @@
+#
+
+#
+class Solution:
+    def judgeSquareSum(self, c):
+        """
+        :type c: int
+        :rtype: bool
+        """
+        from math import sqrt
+        from collections import defaultdict as dd
+        lowest_square = int(sqrt(c))
+        squares = []
+        for num in range(lowest_square+1):
+            squares.append(num*num)
+        # From here on it is 2Sum
+        hash_map = dd(lambda: 0)
+        for square in squares:
+            hash_map[square] += 1 
+        for num in squares:
+			# Equal case needs to be considered
+            if num == c/2 and hash_map[num] > 0:
+                return True
+            elif hash_map[c - num] > 0:
+                return True
+        return False
