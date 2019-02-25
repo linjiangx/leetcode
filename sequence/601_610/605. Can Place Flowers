@@ -1,0 +1,18 @@
+#
+#
+class Solution:
+    def canPlaceFlowers(self, fs, n):
+        if not n: return True
+        j = 0 # position where next possible flower can be planted
+        
+        for i, e in enumerate(fs):
+            if e == 1: 
+                j = i + 2 # next possible flower can be planted at i + 2 position only (if we are lucky)
+                continue
+            else:
+                if i == j and (i == len(fs) - 1 or fs[i + 1] == 0): # it seems we can plant flower here, lets check it will not conflict with the possible flower in next cell
+                    n -= 1 # 1 more flower successfully planted
+                    j += 2 # next possible flower only on position after the next
+                    if not n: return True # we are done
+                
+        return False 
