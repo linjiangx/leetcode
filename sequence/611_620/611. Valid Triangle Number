@@ -1,0 +1,19 @@
+#
+#
+class Solution(object):
+    def triangleNumber(self, g):
+        g.sort()
+        i = len(g)-1 
+        ans = 0
+        while i>1 :
+            left = 0 
+            right = i - 1
+            while left < right:
+                if g[left] + g[right] > g[i]:
+                    k = bisect.bisect(g, g[i] - g[left])
+                    ans += (right + k - left * 2) * (right-k+1) / 2
+                    right = k-1
+                else:
+                    left = bisect.bisect(g, g[i] - g[right]) 
+            i -= 1
+        return int(ans)
