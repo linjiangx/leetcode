@@ -1,0 +1,11 @@
+#
+class Solution:
+    def cherryPickup(self, grid):
+        N = len(grid)
+        dp = {(N-1,N-1,N-1,N-1):grid[N-1][N-1]}
+        v = lambda i,j : 0 <= i < N and 0 <= j < N and grid[i][j] != -1 
+        def dfs(a,b,c,d):
+            if (a,b,c,d) not in dp:
+                dp[a,b,c,d] = -1e9 if not v(a,b) & v(c,d) else max(dfs(m,n,p,q) for (m,n),(p,q) in itertools.product([(a+1,b),(a,b+1)], [(c+1,d),(c,d+1)])) + grid[a][b] + grid[c][d] * (a!= c) 
+            return dp[a,b,c,d]
+        return max(dfs(0,0,0,0),0)
