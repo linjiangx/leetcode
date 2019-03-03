@@ -1,0 +1,17 @@
+#
+
+#
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        # two passes
+        if len(nums) <= 2:
+            return -1
+        
+        s = sum(nums)
+        leftsum = 0
+        for i in range(0, len(nums)):
+            # print(leftsum)
+            if leftsum * 2 + nums[i] == s:
+                return i
+            leftsum += nums[i]
+        return -1
