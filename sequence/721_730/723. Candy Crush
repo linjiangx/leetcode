@@ -1,0 +1,65 @@
+#
+#
+
+
+class Solution(object):
+	def candyCrush(self, board):
+		"""
+		:type board: List[List[int]]
+		:rtype: List[List[int]]
+		"""
+		while self.crash(board):
+			self.gravity(board)
+		return board
+
+
+	def crash(self,board):
+		m,n = len(board),len(board[0])
+		for i in range(m):
+			for j in range(n):
+				cancel = False
+				if board[i][j] == 0:
+					continue
+				if not cancel and j < n-2   and abs(board[i][j]) == abs(board[i][j+1]) == abs(board[i][j+2]):
+					cancel = True
+				if not cancel and j>1       and abs(board[i][j]) == abs(board[i][j-1]) == abs(board[i][j-2]):
+					cancel = True
+				if not cancel and 0<j<n-1   and abs(board[i][j-1]) == abs(board[i][j]) == abs(board[i][j+1]):
+					cancel = True
+				if cancel:
+					board[i][j] = -board[i][j]
+
+		for j in range(n):
+			for i in range(m):
+				if board[i][j] == 0:
+					continue
+				cancel = False
+				if not cancel and i < m-2   and abs(board[i][j]) == abs(board[i+1][j]) == abs(board[i+2][j]):
+					cancel = True
+				if not cancel and i>1       and abs(board[i][j]) == abs(board[i-1][j]) == abs(board[i-2][j]):
+					cancel = True
+				if not cancel and 0<i<m-1   and abs(board[i-1][j]) == abs(board[i][j]) == abs(board[i+1][j]):
+					cancel = True
+				if cancel and board[i][j] >0:
+					board[i][j] = -board[i][j]
+
+		flip = False
+		for j in range(n):
+			for i in range(m): 
+				if board[i][j] < 0:
+					board[i][j] = 0
+					flip = True
+		return flip
+
+	def gravity(self,board):
+		m,n = len(board),len(board[0])
+		for j in range(n):
+			newCol = []
+			for i in range(m):
+				if board[i][j] > 0:
+					newCol.append(board[i][j])
+			for i in range(m-1,-1,-1):
+				if len(newCol) ==0:
+					board[i][j] = 0
+				else:
+					board[i][j] = newCol.pop()
