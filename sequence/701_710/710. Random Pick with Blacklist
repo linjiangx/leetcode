@@ -1,0 +1,64 @@
+#
+#
+import bisect
+import random
+
+class Solution(object):
+    def __init__(self, N, blacklist):
+        """
+        :type N: int
+        :type blacklist: List[int]
+        """
+        blacklist = sorted(blacklist)
+        bad = len(blacklist)
+        # N = 15, blacklist = [0,1,2,  5,6,7,  10,  13]
+        # create offset table mapping [0, N-bad) to [0, N)
+        # This splits [0,n) in at most B+1 ranges.
+        # B = 8
+        # indices = [0, 2, 4, 6]
+        # offsets = [3, 6, 7, 8]
+        # In other words, this remaps the ranges as follows
+        # [-1,0) => []
+        # [0,2) => [0+3,2+3) = [3,5)
+        # [2,4) => [2+6,4+6) = [8,10)
+        # [4,6) => [4+7,6+7) = [11,13)
+        # [6,N-B) => [6+8,N-B+8) = [14,N)
+        offsets = []
+        indices = []
+        blacklisted = 0
+        i = 0
+        while i < bad:
+            num = blacklist[i]
+            next_value = num + 1
+            j = i + 1
+            while j < bad and blacklist[j] == next_value:
+                j += 1
+                next_value += 1
+            index = num - blacklisted
+            offset = next_value - index
+            blacklisted += next_value - num
+            indices.append(index)
+            offsets.append(offset)
+            i = j
+        self.indices = indices
+        self.offsets = offsets
+        self.good = N - bad
+        self.size = len(self.indices)
+
+    def pick(self):
+        """
+        :rtype: int
+        """
+        value = random.randrange(self.good)
+        if self.size:
+            # lookup offset table mapping [0, N-bad) to [0, N)
+            index = bisect.bisect_left(self.indices, value, 0, self.size)
+            if index >= self.size:
+                return value + self.offsets[-1]
+            if index == 0 and value < self.indices[0]:
+                return value
+            if value < self.indices[index]:
+                return value + self.offsets[index-1]
+            return value + self.offsets[index]
+        else:
+            return value
