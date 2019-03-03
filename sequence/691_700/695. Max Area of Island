@@ -1,0 +1,22 @@
+#
+
+#
+class Solution:
+    def maxAreaOfIsland(self, grid) :
+        n, m = len(grid), len(grid[0])
+
+        def has_one(i, j):
+            return 0 <= i < n and 0 <= j < m and grid[i][j]
+
+        def bfs(i, j):
+            if not has_one(i, j): return 0
+            que, area, grid[i][j] = collections.deque([(i, j)]), 1, 0
+            while que:
+                i, j = que.popleft()
+                for ni, nj in ((i-1, j), (i+1, j), (i, j-1), (i, j+1)):
+                    if has_one(ni, nj):
+                        grid[ni][nj] = 0
+                        area += 1
+                        que.append((ni, nj))
+            return area
+        return max((bfs(i, j) for i in range(n) for j in range(m)))
