@@ -1,0 +1,16 @@
+#
+#
+class Solution:
+    def searchBST(self, root, val):
+        self.ans = None
+        def dfs(root):
+            if root:
+                if root.val == val:
+                    self.ans = root
+                    return
+                if root.val < val:
+                    dfs(root.right)
+                else:
+                    dfs(root.left)
+        dfs(root)
+        return self.ans
