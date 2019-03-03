@@ -1,0 +1,19 @@
+#
+class Solution:
+    def nextGreatestLetter(self, letters: 'List[str]', target: 'str') -> 'str':
+        if not letters:
+            return "a"
+        l = 0
+        r = len(letters)-1
+        while (l<r-1):
+            mid = (l+r)//2
+            if (letters[mid]<= target):
+                l = mid+1
+            else:
+                r = mid
+        if letters[l] > target:
+            return letters[l]
+        elif letters[r] > target:
+            return letters[r]
+        else:
+            return letters[0]
