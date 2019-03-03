@@ -1,0 +1,32 @@
+#
+class MyCalendarTwo(object):
+
+    def __init__(self):
+        self.record=[]
+        self.count=[]
+
+    def book(self, start, end):
+        """
+        :type start: int
+        :type end: int
+        :rtype: bool
+        """
+        
+        if not self.record:
+            self.record.append((start,1))
+            self.record.append((end,-1))
+            return True
+
+        bisect.insort(self.record,(start,1))
+
+        bisect.insort(self.record,(end,-1))
+        
+        booked=0
+        for k in range(len(self.record)):
+            booked+=self.record[k][1]
+            if booked==3:
+                self.record.remove((start,1))
+                self.record.remove((end,-1))
+                return False
+        return True
+
