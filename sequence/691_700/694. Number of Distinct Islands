@@ -1,0 +1,22 @@
+#
+#
+class Solution:
+    def numDistinctIslands(self, grid: 'List[List[int]]') -> 'int':
+        self.R, self.C, s = len(grid), len(grid[0]), set()
+        
+        def dfs(r, c, p):
+            grid[r][c] = 0
+            for i in ((r,c-1,"L"), (r-1,c,"U"), (r,c+1,"R"), (r+1,c,"D")):
+                _r, _c, _l = i
+                if 0 <= _r < self.R and 0 <= _c < self.C and grid[_r][_c] == 1:
+                    p.append(_l)
+                    dfs(_r,_c,p)
+            p.append("|")
+            return p
+        
+        for r in range(self.R):
+            for c in range(self.C):
+                if grid[r][c] == 1:
+                    s.add(tuple(dfs(r, c, ["S"])))
+
+        return len(s)
