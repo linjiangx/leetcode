@@ -1,0 +1,20 @@
+#
+#
+class Solution(object):
+    def hasAlternatingBits(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        res = None
+        while n:
+            if res is None:
+                res = n & 1
+                n >>= 1
+            else:
+                cur = n & 1
+                n >>= 1
+                if res ^ cur == 0:
+                    return False
+                res = cur
+        return True
