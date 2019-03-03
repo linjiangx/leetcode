@@ -1,0 +1,14 @@
+#
+#
+
+class Solution(object):
+    def findSecondMinimumValue(self, root):
+        res, stack = set(), []
+        while len(stack) or root:
+            while root:
+                stack.append(root)
+                root = root.left
+            node = stack.pop()
+            res.add(node.val)
+            root = node.right
+        return sorted(res)[1] if len(res) > 1 else -1
