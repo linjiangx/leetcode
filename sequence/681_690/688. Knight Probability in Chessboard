@@ -1,0 +1,28 @@
+#
+
+#
+class Solution(object):
+    def knightProbability(self, N, K, r, c):
+        """
+        :type N: int
+        :type K: int
+        :type r: int
+        :type c: int
+        :rtype: float
+        """
+        if K == 0:
+            return 1.0
+        cnt = 0
+        cur = {(r,c):1}
+        for move in range(K):
+            visited = {}
+            for coord in cur:
+                for i,j in ((-1, -2), (-2, -1), (-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2)):
+                    ni,nj = coord[0]+i,coord[1]+j
+                    if ni >= 0 and ni < N and nj >= 0 and nj < N:
+                        if (ni,nj) in visited:
+                            visited[(ni,nj)] += cur[coord]
+                        else:
+                            visited[(ni,nj)] = cur[coord]
+            cur = visited
+        return float(sum(visited.values()))/8**K
