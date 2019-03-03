@@ -1,0 +1,25 @@
+#
+#
+class Solution:
+    def nextClosestTime(self, time):
+        """
+        :type time: str
+        :rtype: str
+        """
+        
+        digits = list(time.replace(':', ''))
+        h, m = [int(x) for x in time.split(':')]
+        
+        while True:
+            m += 1
+            if m == 60:
+                m = 0
+                h += 1
+                
+            if h == 24:
+                h = 0
+                
+            s_h, s_m = str(h).zfill(2), str(m).zfill(2)
+            
+            if all(x in digits for x in list(s_h + s_m)):
+                return s_h + ":" + s_m
