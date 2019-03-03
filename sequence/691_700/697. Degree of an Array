@@ -1,0 +1,18 @@
+#
+#
+
+class Solution(object):
+    def findShortestSubArray(self, nums) :
+        c = collections.Counter(nums)
+        left, right = {}, {}
+        for i, num in enumerate(nums):
+            if num not in left:
+                left[num] = i
+            right[num] = i
+        degree, res = 0, len(nums)
+        for num, count in c.most_common():
+            if degree and count != degree:
+                break
+            res = min(res, right[num] - left[num] + 1)
+            degree = count
+        return res
