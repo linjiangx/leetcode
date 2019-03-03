@@ -1,0 +1,24 @@
+#
+#
+class Solution(object):
+    def areSentencesSimilar(self, words1, words2, pairs):
+        """
+        :type words1: List[str]
+        :type words2: List[str]
+        :type pairs: List[List[str]]
+        :rtype: bool
+        """
+        if not words1 and not words2:
+            return True
+        if len(words1) != len(words2):
+            return False
+        mapping = collections.defaultdict(set)
+        for p in pairs:
+            mapping[p[0]].add(p[1])
+            mapping[p[1]].add(p[0])
+        for i in range(len(words1)):
+            if words1[i] == words2[i] or words2[i] in mapping[words1[i]]:
+                continue
+            else:
+                return False
+        return True
