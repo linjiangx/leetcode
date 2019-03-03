@@ -1,0 +1,62 @@
+#
+class Solution:
+    def __init__(self):
+        self.scopes = []
+        self.operators = ['add', 'mult', 'let']
+    
+    def get_val(self, name):
+        for scope in reversed(self.scopes):
+            if name in scope:
+                return scope[name]
+        return None
+    
+    def is_var(self, name):
+        return self.get_val(name) is not None
+
+    def perform_op(self, operator, operands):
+        operands = [self.get_val(operand) if self.is_var(operand) else operand for operand in operands]
+        if operator == 'let':
+            self.scopes.pop()
+            return operands[0]   
+        elif operator == 'add':
+            return str(int(operands[0]) + int(operands[1]))
+        elif operator == 'mult':
+            return str(int(operands[0]) * int(operands[1]))
+
+    def evaluate(self, expression: 'str') -> 'int':
+        tokens = expression.replace('(', '( ').replace(')', ' )').split(' ') 
+        eval_stack = []
+        operators_stack = []
+        var_to_set = None
+
+        for token in tokens:
+            if token != ')':
+                if token in self.operators:
+                    operators_stack.append(token)
+                    if token == 'let':
+                        self.scopes.append({})
+                        var_to_set = None
+                elif len(operators_stack) > 0 and operators_stack[-1] == 'let':
+                    if var_to_set is not None:
+                        if token != '(':
+                            self.scopes[-1][var_to_set] = self.get_val(token) if self.is_var(token) else token
+                            var_to_set = None
+                    else:
+                        var_to_set = token
+                eval_stack.append(token)
+            elif token == ')':
+                operands = []
+                while not eval_stack[-1] in self.operators:
+                    operands.append(eval_stack.pop())
+                operator = eval_stack.pop()
+
+                eval_stack.pop()  # remove the '('
+                operators_stack.pop()  # remove the current operator
+                
+                result = self.perform_op(operator, operands)
+                eval_stack.append(result)
+                if len(operators_stack) > 0 and operators_stack[-1] == 'let' and var_to_set is not None:
+                    self.scopes[-1][var_to_set] = result
+                    var_to_set = None
+        
+        return int(eval_stack.pop())
