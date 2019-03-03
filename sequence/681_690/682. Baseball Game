@@ -1,0 +1,43 @@
+##
+
+#
+
+class Solution(object):
+    def calPoints(self, ops):
+        first = 0
+        second = 0
+        s = 0
+
+        arr = [0] * len(ops)
+        for ind, i in enumerate(ops):
+            # print('--------------status--------------------')
+            # print(arr)
+            # print('--------------status--------------------')
+            if i == 'C':
+                temp = ind - 1
+                while (temp >= 0):
+                    if arr[temp] != 0:
+                        arr[temp] = 0
+                        break
+                    temp -= 1
+            elif i == 'D':
+                temp = ind - 1
+                while (temp >= 0):
+                    if arr[temp] != 0:
+                        arr[ind] = 2 * arr[temp]
+                        break
+                    temp -= 1
+            elif i == '+':
+                temp = ind - 1
+                count = 0
+                while (temp >= 0):
+                    if arr[temp] != 0:
+                        arr[ind] += arr[temp]
+                        count = count + 1
+                        if count == 2:
+                            break
+                    temp -= 1
+            else:
+                arr[ind] = int(i)
+        # print(arr)
+        return sum(arr)
