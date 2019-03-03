@@ -1,0 +1,24 @@
+#
+#
+class Solution(object):
+    def search(self, reader, target):
+        start, end = 0, 1
+        while (reader.get(end) < target):
+            end = end << 1
+
+        while start + 1 < end:
+            mid = (start + end) // 2
+
+            if reader.get(mid) < target:
+                start = mid
+            elif reader.get(mid) == target:
+                return mid
+            else:
+                end = mid
+
+        if reader.get(start) == target:
+            return start
+        elif reader.get(end) == target:
+            return end
+        else:
+            return -1
