@@ -1,0 +1,32 @@
+#
+#
+class MaxStack:
+
+    def __init__(self):
+        self.data = []
+        self.max = None
+
+    def push(self, x: 'int') -> 'None':
+        self.data.append(x)
+        self.max = x if self.max is None else max(self.max, x)
+        
+    def pop(self) -> 'int':
+        value = self.data[-1]
+        self.data = self.data[:-1]
+        self.max = max(self.data) if self.data else None
+        return value
+        
+    def top(self) -> 'int':
+        return self.data[-1]
+
+    def peekMax(self) -> 'int':
+        return self.max
+
+    def popMax(self) -> 'int':
+        max_item = self.max
+        for index in range(1, len(self.data)+1):
+            if self.data[-index] == self.max:
+                self.data = self.data[:-index] + self.data[(-index+1):] if index > 1 else self.data[:-index] 
+                self.max = max(self.data) if self.data else None
+                break
+        return max_item
