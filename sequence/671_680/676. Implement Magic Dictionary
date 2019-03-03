@@ -1,0 +1,47 @@
+#
+#
+class MagicDictionary:
+    def __init__(self):
+        self.trie = self.Trie()
+
+    def buildDict(self, words):
+        for w in words: self.trie.insert(w)
+
+    def search(self, w):
+        if not w: return False
+        return self.trie.search(w, 1)
+    
+    class Trie:
+        def __init__(self):
+            self.root = {}
+            self.END = ()
+            
+        def insert(self, w):
+            p = self.root
+            
+            for c in w:
+                if not c in p:
+                    p[c] = {}
+                    
+                p = p[c]
+                    
+            p[self.END] = True # last letter of the word marker
+            
+        # change_budget is maximum number of chars that are allowed to be changed
+        def search(self, w, change_budget): 
+            st = [(self.root, 0, change_budget)]
+            
+            while st:
+                r, i, bgt = st.pop()
+                if i == len(w):
+                    if bgt == 0 and self.END in r: return True
+                    else: continue
+                
+                if w[i] in r: st.append((r[w[i]], i + 1, bgt))
+                if bgt == 0: continue
+                for c, r2 in r.items():
+					# we can only replace with different letter
+                    if c == self.END or c == w[i]: continue 
+                    st.append((r2, i + 1, bgt - 1))
+            
+            return False
