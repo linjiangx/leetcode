@@ -1,0 +1,29 @@
+#
+#
+class Solution:
+    def areSentencesSimilarTwo(self, words1: 'List[str]', words2: 'List[str]', pairs: 'List[List[str]]') -> 'bool':
+        adj_list = collections.defaultdict(set)
+        if len(words1) != len(words2): return False
+        for word1, word2 in pairs:
+            adj_list[word1].add(word2)
+            adj_list[word2].add(word1)
+
+        group, group_n = {}, 0
+        for word in adj_list:
+            if word in group: continue
+            group_n+=1
+            level = [word]
+            group[word] = group_n
+            while level:
+                curr_word = level.pop()
+                for n in adj_list[curr_word]:
+                    if n in group: continue
+                    level.append(n)
+                    group[n] = group_n
+        
+        for i in range(len(words1)):
+            w1, w2 = words1[i], words2[i]
+            if w1 == w2: continue
+            if w1 in group and w2 in group and group[w1] == group[w2]: continue
+            return False
+        return True
