@@ -1,0 +1,16 @@
+#
+#
+class Solution(object):
+    def widthOfBinaryTree(self, root):
+        if not root: return 0
+        q, maxWidth = [], 0
+        q.append((root, 0))
+        while q:
+            maxWidth = max(maxWidth, q[-1][1] - q[0][1] + 1)
+            sz, new_q = len(q), []
+            for _ in range(sz):
+                node, pos = q.pop(0)
+                if node.left: new_q.append((node.left, 2 * pos))
+                if node.right: new_q.append((node.right, 2 * pos + 1))
+            q = new_q
+        return maxWidth
