@@ -1,0 +1,20 @@
+#
+#
+class Solution(object):
+    def getImportance(self, employees, id):
+        """
+        :type employees: Employee
+        :type id: int
+        :rtype: int
+        """
+        self.sum = 0
+        d = {}
+        for i in employees:
+            d[i.id] = (i.importance, i.subordinates)
+        self.helper(id, d)
+        return self.sum
+            
+    def helper(self, e_id, edict):
+        self.sum += edict[e_id][0]
+        for x in edict[e_id][1]:
+            self.helper(x, edict)
