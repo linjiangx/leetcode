@@ -1,0 +1,13 @@
+#
+#
+class Solution:
+    def minWindow(self, S, T):
+        ans = ''
+        f = [-1 for _ in range(len(T))]
+        for i in range(len(S)):
+            for j in range(len(T) - 1, -1, -1):
+                if T[j] == S[i]:
+                    f[j] = i if j == 0 else f[j - 1]
+            if f[-1] != -1 and (ans == '' or i - f[-1] + 1 < len(ans)):
+                ans = S[f[-1]:(i + 1)]
+        return ans
