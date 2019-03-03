@@ -1,0 +1,31 @@
+#
+#
+class Solution:
+    def pathSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        ans = 0
+        
+        tree = [[None for x in range(9)] for y in range(6)]
+        for num in nums:
+            tree[int(num/100)][int(num/10%10)] = num%10
+            
+        q = [(1,1)]
+        
+        while q:
+            i, j = q.pop(0)
+            left = tree[i+1][2*j-1] if i < 5 and j < 5 else None
+            right = tree[i+1][2*j] if i < 5 and j < 5 else None
+            
+            if left is None and right is None:
+                ans += tree[i][j]
+            if left is not None:
+                tree[i+1][2*j-1] += tree[i][j]
+                q.append((i+1, 2*j-1))
+            if right is not None:
+                tree[i+1][2*j] += tree[i][j]
+                q.append((i+1, 2*j))
+                
+        return ans
