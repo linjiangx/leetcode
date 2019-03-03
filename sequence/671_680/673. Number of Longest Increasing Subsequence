@@ -1,0 +1,23 @@
+#
+#
+
+class Solution(object):
+    def findNumberOfLIS(self, nums):
+        if not nums:
+            return 0
+        dp = [1] * len(nums)
+        dp_2 = [1] * len(nums)
+        for i in range(1, len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    if dp[j] + 1 > dp[i]:
+                        dp[i] = dp[j] + 1
+                        dp_2[i] = dp_2[j]
+                    elif dp[j] + 1 == dp[i]:
+                        dp_2[i] += dp_2[j]
+        max_res = max(dp)
+        ans = 0
+        for i, num in enumerate(dp):
+            if num == max_res:
+                ans += dp_2[i]
+        return ans
