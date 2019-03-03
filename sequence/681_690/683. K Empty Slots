@@ -1,0 +1,20 @@
+#
+
+#
+class Solution(object):
+    def kEmptySlots(self, flowers, k):
+        """
+        :type flowers: List[int]
+        :type k: int
+        :rtype: int
+        """
+        D = [0]*len(flowers)
+        for i,j in enumerate(flowers):
+            D[j-1]=i+1
+        #D = {d - 1 : i + 1 for i, d in enumerate(flowers)}
+        l, r, res = 0, 0 + k + 1, float('inf')
+        for i in range(len(flowers)):
+            if r < len(flowers) and D[i] <= max(D[l], D[r]):
+                if i == r: res = min(res, max(D[l], D[r]))
+                l, r = i, i + k + 1
+        return res if res != float('inf') else -1
