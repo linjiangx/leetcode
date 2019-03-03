@@ -1,0 +1,35 @@
+#
+#
+
+class Solution(object):
+    def trimBST(self, root, L, R):
+        if root is None:
+            return None
+        pre_root = TreeNode(0)
+        stack = [[root, pre_root]]
+        while len(stack) > 0:
+            curr, parent = stack.pop()
+            if curr.val < L:
+                if curr.right:
+                    parent.left = curr.right
+                    stack.append([curr.right, parent])
+                else:
+                    parent.left = None
+            elif curr.val > R:
+                if curr.left:
+                    parent.right = curr.left
+                    stack.append([curr.left, parent])
+                else:
+                    parent.right = None
+            else:
+                print(curr.val)
+                if curr.right:
+                    stack.append([curr.right, curr])
+                if curr.left:
+                    stack.append([curr.left, curr])
+        if pre_root.left and L <= pre_root.left.val <= R:
+            return pre_root.left
+        elif pre_root.right:
+            return pre_root.right
+        else:
+            return root
