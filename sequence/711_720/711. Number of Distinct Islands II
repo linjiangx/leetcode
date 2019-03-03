@@ -1,0 +1,49 @@
+#
+#
+class Solution(object):
+    def numDistinctIslands2(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        m, n = len(grid), len(grid[0])
+        def dfs(i, j, ID, boarder):
+            grid[i][j] = ID
+            boarder[0] = min(boarder[0], i)
+            boarder[1] = max(boarder[1], i)
+            boarder[2] = min(boarder[2], j)
+            boarder[3] = max(boarder[3], j)
+            for k, d in enumerate([(-1, 0), (1, 0), (0, -1), (0, 1)]):
+                if 0 <= i+d[0] < m and 0 <= j+d[1] < n and grid[i+d[0]][j+d[1]] == 1:
+                    dfs(i+d[0], j+d[1], ID, boarder)
+        
+        def extract(ID, bi, ei, bj, ej):
+            return tuple(tuple(map(lambda x: '1' if x == ID else ' ', grid[k][bj:ej+1])) for k in xrange(bi, ei+1))
+        
+        def rotate(t):
+            t = t[::-1]
+            return tuple(zip(*t))
+        
+        def addToSet(t):
+            for i in xrange(4):
+                t = rotate(t)
+                # Left/Right mirror
+                lrm = tuple(tuple(r[::-1]) for r in t)
+                # Up/Down mirror
+                udm = tuple(tuple(t[i]) for i in xrange(len(t)-1, -1, -1))
+                if t in self.ans or lrm in self.ans or udm in self.ans:
+                    return
+            self.ans.add(t)
+                       
+        ID = 2
+        self.ans = set()
+        for i in xrange(m):
+            for j in xrange(n):
+                if grid[i][j] == 1:
+                    boarder = [i, i, j, j]
+                    dfs(i, j, ID, boarder)
+                    t = extract(ID, *boarder)
+                    addToSet(t)
+                    ID += 1
+        
+        return len(self.ans)
