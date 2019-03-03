@@ -1,0 +1,14 @@
+#
+#
+class Solution:
+    def insert(self, head: 'Node', insertVal: 'int') -> 'Node':
+        if not head:
+            return Node(insertVal,None)
+        h,hn=head,head.next
+        while(hn!=head):
+            if h.val<=insertVal<=hn.val or h.val>hn.val>=insertVal or insertVal>=h.val>hn.val:
+                break
+            h,hn=hn,hn.next
+        new_node=Node(insertVal,hn)
+        h.next=new_node
+        return head
