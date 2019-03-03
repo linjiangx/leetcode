@@ -1,0 +1,51 @@
+#
+class Solution(object):
+    def findClosestLeaf(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        self.d = None
+        self.n = None
+
+        def downDFS(self, node, extra=0):
+            if node is None:
+                return
+            stack = [(node, extra)]
+            while stack:
+                node, nd = stack.pop(-1)
+                if node.left is None and node.right is None:
+                    if self.n is None:
+                        self.n = node.val
+                        self.d = nd
+                    elif nd < self.d:
+                        self.d = nd
+                        self.n = node.val
+                else:
+                    if node.left is not None:
+                        stack.append((node.left, nd + 1))
+                    if node.right is not None:
+                        stack.append((node.right, nd + 1))
+
+        def upDFS(self, node):
+            if node is None:
+                return False, -1
+
+            if node.val == k:
+                downDFS(self, node, 0)
+                return True, 0
+
+            rval, d = upDFS(self, node.left)
+            if rval:
+                downDFS(self, node.right, d + 2)
+                return True, d + 1
+            else:
+                rval, d = upDFS(self, node.right)
+                if rval:
+                    downDFS(self, node.left, d + 2)
+                    return True, d + 1
+            return False, -1
+
+        upDFS(self, root)
+        return self.n
