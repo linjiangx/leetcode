@@ -1,0 +1,24 @@
+#
+#
+class Solution:
+    def splitListToParts(self, root: 'ListNode', k: 'int') -> 'List[ListNode]':
+        res = []
+        if k == 0:  return res
+        p, n = root, 0
+        while p:
+            p, n = p.next, n+1
+        l, r = n//k, n%k
+        p = root
+        while k:
+            res.append(p)
+            if p:
+                step = l if r else l-1
+                while step > 0 and p:
+                    p, step = p.next, step - 1
+                if p:
+                    pre = p
+                    p = p.next
+                    pre.next = None
+                r = r - 1 if r else r
+            k -= 1
+        return res
