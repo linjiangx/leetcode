@@ -1,0 +1,44 @@
+#
+#
+class MapSum:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.ds = {}
+        self.total = 0
+
+    def insert(self, key, val):
+        trie = self.ds
+        for k in key:
+            if k not in trie:
+                trie[k] = {}
+            trie = trie[k]
+        trie['#'] = val
+
+        
+    def searchall(self, t):
+        
+        for value in t.keys():
+            if '#' == value: 
+                self.total += t['#']
+            else:
+                self.searchall(t[value])
+                
+        return 
+        
+        
+    def sum(self, prefix) :
+        trie = self.ds
+        self.total = 0
+        
+        for p in prefix:
+            if p in trie:
+                trie = trie[p]
+            else:
+                return self.total
+            
+        self.searchall(trie)
+            
+        return self.total
