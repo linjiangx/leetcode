@@ -1,0 +1,32 @@
+#
+#
+class MyCalendar(object):
+
+    def __init__(self):
+        self.starts = []
+        self.ends = []
+
+    def book(self, start, end):
+        """
+        :type start: int
+        :type end: int
+        :rtype: bool
+        """
+        # binary search to find the insert position
+        l = 0
+        r = len(self.starts)
+        while l < r:
+            mid = l + (r - l) // 2
+            if (start < self.starts[mid]):
+                r = mid;
+            else:
+                l = mid + 1
+        if l - 1 >= 0:
+            if start < self.ends[l-1]:
+                return False
+        if l < len(self.starts):
+            if end > self.starts[l]:
+                return False
+        self.starts.insert(l, start)
+        self.ends.insert(l, end)
+        return True
