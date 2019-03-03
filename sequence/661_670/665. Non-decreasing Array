@@ -1,0 +1,21 @@
+#
+
+#
+class Solution(object):
+    def checkPossibility(self, nums):
+        c = 0
+        nums = [-float('inf')] + nums
+        low = nums[0]
+        
+        for i, n in enumerate(nums[1:], 1):
+            if n < nums[i-1]:
+                if n >= low:
+                    nums[i-1] = low
+                else:
+                    nums[i] = nums[i-1]
+                c += 1
+                if c > 1:
+                    return False
+            if i > 1:
+                low = nums[i-1]
+        return True
