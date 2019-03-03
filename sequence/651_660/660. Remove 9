@@ -1,0 +1,15 @@
+#
+
+#
+class Solution:
+    def newInteger(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        ans, base = 0, 1
+        while n:
+            ans += n % 9 * base
+            n //= 9
+            base *= 10
+        return ans
