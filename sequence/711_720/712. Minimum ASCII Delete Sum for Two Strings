@@ -1,0 +1,22 @@
+#
+#
+class Solution(object):
+    def minimumDeleteSum(self, s1, s2):
+        """
+        :type s1: str
+        :type s2: str
+        :rtype: int
+        """
+        n = len(s1)
+        m = len(s2)
+        dp = [[0 for i in range(m+1)] for j in range(n+1)]
+        for i in range(n):
+            for j in range(m):
+                if s1[i] == s2[j]:
+                    dp[i+1][j+1] = dp[i][j] + ord(s1[i])
+                else:
+                    dp[i+1][j+1] = max(dp[i][j+1],dp[i+1][j])
+                    
+        n1 = sum([ord(s) for s in s1])
+        n2 = sum([ord(s) for s in s2])     
+        return (n1-dp[n][m])+(n2-dp[n][m])
