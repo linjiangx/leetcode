@@ -1,0 +1,31 @@
+#
+
+#
+class Solution(object):
+    def findRedundantConnection(self, edges):
+        edge2idx={}
+        for i,edge in enumerate(edges):
+            edge2idx[tuple(edge)]=i
+        #find all edges in cycle.return largest idx.
+        graph=collections.defaultdict(set)
+        for x,y in edges:
+            graph[x].add(y)
+            graph[y].add(x)
+        self.cycle=None
+        visited=set()
+        def dfs(x,path,prev):
+            visited.add(x)
+            for y in graph[x]:
+                if y==prev:
+                    continue
+                elif y in visited:#find cycle
+                    if self.cycle:
+                        return 
+                    path=path[path.index(y):]
+                    path.append(y)
+                    self.cycle=path
+                else:
+                    dfs(y,path+[y],x)
+        dfs(1,[1],-1)
+     
+        return max([(min(self.cycle[i],self.cycle[i+1]),max(self.cycle[i],self.cycle[i+1])) for i in range(len(self.cycle)-1)],key=lambda x:edge2idx[x])
