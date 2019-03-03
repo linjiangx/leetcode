@@ -1,0 +1,34 @@
+#
+#
+class KthLargest:
+    def __init__(self, k: int, nums: List[int]):
+        self.nums = sorted(nums)
+        self.k = k
+
+    def add(self, val: int) -> int:
+        insertBS(self.nums, val)
+        return self.nums[-self.k]
+
+
+def insertBS(arr, val):
+    if not arr:
+        arr.append(val)
+        return
+    if val <= arr[0]:
+        arr.insert(0, val)
+        return
+    if val >= arr[-1]:
+        arr.append(val)
+        return
+    lower, upper = 0, len(arr) - 1
+    middle = upper // 2
+    while lower < upper:
+        if arr[middle] > val:
+            upper = middle
+            middle = lower + (upper - lower) // 2
+        elif arr[middle] < val:
+            lower = middle + 1
+            middle = lower + (upper - lower) // 2
+        else:
+            break
+    arr.insert(middle, val)
