@@ -1,0 +1,33 @@
+#python, dic, build new array cur_sum
+class Solution(object):
+    def maxSubArrayLen(self, nums, k):
+        res, cur_sum = 0, 0  # answer and the accumulative value of nums
+        dic = {0: -1}  # key is acc value, and value is the index
+        for i in range(len(nums)):
+            cur_sum += nums[i]
+            if cur_sum not in dic:
+                dic[cur_sum] = i
+            if cur_sum - k in dic:
+                res = max(res, i - dic[cur_sum - k])
+        return res
+        
+#java, hashmap
+class Solution {
+    public int maxSubArrayLen(int[] nums, int k) {
+        int res = 0, cur_sum = 0;
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        map.put(0, -1);
+        for(int i = 0; i < nums.length; i++){
+            cur_sum += nums[i];
+            if(!map.containsKey(cur_sum)){
+                map.put(cur_sum, i);
+            }
+            if(map.containsKey(cur_sum - k)){
+                if (i - map.get(cur_sum - k) > res){
+                    res = i - map.get(cur_sum - k);
+                }
+            }
+        }
+        return res; 
+    }
+}
