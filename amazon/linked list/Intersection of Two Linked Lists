@@ -1,0 +1,48 @@
+#1.java, calculate length
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null) return null;
+        int lenA = 1, lenB = 1;
+        ListNode pA = headA, pB = headB;
+        while(pA.next != null){
+            pA = pA.next;
+            lenA++;
+        }
+        while(pB.next != null){
+            pB = pB.next;
+            lenB++;
+        }
+        if(pA != pB) return null;
+        pA = headA; 
+        pB = headB;
+        if(lenA > lenB){
+            for(int i = 0; i < lenA - lenB; i++){
+                pA = pA.next;
+            }
+        }
+        else{
+            for(int i = 0; i < lenB - lenA; i++){
+                pB = pB.next;
+            }
+        }
+        while(pA != pB){
+            pA = pA.next;
+            pB = pB.next;
+        }
+        return pA;
+    }
+}
+
+#2.java
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode a = headA;
+        ListNode b = headB;
+        while(a!=b)
+        {
+            a = a==null ? headB : a.next;
+            b = b==null ? headA : b.next;
+        }
+        return a;
+    }
+}
