@@ -1,0 +1,79 @@
+# python 
+class Solution:
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        if not s:
+            return ''
+        if s == s[::-1]:
+            return s
+        start = 0
+        max_length = 1
+        for i in range(2,len(s)+1):
+            if i - max_length - 2 >= 0:
+                temp = s[i - max_length - 2 : i]
+                if temp == temp[::-1]:
+                    start = i - max_length - 2
+                    max_length += 2
+                    continue
+            if i - max_length - 1 >= 0:
+                temp = s[i - max_length - 1 : i]
+                if temp == temp[::-1]:
+                    start = i - max_length - 1
+                    max_length += 1
+        return s[start : start + max_length]
+
+#java, similar to above
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s.length() < 2) return s;
+        int start = 0, max_length = 1;
+        for(int i = 2; i < s.length() + 1; i++){
+            if(i - max_length - 2 >= 0){
+                String temp = s.substring(i - max_length - 2, i);
+                String reverse_temp = new StringBuffer(temp).reverse().toString();
+                if(temp.equals(reverse_temp)){
+                    start = i - max_length - 2;
+                    max_length += 2;
+                    continue;
+                }
+            }
+            if(i - max_length - 1 >= 0){
+                String temp = s.substring(i - max_length - 1, i);
+                String reverse_temp = new StringBuffer(temp).reverse().toString();
+                if(temp.equals(reverse_temp)){
+                    start = i - max_length - 1;
+                    max_length++;
+                }
+            }
+        }
+        return s.substring(start, start + max_length);
+    }
+}
+
+#java
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s.length()==0||s==null) return "";
+        int[] res=new int[2];
+        //res[0] represents maxLen, res[1] represents start index;
+        for(int i=0;i<s.length();i++){
+            extend(s,i,i,res);
+            extend(s,i,i+1,res);
+        }
+        return s.substring(res[1],res[1]+res[0]);
+    }
+    public void extend(String s,int i,int j,int[] res){
+        int l=i,r=j;
+        while(l>=0&&r<s.length()&&s.charAt(l)==s.charAt(r)){
+            l--;
+            r++;
+        }
+        if(res[0]<r-l-1){
+            res[0]=r-l-1;
+            res[1]=l+1;
+        }
+    }
+}
