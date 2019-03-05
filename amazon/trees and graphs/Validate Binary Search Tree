@@ -1,0 +1,41 @@
+#java, to arraylist
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        ArrayList<Integer> array = tree_to_array(root);
+        for(int i = 0; i < array.size() - 1; i++){
+            if(array.get(i) >= array.get(i + 1)) return false;
+        }
+        return true;
+    }
+    
+    public ArrayList<Integer> tree_to_array(TreeNode root){
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        if(root == null) return array;
+        array.addAll(tree_to_array(root.left));
+        array.add(root.val);
+        array.addAll(tree_to_array(root.right));
+        return array;
+    }
+}
+
+#java
+class Solution {
+    /*
+    Forced to send null, null as lower and upper instead of Integer.MIN/MAX values because of the construct expected in the question and many tests being around the min and max values
+    */
+    public boolean isValidBST(TreeNode root) {
+        return isValidBSTHelper(root, null, null);
+    }
+    
+    public boolean isValidBSTHelper(TreeNode root, Integer lower, Integer upper) {
+        
+        if(root == null)
+            return true;
+        
+        //Have to check for <= and >= here because of the definition of BST in the question
+        if ((upper != null && root.val >= upper) || (lower != null && root.val <= lower))
+            return false;
+
+        return isValidBSTHelper(root.left, lower, root.val) && isValidBSTHelper(root.right, root.val, upper);
+    }
+}
