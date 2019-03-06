@@ -1,0 +1,75 @@
+#python
+import collections
+class Solution:
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        if not root.left and not root.right:
+            return True
+        if not root.left or not root.right:
+            return False
+        a=collections.deque()
+        a.append(root.left)
+        a.append(root.right)
+        while a:
+            left=a.popleft()
+            right=a.popleft()
+            if not left and not right:
+                continue
+            if not left or not right:
+                return False
+            if left.val!=right.val:
+                return False
+            a.append(left.left)
+            a.append(right.right)
+            a.append(left.right)
+            a.append(right.left)
+        return True
+        
+#java, queue
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null) return true;
+        if(root.left == null && root.right == null) return true;
+        if(root.left == null || root.right == null) return false;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root.left);
+        queue.offer(root.right);
+        while(!queue.isEmpty()){
+            TreeNode left = queue.poll();
+            TreeNode right = queue.poll();
+            if(left == null && right == null) continue;
+            if(left == null || right == null) return false;
+            if(left.val != right.val) return false;
+            queue.offer(left.left);
+            queue.offer(right.right);
+            queue.offer(left.right);
+            queue.offer(right.left);
+        }
+        return true;      
+    }
+}
+
+#java
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null)
+            return true;
+        if(root.left == null && root.right == null)
+           return true;
+        return check(root.left, root.right);
+    }
+    public boolean check(TreeNode left, TreeNode right){
+        if((left == null && right != null) || (left != null && right == null))
+            return false;
+        if(left == null && right == null)
+            return true;
+        if(left.val != right.val)
+            return false;
+        return check(left.left, right.right) && check(left.right, right.left);
+    }
+}
