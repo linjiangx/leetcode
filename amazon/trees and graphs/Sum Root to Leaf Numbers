@@ -1,0 +1,40 @@
+#java
+class Solution {
+    private ArrayList<Integer> res = new ArrayList<>();
+        
+    public int sumNumbers(TreeNode root) {
+	    if(root == null) return 0;
+        helper(root, 0);
+        int result = 0;
+        for(int i = 0; i < res.size(); i++) result += res.get(i);
+        return result;
+    }
+
+    public void helper(TreeNode n, int s){
+	    if (n == null) {
+            res.add(s);
+        }
+	    if (n.right == null && n.left == null) {
+            res.add(s*10 + n.val);
+        }
+        if(n.left != null) {
+            helper(n.left, s*10 + n.val);
+        }
+        if(n.right != null) {
+            helper(n.right, s*10 + n.val);
+        }
+    }
+}
+        
+#java
+class Solution {
+    public int sumNumbers(TreeNode root) {
+	    return sum(root, 0);
+    }
+
+    public int sum(TreeNode n, int s){
+	    if (n == null) return 0;
+	    if (n.right == null && n.left == null) return s*10 + n.val;
+	    return sum(n.left, s*10 + n.val) + sum(n.right, s*10 + n.val);
+    }
+}
