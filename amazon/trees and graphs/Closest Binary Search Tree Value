@@ -1,0 +1,43 @@
+#java
+class Solution {
+    public int closestValue(TreeNode root, double target) {
+        int[] res = {Integer.MIN_VALUE, Integer.MAX_VALUE};
+        TreeNode cur = root;
+        while(cur != null){
+            if(cur.val == target) return cur.val;
+            else if (cur.val > target){
+                res[1] = cur.val;
+                cur = cur.left;
+            }
+            else{
+                res[0] = cur.val;
+                cur = cur.right;
+            }
+        }
+        if(res[0] == Integer.MIN_VALUE) return res[1];
+        if(res[1] == Integer.MAX_VALUE) return res[0];
+        if(Math.abs(res[0] - target) > Math.abs(res[1] - target)) return res[1];
+        else return res[0];
+    }
+}
+
+#java
+class Solution {
+    public int closestValue(TreeNode root, double target) {
+        int result = root.val;
+        
+        while (root != null) {
+            if (Math.abs(root.val - target) < Math.abs(result- target)) {
+                result = root.val;
+            }
+            
+            if (root.val > target) {
+                root = root.left;
+            } else {
+                root = root.right;
+            }
+        }
+        
+        return result;
+    }
+}
