@@ -1,0 +1,129 @@
+# java, bfs
+public class Solution {
+    public String alienOrder(String[] words) {
+        Map<Character, Set<Character>> map=new HashMap<Character, Set<Character>>();
+        Map<Character, Integer> degree=new HashMap<Character, Integer>();
+        String result="";
+        if(words==null || words.length==0) return result;
+        for(String s: words){
+            for(char c: s.toCharArray()){
+                degree.put(c,0);
+            }
+        }
+        for(int i=0; i<words.length-1; i++){
+            String cur=words[i];
+            String next=words[i+1];
+            int length=Math.min(cur.length(), next.length());
+            for(int j=0; j<length; j++){
+                char c1=cur.charAt(j);
+                char c2=next.charAt(j);
+                if(c1!=c2){
+                    Set<Character> set=new HashSet<Character>();
+                    if(map.containsKey(c1)) set=map.get(c1);
+                    if(!set.contains(c2)){
+                        set.add(c2);
+                        map.put(c1, set);
+                        degree.put(c2, degree.get(c2)+1);
+                    }
+                    break;
+                }
+            }
+        }
+        Queue<Character> q=new LinkedList<Character>();
+        for(char c: degree.keySet()){
+            if(degree.get(c)==0) q.add(c);
+        }
+        while(!q.isEmpty()){
+            char c=q.remove();
+            result+=c;
+            if(map.containsKey(c)){
+                for(char c2: map.get(c)){
+                    degree.put(c2,degree.get(c2)-1);
+                    if(degree.get(c2)==0) q.add(c2);
+                }
+            }
+        }
+        if(result.length()!=degree.size()) return "";
+        return result;
+    }
+}
+
+#java, dfs
+class Solution 
+{
+    private final int N = 26;
+    private StringBuilder sb;
+    private int[]  visited;
+    private int[][] adjMatrix;
+    
+    public String alienOrder(String[] words) 
+    {
+        if(words==null || words.length==0) return "";
+        if(words.length==1) return words[0];
+        
+        sb = new StringBuilder();
+        visited = new int[N];
+        adjMatrix= new int[N][N];
+        
+        Arrays.fill(visited, -1);
+        buildGraph(words);    
+          
+        for(int i=0; i<N; i++)
+        {
+            if(visited[i]==0)
+            {
+                if(!dfs(i)) return "";
+            }
+        }
+       
+        return sb.reverse().toString();
+    }
+    
+    private boolean dfs(int rowIndex)
+    {
+        if(visited[rowIndex]==2) return true;
+        if(visited[rowIndex]==1) return false;
+       
+        visited[rowIndex]=1;
+        
+        for(int i=0; i<N; i++)
+        {
+            if (adjMatrix[rowIndex][i]==1)
+            {
+                if(!dfs(i))
+                {
+                    return false;
+                }   
+            }
+        }
+        
+        visited[rowIndex]=2;
+        sb.append((char)(rowIndex+'a'));
+        return true;
+    }
+    
+    private void buildGraph(String[] words)
+    { 
+        for(int i=0; i<words.length; i++)
+        {
+            char[] ary2=words[i].toCharArray();
+            
+            for(char c : ary2) visited[c - 'a'] = 0;
+            
+            if(i==0) continue;
+            
+            char[] ary1=words[i-1].toCharArray();
+            
+            int len = Math.min(ary1.length, ary2.length);
+            
+            for(int j=0; j<len; j++)
+            {
+                if(ary1[j]!=ary2[j])
+                {
+                    adjMatrix[ary1[j]-'a'][ary2[j]-'a']=1;
+                    break;
+                }
+            }
+        }
+    }
+}
