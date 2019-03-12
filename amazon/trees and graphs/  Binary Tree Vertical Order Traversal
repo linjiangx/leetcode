@@ -1,0 +1,45 @@
+# java, arraylist, queue
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(root == null) return res;
+        int[] range = new int[]{0, 0};
+        getRange(root, range, 0);
+        for(int i = range[0]; i <= range[1]; i++) res.add(new ArrayList<Integer>());
+        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<Integer> colqueue = new LinkedList<>();
+        queue.add(root);
+        colqueue.add(-range[0]);
+        while(!queue.isEmpty()){
+            TreeNode node = queue.poll();
+            int col = colqueue.poll();
+            res.get(col).add(node.val);
+            if(node.left != null){
+                queue.add(node.left);
+                colqueue.add(col - 1);
+            }
+            if(node.right != null){
+                queue.add(node.right);
+                colqueue.add(col + 1);
+            }
+        }
+        return res;
+    }
+    
+    public void getRange(TreeNode root, int[] range, int col){
+        if(root == null) return;
+        range[0] = Math.min(range[0], col);
+        range[1] = Math.max(range[1], col);
+        getRange(root.left, range, col - 1);
+        getRange(root.right, range, col + 1);
+    }
+}
