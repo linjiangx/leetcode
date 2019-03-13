@@ -1,0 +1,28 @@
+# java, 开辟大量额外空间，其实不需要
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        for(int i = 1; i < nums.length; i++){
+            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
+        }
+        int res = Integer.MIN_VALUE;
+        for(int i = 0; i < dp.length; i++){
+            if(dp[i] > res) res = dp[i];
+        }
+        return res;
+    }
+}
+
+#java, 开辟O（1）额外空间
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSoFar = nums[0], maxTotal = nums[0];
+
+        for(int i=1;i<nums.length;i++){
+            maxSoFar = Math.max(nums[i]+maxSoFar, nums[i]);
+            maxTotal = Math.max(maxSoFar, maxTotal);
+        }
+        return maxTotal;    
+    }
+}
