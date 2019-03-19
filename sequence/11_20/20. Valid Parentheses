@@ -26,3 +26,22 @@ class Solution:
         if len(res) == 0:
             return True
         return False
+        
+class Solution:
+    def isValid(self, s: 'str') -> 'bool':
+        v = []
+        d = {']':'[', ')':'(', '}':'{'}
+        for i in range(len(s)):
+            if s[i] in d.values():
+                v.append(s[i])
+            elif s[i] in d.keys():
+                if len(v) == 0:
+                    return False
+                elif v[-1] == d[s[i]]:
+                    v.pop()
+                else:
+                    return False
+        if v == []:
+            return True
+        else:
+            return False
