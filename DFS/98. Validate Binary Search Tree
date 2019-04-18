@@ -1,0 +1,32 @@
+# https://leetcode.com/problems/validate-binary-search-tree/
+# 1. tree to list
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        list1 = self.tree_to_list(root)
+        for i in range(len(list1) - 1):
+            if list1[i + 1] <=  list1[i]:
+                return False
+        return True
+        
+        
+    def tree_to_list(self, root):
+        if not root:
+            return []
+        return self.tree_to_list(root.left) + [root.val] + self.tree_to_list(root.right)
+        
+  
+# 2. store the min and max value allowed
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        return self.helper(root.left, -float('inf'), root.val) and self.helper(root.right, root.val, float('inf'))
+        
+        
+    def helper(self, root, min_allowed, max_allowed):
+        if not root:
+            return True
+        if root.val > min_allowed and root.val < max_allowed:
+            return self.helper(root.left, min_allowed, root.val) and self.helper(root.right, root.val, max_allowed)
+        else:
+            return False
