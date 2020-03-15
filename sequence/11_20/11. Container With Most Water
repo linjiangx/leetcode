@@ -1,5 +1,5 @@
-#
-#
+# 可以这么算的原因：面积=底*高
+# 双指针往中间收缩，底必然变小，我们希望高变大，那么min(height[left],height[right])，只有移动高度较低的一遍，才有可能使这个结果变大
 class Solution:
     def maxArea(self, height):
         """
